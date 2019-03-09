@@ -21,21 +21,26 @@
             android:text= "@string/simple_mode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/simpleModeBtn"/>
+            android:id="@+id/simpleModeBtn"
+            android:background="@drawable/gradient"/>
     <Button
             android:text="@string/advanced_mode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/advancedModeBtn" />
+            android:id="@+id/advancedModeBtn"
+            android:background="@drawable/gradient"/>
+
     <Button
             android:text="@string/about"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/aboutBtn"/>
+            android:id="@+id/aboutBtn"
+            android:background="@drawable/gradient"/>
     <Button
             android:text="@string/exit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/exitBtn"/>
+            android:id="@+id/exitBtn"
+            android:background="@drawable/gradient"/>
 
 </LinearLayout>
