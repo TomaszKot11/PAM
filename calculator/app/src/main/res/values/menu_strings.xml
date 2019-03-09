@@ -1,0 +1,7 @@
+<resources>
+    <string name="menu_title">Calculator</string>
+    <string name="simple_mode">Simple</string>
+    <string name="advanced_mode">Advanced</string>
+    <string name="about">About</string>
+    <string name="exit">Exit</string>
+</resources>

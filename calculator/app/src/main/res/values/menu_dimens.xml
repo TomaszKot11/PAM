@@ -1,0 +1,4 @@
+<resources>
+    <dimen name="menu_title_font_size">30sp</dimen>
+    <dimen name="menu_title_bottom_padding">50dp</dimen>
+</resources>
