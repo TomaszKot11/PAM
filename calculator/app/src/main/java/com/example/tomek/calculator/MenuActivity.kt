@@ -15,6 +15,8 @@ class MenuActivity : AppCompatActivity() {
 
         configureExitBtnAction()
         configureAboutBtn()
+        configureAdvancedCalculatorBtnAction()
+        configureBasicCalculatorBtnAction()
     }
 
 
@@ -25,6 +27,14 @@ class MenuActivity : AppCompatActivity() {
 
     private fun configureExitBtnAction() {
         exitBtn.setOnClickListener { finish() }
+    }
+
+    private fun configureAdvancedCalculatorBtnAction() {
+        advancedModeBtn.setOnClickListener { startNewActivity(CalculatorActivity::class.java) }
+    }
+
+    private fun configureBasicCalculatorBtnAction() {
+        simpleModeBtn.setOnClickListener { startNewActivity(CalculatorActivity::class.java) }
     }
 
 
