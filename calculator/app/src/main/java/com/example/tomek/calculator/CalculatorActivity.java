@@ -12,15 +12,20 @@ import android.view.View;
 
 public class CalculatorActivity extends AppCompatActivity {
 
+    private boolean isAdvanced;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calculator);
-        configureAppropriateKeyboardFragment(true);
+
+        isAdvanced =getIntent().getExtras().getBoolean("advancedKeyboard");
+
+        configureAppropriateKeyboardFragment();
     }
 
 
-    private void configureAppropriateKeyboardFragment(boolean isAdvanced) {
+    private void configureAppropriateKeyboardFragment() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         Fragment fragment = isAdvanced ? new AdvancedKeyboardFragment() : new BasicKeyboardFragment();

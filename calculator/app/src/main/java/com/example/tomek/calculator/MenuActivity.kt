@@ -21,7 +21,7 @@ class MenuActivity : AppCompatActivity() {
 
 
     private fun configureAboutBtn() {
-        aboutBtn.setOnClickListener { startNewActivity(AboutActivity::class.java) }
+        aboutBtn.setOnClickListener { startNewActivity(AboutActivity::class.java, false) }
     }
 
 
@@ -30,7 +30,7 @@ class MenuActivity : AppCompatActivity() {
     }
 
     private fun configureAdvancedCalculatorBtnAction() {
-        advancedModeBtn.setOnClickListener { startNewActivity(CalculatorActivity::class.java) }
+        advancedModeBtn.setOnClickListener { startNewActivity(CalculatorActivity::class.java, true) }
     }
 
     private fun configureBasicCalculatorBtnAction() {
@@ -38,8 +38,10 @@ class MenuActivity : AppCompatActivity() {
     }
 
 
-    private fun startNewActivity(activityToStart: Class<out Any>) {
+    //TODO: extract this to the constant
+    private fun startNewActivity(activityToStart: Class<out Any>, advancedKeyBoard: Boolean = false) {
         val intent = Intent(this, activityToStart)
+        intent.putExtra("advancedKeyboard", advancedKeyBoard)
         startActivity(intent)
     }
 
