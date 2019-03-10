@@ -1,0 +1,138 @@
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:stretchColumns="*">
+    <TableRow>
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/button1"
+                android:text="Bksp"/>
+        <Button
+                android:layout_span="2"
+                android:layout_height="wrap_content"
+                android:id="@+id/button2"
+                android:text="C"/>
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/button3"
+                android:text="+/-"/>
+    </TableRow>
+
+    <TableRow>
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/button12"
+                android:text="7"
+                android:onClick="keyboardHandler"/>
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/button13"
+                android:text="8"
+                android:onClick="keyboardHandler"/>
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/button14"
+                android:text="9"
+                android:onClick="keyboardHandler"/>
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/button15"
+                android:text="/"
+                android:onClick="keyboardHandler"/>
+    </TableRow>
+
+
+
+    <TableRow>
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/button20"
+                android:text="4"
+                android:onClick="keyboardHandler"/>
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/button21"
+                android:text="5"
+                android:onClick="keyboardHandler"/>
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/button22"
+                android:text="6"
+                android:onClick="keyboardHandler"/>
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/button23"
+                android:text="*"
+                android:onClick="keyboardHandler"/>
+    </TableRow>
+
+
+    <TableRow>
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/button24"
+                android:text="1"
+                android:onClick="keyboardHandler"/>
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/button25"
+                android:text="2"
+                android:onClick="keyboardHandler"/>
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/button26"
+                android:text="3"
+                android:onClick="keyboardHandler"/>
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/button27"
+                android:text="-"
+                android:onClick="keyboardHandler"/>
+    </TableRow>
+
+
+
+    <TableRow>
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/button28"
+                android:text="0"
+                android:onClick="keyboardHandler"/>
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/button29"
+                android:text="."
+                android:onClick="keyboardHandler"/>
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/button30"
+                android:text="="
+                android:onClick="keyboardHandler"/>
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/button31"
+                android:text="+"
+                android:onClick="keyboardHandler"/>
+    </TableRow>
+
+
+
+</TableLayout>

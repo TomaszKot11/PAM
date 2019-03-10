@@ -18,15 +18,14 @@
             </intent-filter>
         </activity>
         <activity
-                android:name=".CalculatorActivity"
+                android:name=".AboutActivity"
                 android:configChanges="orientation|keyboardHidden"
+                android:label="@string/title_activity_about"
                 android:theme="@style/AppTheme.Fullscreen">
         </activity>
-        <activity
-                android:name=".AboutActivity"
-                android:label="@string/title_activity_about"
-                android:configChanges="orientation|keyboardHidden"
-                android:theme="@style/AppTheme.Fullscreen">
+        <activity android:name=".AdvancedCalculatorActivity">
+        </activity>
+        <activity android:name=".SimpleCalculatorActivity">
         </activity>
     </application>
 
