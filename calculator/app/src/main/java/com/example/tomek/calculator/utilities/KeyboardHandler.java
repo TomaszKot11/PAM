@@ -175,7 +175,21 @@ public class KeyboardHandler {
         } else if(btnText.equals("x^y")) {
 
         } else if(btnText.equals("log")) {
+            double doubleValue = 0;
+            try {
+                doubleValue = Double.parseDouble(display.getText().toString());
+            } catch(NumberFormatException e) {
+                Toast.makeText(context, "This is not a number!", Toast.LENGTH_SHORT).show();
+                return ;
+            }
 
+            if(doubleValue < 0) {
+                Toast.makeText(context, "Argument should be equal or greater than zero", Toast.LENGTH_SHORT).show();
+            } else {
+                this.prevValue = Math.log10(doubleValue);
+                
+                display.setText(String.valueOf(doubleValue));
+            }
         } else {
             Toast.makeText(context, "No such operation present!", Toast.LENGTH_LONG).show();
         }
