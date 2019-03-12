@@ -132,11 +132,33 @@ public class KeyboardHandler {
                     Toast.makeText(context, "Should be double value", Toast.LENGTH_SHORT).show();
                     return ;
                 }
-
+                double helper = this.prevValue;
                 this.prevValue = Math.log(doubleValue);
+                if(Double.isNaN(this.prevValue) || Double.isInfinite(this.prevValue)) {
+                    Toast.makeText(context, "Value should be grater than 0", Toast.LENGTH_SHORT).show();
+                    this.prevValue = helper;
+                }
+
                 display.setText(String.valueOf(this.prevValue));
           }
 
+        } else if(btnText.equals("sqrt")) {
+
+            double doubleValue = 0;
+            try {
+                doubleValue = Double.parseDouble(display.getText().toString());
+            } catch(NumberFormatException e) {
+                Toast.makeText(context, "This is not a number!", Toast.LENGTH_SHORT).show();
+                return ;
+            }
+
+            if(doubleValue < 0) {
+                Toast.makeText(context, "Value should be greater or equal to zero!", Toast.LENGTH_SHORT).show();
+            } else {
+                this.prevValue = Math.sqrt(doubleValue);
+
+                display.setText(String.valueOf(this.prevValue));
+            }
         } else {
             Toast.makeText(context, "No such operation present!", Toast.LENGTH_LONG).show();
         }
