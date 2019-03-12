@@ -13,6 +13,14 @@ import android.widget.Toast;
 public class SimpleCalculatorActivity extends Activity implements Calculable {
 
 
+    private static final String OPERATION_VALUE = "OperationValue";
+    private static final String CURRENT_VALUE = "CurrentValue";
+    private static final String PREVIOUS_VALUE = "PreviousValue";
+    private static final String CLICK_COUNTER_VALUE = "ClickCounterValue";
+    private static final String WAS_OPERATION_CLICKED_VALUE = "WasOperationClickedValue";
+    private static final String DISPLAY_VALUE = "DisplayValue";
+
+
     TextView display;
 
     //TODO: on orientation change!
@@ -126,6 +134,31 @@ public class SimpleCalculatorActivity extends Activity implements Calculable {
                 if(displayString.equals("")) display.setText("0.0");
             }
         }
+    }
+
+
+    @Override
+    protected void onSaveInstanceState(final Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putString(OPERATION_VALUE, this.operation);
+        outState.putDouble(CURRENT_VALUE, this.currentValue);
+        outState.putDouble(PREVIOUS_VALUE, this.prevValue);
+        outState.putInt(CLICK_COUNTER_VALUE, this.cCLikcCounter);
+        outState.putBoolean(WAS_OPERATION_CLICKED_VALUE, this.wasOperationClicked);
+        outState.putString(DISPLAY_VALUE, display.getText().toString());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(final Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        this.operation = savedInstanceState.getString(OPERATION_VALUE);
+        this.currentValue = savedInstanceState.getDouble(CURRENT_VALUE);
+        this.prevValue = savedInstanceState.getDouble(PREVIOUS_VALUE);
+        this.cCLikcCounter = savedInstanceState.getInt(CLICK_COUNTER_VALUE);
+        this.wasOperationClicked = savedInstanceState.getBoolean(WAS_OPERATION_CLICKED_VALUE);
+        this.display.setText(savedInstanceState.getString(DISPLAY_VALUE));
     }
 
     private String performOperation(String operation, double prevValue, double currentValue) {

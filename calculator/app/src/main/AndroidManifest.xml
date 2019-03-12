@@ -10,7 +10,7 @@
             android:theme="@style/AppTheme.Fullscreen">
         <activity
                 android:name=".MenuActivity"
-                android:configChanges="orientation|keyboardHidden">
+                android:configChanges="orientation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -19,13 +19,15 @@
         </activity>
         <activity
                 android:name=".AboutActivity"
-                android:configChanges="orientation|keyboardHidden"
+                android:configChanges="orientation"
                 android:label="@string/title_activity_about"
                 android:theme="@style/AppTheme.Fullscreen">
         </activity>
-        <activity android:name=".AdvancedCalculatorActivity">
+        <activity android:name=".AdvancedCalculatorActivity"
+                  android:configChanges="orientation">
         </activity>
-        <activity android:name=".SimpleCalculatorActivity">
+        <activity android:name=".SimpleCalculatorActivity"
+                  android:configChanges="orientation">
         </activity>
     </application>
 
