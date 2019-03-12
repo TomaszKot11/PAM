@@ -61,6 +61,14 @@ public class SimpleCalculatorActivity extends Activity implements Calculable {
                 wasOperationClicked = true;
                 operation = btnText;
 
+                //TODO: fix issue with the sign
+                if(!wasOperationClicked)
+                {
+                    prevValue = Double.parseDouble(display.getText().toString());
+                } else {
+                    currentValue = Double.parseDouble(display.getText().toString());
+                }
+
             } else if(btnText.equals("=")) {
                 String result = performOperation(operation, prevValue, currentValue);
 
