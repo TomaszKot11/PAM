@@ -1,34 +1,19 @@
 package com.example.tomek.calculator;
 
 import android.app.Activity;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.example.tomek.calculator.utilities.KeyboardHandler;
 
 public class SimpleCalculatorActivity extends Activity implements Calculable {
 
-
-    private static final String OPERATION_VALUE = "OperationValue";
-    private static final String CURRENT_VALUE = "CurrentValue";
-    private static final String PREVIOUS_VALUE = "PreviousValue";
-    private static final String CLICK_COUNTER_VALUE = "ClickCounterValue";
-    private static final String WAS_OPERATION_CLICKED_VALUE = "WasOperationClickedValue";
-    private static final String DISPLAY_VALUE = "DisplayValue";
-
-
     TextView display;
+    KeyboardHandler keyboardHandler = KeyboardHandler.getInstance();
 
-    //TODO: on orientation change!
-    double prevValue = 0.0;
-    double currentValue = 0.0;
-    String operation = "";
-    boolean wasOperationClicked = false;
-    int cCLikcCounter = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,86 +38,8 @@ public class SimpleCalculatorActivity extends Activity implements Calculable {
     public void keyboardHandler(View view) {
         if(view instanceof Button) {
             Button target = (Button)view;
-            String btnText = target.getText().toString();
 
-            if(btnText.matches("[0-9]")) {
-                writeNumberToDisplay(btnText);
-
-                if(!wasOperationClicked)
-                {
-                    prevValue = Double.parseDouble(display.getText().toString());
-                } else {
-                    currentValue = Double.parseDouble(display.getText().toString());
-                }
-            } else if(btnText.matches("[//*\\-+]")) {
-                display.setText("0.0");
-                wasOperationClicked = true;
-                operation = btnText;
-
-                //TODO: fix issue with the sign
-                if(!wasOperationClicked)
-                {
-                    prevValue = Double.parseDouble(display.getText().toString());
-                } else {
-                    currentValue = Double.parseDouble(display.getText().toString());
-                }
-
-            } else if(btnText.equals("=")) {
-                String result = performOperation(operation, prevValue, currentValue);
-
-                display.setText(result);
-            } else if(btnText.equals("C")) {
-                cCLikcCounter++;
-
-
-                if(cCLikcCounter % 2 == 0 ) {
-                    Toast.makeText(this, "Registers reseted!", Toast.LENGTH_SHORT).show();
-                    this.prevValue = 0.0;
-                    this.operation = "";
-                    this.wasOperationClicked = false;
-                } else {
-                    display.setText("0.0");
-                    if(!wasOperationClicked) {
-                        this.prevValue = 0.0;
-                    } else {
-                        this.currentValue = 0.0;
-                    }
-                }
-
-            } else if(btnText.equals("+/-")) {
-                String displayString = display.getText().toString();
-
-                if(!(displayString.equals("0.0") || displayString.equals("0") || displayString.equals("Wrong operation"))) {
-                    double displayValue = Double.parseDouble(displayString);
-                    display.setText(String.valueOf(displayValue * (-1)));
-                }
-            } else if(btnText.equals(".")) {
-                String displayString = display.getText().toString();
-
-                if(!displayString.contains(".")) {
-                    displayString += ".0";
-                    display.setText(displayString);
-                }
-            } else if(btnText.equals("Bksp")) {
-                String displayString = display.getText().toString();
-
-                if(displayString.length() == 1) {
-                    display.setText("0.0");
-                    return;
-                }
-
-                if(!(displayString.equals("0.0") || displayString.equals("Wrong operation"))) {
-                        if (displayString.charAt(displayString.length() - 2) == '.') {
-                            displayString = displayString.substring(0, displayString.length() - 2);
-                        } else {
-                            displayString = displayString.substring(0, displayString.length() - 1);
-                        }
-                }
-
-                display.setText(displayString);
-
-                if(displayString.equals("")) display.setText("0.0");
-            }
+            keyboardHandler.handleOperation(display, target, this);
         }
     }
 
@@ -141,11 +48,11 @@ public class SimpleCalculatorActivity extends Activity implements Calculable {
     protected void onSaveInstanceState(final Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        outState.putString(OPERATION_VALUE, this.operation);
-        outState.putDouble(CURRENT_VALUE, this.currentValue);
-        outState.putDouble(PREVIOUS_VALUE, this.prevValue);
-        outState.putInt(CLICK_COUNTER_VALUE, this.cCLikcCounter);
-        outState.putBoolean(WAS_OPERATION_CLICKED_VALUE, this.wasOperationClicked);
+        outState.putString(OPERATION_VALUE, this.keyboardHandler.operation);
+        outState.putDouble(CURRENT_VALUE, this.keyboardHandler.currentValue);
+        outState.putDouble(PREVIOUS_VALUE, this.keyboardHandler.prevValue);
+        outState.putInt(CLICK_COUNTER_VALUE, this.keyboardHandler.cCLikcCounter);
+        outState.putBoolean(WAS_OPERATION_CLICKED_VALUE, this.keyboardHandler.wasOperationClicked);
         outState.putString(DISPLAY_VALUE, display.getText().toString());
     }
 
@@ -153,61 +60,13 @@ public class SimpleCalculatorActivity extends Activity implements Calculable {
     protected void onRestoreInstanceState(final Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
 
-        this.operation = savedInstanceState.getString(OPERATION_VALUE);
-        this.currentValue = savedInstanceState.getDouble(CURRENT_VALUE);
-        this.prevValue = savedInstanceState.getDouble(PREVIOUS_VALUE);
-        this.cCLikcCounter = savedInstanceState.getInt(CLICK_COUNTER_VALUE);
-        this.wasOperationClicked = savedInstanceState.getBoolean(WAS_OPERATION_CLICKED_VALUE);
+        this.keyboardHandler.operation = savedInstanceState.getString(OPERATION_VALUE);
+        this.keyboardHandler.currentValue = savedInstanceState.getDouble(CURRENT_VALUE);
+        this.keyboardHandler.prevValue = savedInstanceState.getDouble(PREVIOUS_VALUE);
+        this.keyboardHandler.cCLikcCounter = savedInstanceState.getInt(CLICK_COUNTER_VALUE);
+        this.keyboardHandler.wasOperationClicked = savedInstanceState.getBoolean(WAS_OPERATION_CLICKED_VALUE);
         this.display.setText(savedInstanceState.getString(DISPLAY_VALUE));
     }
 
-    private String performOperation(String operation, double prevValue, double currentValue) {
-    double result = 0.0;
-        switch(operation) {
-            case "+":
-                result = prevValue + currentValue;
-                this.prevValue = result;
-                return String.valueOf(result);
-            case "-":
-                result = prevValue - currentValue;
-                this.prevValue = result;
-                return String.valueOf(result);
-            case "*":
-                result = prevValue * currentValue;
-                this.prevValue = result;
-                return String.valueOf(result);
-            case "/":
-                if(currentValue == 0) {
-                    Toast.makeText(this, "You can't divide by zero!",
-                            Toast.LENGTH_LONG).show();
-                    return "0.0";
-                }
-                result = prevValue / currentValue;
-                this.prevValue = result;
-                return String.valueOf(result);
-            default:
-                return "Wrong operation";
-        }
-    }
 
-    private void writeNumberToDisplay(String number) {
-        String displayString = display.getText().toString();
-
-        if(displayString.equals("0.0")) {
-            display.setText(number);
-            return;
-        }
-
-        if(displayString.contains(".")) {
-            String[] splitString = displayString.split("\\.");
-            if(splitString[1].charAt(0) == '0') {
-                displayString = splitString[0];
-                displayString += ".";
-            }
-
-        }
-
-        displayString += number;
-        display.setText(displayString);
-    }
 }
