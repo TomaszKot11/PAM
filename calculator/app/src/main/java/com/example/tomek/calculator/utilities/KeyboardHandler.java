@@ -8,6 +8,8 @@ import android.widget.Toast;
 
 
 //TODO: Handle bug with backspace!
+//TODO: dodac procenty
+//TODO: dodac klawisz AC
 public class KeyboardHandler {
 
 
@@ -159,6 +161,21 @@ public class KeyboardHandler {
 
                 display.setText(String.valueOf(this.prevValue));
             }
+        } else if(btnText.equals("x^2")) {
+            double doubleValue = 0;
+            try {
+                doubleValue = Double.parseDouble(display.getText().toString());
+            } catch(NumberFormatException e) {
+                Toast.makeText(context, "This is not a number!", Toast.LENGTH_SHORT).show();
+                return ;
+            }
+
+            this.prevValue = Math.pow(doubleValue, 2);
+            display.setText(String.valueOf(this.prevValue));
+        } else if(btnText.equals("x^y")) {
+
+        } else if(btnText.equals("log")) {
+
         } else {
             Toast.makeText(context, "No such operation present!", Toast.LENGTH_LONG).show();
         }
