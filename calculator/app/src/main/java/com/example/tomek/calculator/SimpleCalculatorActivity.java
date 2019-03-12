@@ -52,10 +52,8 @@ public class SimpleCalculatorActivity extends Activity implements Calculable {
 
                 if(!wasOperationClicked)
                 {
-                    Log.e("PREV VALUE", "PREV VALUE");
                     prevValue = Double.parseDouble(display.getText().toString());
                 } else {
-                    Log.e("Current VALUE", "Current VALUE");
                     currentValue = Double.parseDouble(display.getText().toString());
                 }
             } else if(btnText.matches("[//*\\-+]")) {
@@ -64,19 +62,25 @@ public class SimpleCalculatorActivity extends Activity implements Calculable {
                 operation = btnText;
 
             } else if(btnText.equals("=")) {
-//                wasOperationClicked = false;
-                Log.e("Result", prevValue + " "+currentValue + " "+operation);
                 String result = performOperation(operation, prevValue, currentValue);
 
                 display.setText(result);
             } else if(btnText.equals("C")) {
                 cCLikcCounter++;
-                display.setText("0.0");
+
 
                 if(cCLikcCounter % 2 == 0 ) {
+                    Toast.makeText(this, "Registers reseted!", Toast.LENGTH_SHORT).show();
                     this.prevValue = 0.0;
                     this.operation = "";
                     this.wasOperationClicked = false;
+                } else {
+                    display.setText("0.0");
+                    if(!wasOperationClicked) {
+                        this.prevValue = 0.0;
+                    } else {
+                        this.currentValue = 0.0;
+                    }
                 }
 
             } else if(btnText.equals("+/-")) {
@@ -120,29 +124,25 @@ public class SimpleCalculatorActivity extends Activity implements Calculable {
     double result = 0.0;
         switch(operation) {
             case "+":
-                Log.e("Plus", "Plus");
                 result = prevValue + currentValue;
-                prevValue = result;
+                this.prevValue = result;
                 return String.valueOf(result);
             case "-":
-                Log.e("Minus", "Minus");
                 result = prevValue - currentValue;
-                prevValue = result;
+                this.prevValue = result;
                 return String.valueOf(result);
             case "*":
-                Log.e("multiply", "Multiply");
                 result = prevValue * currentValue;
-                prevValue = result;
+                this.prevValue = result;
                 return String.valueOf(result);
             case "/":
-                Log.e("div", "div");
                 if(currentValue == 0) {
                     Toast.makeText(this, "You can't divide by zero!",
                             Toast.LENGTH_LONG).show();
                     return "0.0";
                 }
                 result = prevValue / currentValue;
-                prevValue = result;
+                this.prevValue = result;
                 return String.valueOf(result);
             default:
                 return "Wrong operation";
@@ -159,9 +159,6 @@ public class SimpleCalculatorActivity extends Activity implements Calculable {
 
         if(displayString.contains(".")) {
             String[] splitString = displayString.split("\\.");
-            for(String s : splitString) {
-                Log.e("Co tam?", s);
-            }
             if(splitString[1].charAt(0) == '0') {
                 displayString = splitString[0];
                 displayString += ".";
