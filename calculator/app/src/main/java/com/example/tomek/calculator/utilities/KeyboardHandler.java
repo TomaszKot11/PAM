@@ -1,6 +1,7 @@
 package com.example.tomek.calculator.utilities;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,18 +34,10 @@ public class KeyboardHandler {
 
 
 
-    private KeyboardHandler() {
-
-    }
+    private KeyboardHandler() { }
 
 
-
-
-
-
-
-
-    public void handleOperation(TextView display, Button target, Context context) {
+    public void handleOperation(TextView display, Button target, Context context) throws NumberFormatException {
         String btnText = target.getText().toString();
 
         if(btnText.matches("[0-9]")) {
@@ -127,11 +120,32 @@ public class KeyboardHandler {
         } else if(btnText.equals("sin") || btnText.equals("cos") || btnText.equals("tan")) {
             String returnVal = handleTrygonometricFunctions(btnText, display.getText().toString());
             display.setText(returnVal);
+        } else if(btnText.equals("ln")) {
+          String displayString = display.getText().toString();
+          if(displayString.equals("Wrong operation")) {
+              Toast.makeText(context, "Wrong input should be floating point", Toast.LENGTH_SHORT).show();
+          } else {
+              double doubleValue = 0;
+                try {
+                    doubleValue = Double.parseDouble(displayString);
+                } catch(NumberFormatException e) {
+                    Toast.makeText(context, "Should be double value", Toast.LENGTH_SHORT).show();
+                    return ;
+                }
+
+                this.prevValue = Math.log(doubleValue);
+                display.setText(String.valueOf(this.prevValue));
+          }
+
         } else {
             Toast.makeText(context, "No such operation present!", Toast.LENGTH_LONG).show();
         }
 
     }
+
+//    private boolean isStringDouble(String stringToValidate) {
+//        return stringToValidate.matches("^[0-9]+\\.?[0-9]+$");
+//    }
 
 
     private String handleTrygonometricFunctions(String function, String value) {

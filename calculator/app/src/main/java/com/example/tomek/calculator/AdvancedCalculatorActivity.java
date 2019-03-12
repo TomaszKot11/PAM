@@ -38,8 +38,9 @@ public class AdvancedCalculatorActivity extends Activity implements Calculable{
    public void keyboardHandler(View view) {
        if(view instanceof Button) {
            Button target = (Button)view;
-
-           keyboardHandler.handleOperation(display, target, this);
+            try {
+                keyboardHandler.handleOperation(display, target, this);
+            } catch(NumberFormatException e) {}
        }
     }
 
