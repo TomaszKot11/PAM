@@ -4,7 +4,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@color/menu_background">
+        >
 
     <TextView android:layout_width="match_parent"
               android:layout_height="0dp"
@@ -12,7 +12,8 @@
               android:text="@string/initial_calculator_label_text"
               android:textColor="@color/menu_title_txt_color"
               android:textSize="@dimen/menu_title_font_size"
-              android:textAlignment="textEnd"/>
+              android:textAlignment="textEnd"
+              android:id="@+id/calculator_display"/>
 
     <FrameLayout
             android:layout_width="match_parent"
