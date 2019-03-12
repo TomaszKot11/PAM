@@ -51,7 +51,7 @@ public class KeyboardHandler {
             } else {
                 currentValue = Double.parseDouble(display.getText().toString());
             }
-        } else if(btnText.matches("[//*\\-+]")) {
+        } else if(btnText.matches("[//*\\-+]") || btnText.equals("x^y")) {
             display.setText("0.0");
             wasOperationClicked = true;
             operation = btnText;
@@ -172,8 +172,6 @@ public class KeyboardHandler {
 
             this.prevValue = Math.pow(doubleValue, 2);
             display.setText(String.valueOf(this.prevValue));
-        } else if(btnText.equals("x^y")) {
-
         } else if(btnText.equals("log")) {
             double doubleValue = 0;
             try {
@@ -187,7 +185,7 @@ public class KeyboardHandler {
                 Toast.makeText(context, "Argument should be equal or greater than zero", Toast.LENGTH_SHORT).show();
             } else {
                 this.prevValue = Math.log10(doubleValue);
-                
+
                 display.setText(String.valueOf(doubleValue));
             }
         } else {
@@ -245,6 +243,9 @@ public class KeyboardHandler {
                 result = prevValue / currentValue;
                 this.prevValue = result;
                 return String.valueOf(result);
+            case "x^y":
+                this.prevValue = Math.pow(prevValue, currentValue);
+                return String.valueOf(this.prevValue);
             default:
                 return "Wrong operation";
         }
