@@ -52,7 +52,6 @@ public class KeyboardHandler {
             wasOperationClicked = true;
             operation = btnText;
 
-            //TODO: fix issue with the sign
             if(!wasOperationClicked)
             {
                 prevValue = Double.parseDouble(display.getText().toString());
@@ -101,6 +100,13 @@ public class KeyboardHandler {
             if(!displayString.contains(".")) {
                 displayString += ".0";
                 display.setText(displayString);
+
+                if(!wasOperationClicked) {
+                    this.prevValue = Double.parseDouble(display.getText().toString());
+                } else {
+                    this.currentValue = Double.parseDouble(display.getText().toString());
+                }
+
             }
         } else if(btnText.equals("Bksp")) {
             String displayString = display.getText().toString();

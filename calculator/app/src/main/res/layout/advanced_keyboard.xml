@@ -3,12 +3,17 @@
              android:layout_height="match_parent"
              android:shrinkColumns="0, 1, 2"
              android:stretchColumns="3">
-    <TableRow>
-        <LinearLayout>
+    <TableRow
+            android:layout_width="0dp"
+            android:layout_weight="1">
+        <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:layout_height="match_parent">
             <Button
                     android:layout_weight="1"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:id="@+id/button1_a"
                     android:text="Bksp"
                     android:onClick="keyboardHandler"/>
@@ -16,54 +21,63 @@
             <Button
                     android:layout_weight="1"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:id="@+id/button1_b"
                     android:text="%"
                     android:onClick="keyboardHandler"/>
         </LinearLayout>
 
         <Button
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
                 android:id="@+id/button1_1"
                 android:text="AC"
                 android:onClick="keyboardHandler"/>
         <Button
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
                 android:id="@+id/button2"
                 android:text="C"
                 android:onClick="keyboardHandler"/>
         <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
                 android:id="@+id/button3"
                 android:text="+/-"
                 android:onClick="keyboardHandler"/>
     </TableRow>
 
 
-    <TableRow>
+    <TableRow
+            android:layout_width="0dp"
+            android:layout_weight="1">
         <Button
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="match_parent"
                 android:id="@+id/button4"
                 android:text="sin"
                 android:onClick="keyboardHandler"/>
         <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
                 android:id="@+id/button5"
                 android:text="cos"
                 android:onClick="keyboardHandler"/>
         <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
                 android:id="@+id/button6"
                 android:text="tan"
                 android:onClick="keyboardHandler"/>
         <Button
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="match_parent"
                 android:id="@+id/button7"
                 android:text="ln"
@@ -71,56 +85,68 @@
     </TableRow>
 
 
-    <TableRow>
+    <TableRow
+            android:layout_width="0dp"
+            android:layout_weight="1">
         <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
                 android:id="@+id/button8"
                 android:text="sqrt"
                 android:onClick="keyboardHandler"/>
         <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
                 android:id="@+id/button9"
                 android:text="x^2"
                 android:onClick="keyboardHandler"/>
         <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
                 android:id="@+id/button10"
                 android:text="x^y"
                 android:onClick="keyboardHandler"/>
         <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
                 android:id="@+id/button11"
                 android:text="log"
                 android:onClick="keyboardHandler"/>
     </TableRow>
 
 
-    <TableRow>
+    <TableRow
+            android:layout_width="0dp"
+            android:layout_weight="1">
         <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
                 android:id="@+id/button12"
                 android:text="7"
                 android:onClick="keyboardHandler"/>
         <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
                 android:id="@+id/button13"
                 android:text="8"
                 android:onClick="keyboardHandler"/>
         <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
                 android:id="@+id/button14"
                 android:text="9"
                 android:onClick="keyboardHandler"/>
         <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
                 android:id="@+id/button15"
                 android:text="/"
                 android:onClick="keyboardHandler"/>
@@ -128,84 +154,102 @@
 
 
 
-    <TableRow>
+    <TableRow
+            android:layout_width="0dp"
+            android:layout_weight="1">
         <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
                 android:id="@+id/button20"
                 android:text="4"
                 android:onClick="keyboardHandler"/>
         <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
                 android:id="@+id/button21"
                 android:text="5"
                 android:onClick="keyboardHandler"/>
         <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
                 android:id="@+id/button22"
                 android:text="6"
                 android:onClick="keyboardHandler"/>
         <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
                 android:id="@+id/button23"
                 android:text="*"
                 android:onClick="keyboardHandler"/>
     </TableRow>
 
 
-    <TableRow>
+    <TableRow
+            android:layout_width="0dp"
+            android:layout_weight="1">
         <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
                 android:id="@+id/button24"
                 android:text="1"
                 android:onClick="keyboardHandler"/>
         <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
                 android:id="@+id/button25"
                 android:text="2"
                 android:onClick="keyboardHandler"/>
         <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
                 android:id="@+id/button26"
                 android:text="3"
                 android:onClick="keyboardHandler"/>
         <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
                 android:id="@+id/button27"
                 android:text="-"
                 android:onClick="keyboardHandler"/>
     </TableRow>
 
 
-    <TableRow>
+    <TableRow
+            android:layout_width="0dp"
+            android:layout_weight="1">
         <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
                 android:id="@+id/button28"
                 android:text="0"
                 android:onClick="keyboardHandler"/>
         <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
                 android:id="@+id/button29"
                 android:text="."
                 android:onClick="keyboardHandler"/>
         <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
                 android:id="@+id/button30"
                 android:text="="
                 android:onClick="keyboardHandler"/>
         <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
                 android:id="@+id/button31"
                 android:text="+"
                 android:onClick="keyboardHandler"/>
