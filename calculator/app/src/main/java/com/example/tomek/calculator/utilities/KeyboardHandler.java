@@ -8,7 +8,6 @@ import android.widget.Toast;
 
 
 //TODO: Handle bug with backspace!
-//TODO: dodac procenty
 public class KeyboardHandler {
 
 
@@ -200,6 +199,11 @@ public class KeyboardHandler {
             this.operation = "";
             this.wasOperationClicked = false;
             display.setText("0.0");
+        } else if(btnText.equals("%")) {
+            String displayText = display.getText().toString();
+            if(!displayText.equals("Wrong operation")) {
+                display.setText(String.valueOf(Double.parseDouble(displayText) / 100));
+            }
         } else {
             Toast.makeText(context, "No such operation present!", Toast.LENGTH_LONG).show();
         }
