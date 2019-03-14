@@ -202,7 +202,7 @@ public class KeyboardHandler {
             } else {
                 this.prevValue = Math.log10(doubleValue);
 
-                display.setText(String.valueOf(doubleValue));
+                display.setText(String.valueOf(this.prevValue));
             }
         } else if(btnText.equals("AC")) {
             Toast.makeText(context, "All registers cleared!", Toast.LENGTH_SHORT).show();
