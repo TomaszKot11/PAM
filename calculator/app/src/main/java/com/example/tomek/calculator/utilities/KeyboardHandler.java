@@ -88,11 +88,8 @@ public class KeyboardHandler {
                 double displayValue = Double.parseDouble(displayString);
                 display.setText(String.valueOf(displayValue * (-1)));
 
-                if(!wasOperationClicked) {
-                    this.prevValue = Double.parseDouble(display.getText().toString());
-                } else {
-                    this.currentValue = Double.parseDouble(display.getText().toString());
-                }
+
+                this.prevValue = Double.parseDouble(display.getText().toString());
             }
         } else if(btnText.equals(".")) {
             String displayString = display.getText().toString();
@@ -109,6 +106,7 @@ public class KeyboardHandler {
 
             }
         } else if(btnText.equals("Bksp")) {
+
             String displayString = display.getText().toString();
 
             if(displayString.length() == 1) {
@@ -117,8 +115,11 @@ public class KeyboardHandler {
             }
 
             if(!(displayString.equals("0.0") || displayString.equals("Wrong operation"))) {
+
                 if (displayString.charAt(displayString.length() - 2) == '.') {
                     displayString = displayString.substring(0, displayString.length() - 2);
+                } else if(displayString.matches("-[1-9]")) {
+                    displayString = "0.0";
                 } else {
                     displayString = displayString.substring(0, displayString.length() - 1);
                 }
