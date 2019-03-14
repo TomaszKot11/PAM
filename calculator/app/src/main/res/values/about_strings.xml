@@ -2,4 +2,7 @@
  <string name="string_about">
      Created by <a href="https://github.com/TomaszKot11">Tomasz Kot</a>
  </string>
+ <string name="string_description">
+    App created to calculate simple mathematical operations
+ </string>
 </resources>

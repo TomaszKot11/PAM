@@ -9,7 +9,6 @@ import android.widget.Toast;
 
 //TODO: Handle bug with backspace!
 //TODO: dodac procenty
-//TODO: dodac klawisz AC
 public class KeyboardHandler {
 
 
@@ -119,6 +118,13 @@ public class KeyboardHandler {
             display.setText(displayString);
 
             if(displayString.equals("")) display.setText("0.0");
+
+            if(!wasOperationClicked) {
+                this.prevValue = Double.parseDouble(display.getText().toString());
+            } else {
+                this.currentValue = Double.parseDouble(display.getText().toString());
+            }
+
         } else if(btnText.equals("sin") || btnText.equals("cos") || btnText.equals("tan")) {
             String returnVal = handleTrygonometricFunctions(btnText, display.getText().toString());
             display.setText(returnVal);
@@ -188,6 +194,12 @@ public class KeyboardHandler {
 
                 display.setText(String.valueOf(doubleValue));
             }
+        } else if(btnText.equals("AC")) {
+            Toast.makeText(context, "All registers cleared!", Toast.LENGTH_SHORT).show();
+            this.prevValue = 0.0;
+            this.operation = "";
+            this.wasOperationClicked = false;
+            display.setText("0.0");
         } else {
             Toast.makeText(context, "No such operation present!", Toast.LENGTH_LONG).show();
         }

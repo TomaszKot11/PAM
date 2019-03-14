@@ -4,13 +4,17 @@
              android:stretchColumns="*">
     <TableRow>
         <Button
-                android:layout_width="wrap_content"
+                android:layout_width="39dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/button1"
                 android:text="Bksp"
                 android:onClick="keyboardHandler"/>
         <Button
-                android:layout_span="2"
+                android:layout_height="wrap_content"
+                android:id="@+id/button1_1"
+                android:text="AC"
+                android:onClick="keyboardHandler"/>
+        <Button
                 android:layout_height="wrap_content"
                 android:id="@+id/button2"
                 android:text="C"
@@ -27,7 +31,7 @@
     <TableRow>
         <Button
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:id="@+id/button4"
                 android:text="sin"
                 android:onClick="keyboardHandler"/>
@@ -163,7 +167,6 @@
                 android:text="-"
                 android:onClick="keyboardHandler"/>
     </TableRow>
-
 
 
     <TableRow>
