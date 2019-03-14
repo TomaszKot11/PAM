@@ -7,13 +7,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-//TODO: Handle bug with backspace!
 public class KeyboardHandler {
 
 
     private static KeyboardHandler instance;
 
-    //TODO: on orientation change!
     public double prevValue = 0.0;
     public double currentValue = 0.0;
     public String operation = "";
@@ -90,6 +88,12 @@ public class KeyboardHandler {
             if(!(displayString.equals("0.0") || displayString.equals("0") || displayString.equals("Wrong operation"))) {
                 double displayValue = Double.parseDouble(displayString);
                 display.setText(String.valueOf(displayValue * (-1)));
+
+                if(!wasOperationClicked) {
+                    this.prevValue = Double.parseDouble(display.getText().toString());
+                } else {
+                    this.currentValue = Double.parseDouble(display.getText().toString());
+                }
             }
         } else if(btnText.equals(".")) {
             String displayString = display.getText().toString();
