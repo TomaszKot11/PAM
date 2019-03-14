@@ -215,6 +215,8 @@ public class KeyboardHandler {
             if(!displayText.equals("Wrong operation")) {
                 display.setText(String.valueOf(Double.parseDouble(displayText) / 100));
             }
+        } else if(btnText.equals("x^y")) {
+            performOperation("x^y", this.prevValue, this.currentValue, context);
         } else {
             Toast.makeText(context, "No such operation present!", Toast.LENGTH_LONG).show();
         }
