@@ -142,7 +142,4 @@
                 android:text="+"
                 android:onClick="keyboardHandler"/>
     </TableRow>
-
-
-
 </TableLayout>
