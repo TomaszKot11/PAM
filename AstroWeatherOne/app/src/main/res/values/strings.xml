@@ -12,4 +12,20 @@
     <string name="latitude_hint">Latitude</string>
     <string name="longitude">Longitude:</string>
     <string name="longitude_hint">Longitude</string>
+
+    <string-array name="refreshing_units">
+        <item>seconds</item>
+        <item>minutes</item>
+    </string-array>
+
+    <string-array name="refreshing_numerical_values">
+        <item>1</item>
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+    </string-array>
+
+
 </resources>
