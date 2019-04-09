@@ -19,6 +19,24 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="match_parent"
+                    android:text="Bieżący czas:"/>
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:id="@+id/sun_current_time_txt_view"
+                    android:text="2019-04-09 22:57:26"/>
+        </TableRow>
+
+        <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="0dp">
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
                     android:text="Wschód:"/>
 
             <TextView
@@ -85,7 +103,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="match_parent"
-                    android:id="@+id/sun_civil_sunrise_txt_view"
+                    android:id="@+id/sun_civil_twilight_txt_view"
                     android:text="5:57:26"/>
             <TextView
                     android:layout_width="0dp"
@@ -97,7 +115,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="match_parent"
-                    android:id="@+id/sun_civil_sunset_azimuth_txt_view"
+                    android:id="@+id/sun_civil_twilight_azimuth_txt_view"
                     android:text="18:57:26"/>
         </TableRow>
     </TableLayout>
