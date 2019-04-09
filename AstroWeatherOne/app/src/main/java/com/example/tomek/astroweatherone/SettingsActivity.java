@@ -4,27 +4,32 @@ import android.content.SharedPreferences;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 public class SettingsActivity extends AppCompatActivity {
-
     // shared preferences constants
     public static final String SHARED_PREFERENCES_NAME = "APPLICATION_SETTINGS";
     public static final String PREFENCES_TIME_VALUE_KEY = "TIME_VALUE";
     public static final String PREFERNCE_TIME_UNIT_KEY = "TIME_UNIT";
     public static final String PREFERENCES_LONGITUTDE_KEY = "LONGITUDE_KEY";
     public static final String PREFERENCE_LATITTUDE_KEY = "LATITUDE_KEY";
-
+    public static String DMCS_LONGITUDE = "51.7460238";
+    public static String DMCS_LATITUDE = "19.4528";
 
     private Spinner spinnerUnits;
+    private ArrayAdapter<CharSequence> spinnerUnitsArrayAdapter;
     private Spinner spinnerValue;
+    private ArrayAdapter<CharSequence> spinnerValueArrayAdapter;
+
     private TextInputEditText latitudeInputEditText;
     private TextInputEditText longitutdeEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_settings);
 
         spinnerValue = findViewById(R.id.time_value_spinner);
@@ -33,16 +38,38 @@ public class SettingsActivity extends AppCompatActivity {
         latitudeInputEditText = findViewById(R.id.latitudeInputEditText);
         longitutdeEditText = findViewById(R.id.longitudeInputEditText);
 
-        assingCharAdaptersToSpinners(R.array.refreshing_numerical_values, spinnerValue);
-        assingCharAdaptersToSpinners(R.array.refreshing_units, spinnerUnits);
+        this.spinnerValueArrayAdapter = ArrayAdapter.createFromResource(this, R.array.refreshing_numerical_values, android.R.layout.simple_spinner_item);
+        this.spinnerUnitsArrayAdapter = ArrayAdapter.createFromResource(this, R.array.refreshing_units, android.R.layout.simple_spinner_item);
+
+        assingCharAdaptersToSpinners(spinnerValue, spinnerValueArrayAdapter);
+        assingCharAdaptersToSpinners(spinnerUnits, spinnerUnitsArrayAdapter);
     }
 
-    private void assingCharAdaptersToSpinners(int  string_array_identifier, Spinner spinner) {
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, string_array_identifier, android.R.layout.simple_spinner_item);
+    private void assingCharAdaptersToSpinners(Spinner spinner, ArrayAdapter<CharSequence> arrayAdapter) {
         // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
-        spinner.setAdapter(adapter);
+        spinner.setAdapter(arrayAdapter);
+    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        SharedPreferences settings = getSharedPreferences(SHARED_PREFERENCES_NAME, 0);
+
+        int position = spinnerUnitsArrayAdapter.getPosition(settings.getString(PREFERNCE_TIME_UNIT_KEY, "seconds"));
+        spinnerUnits.setSelection(position);
+
+        position = spinnerValueArrayAdapter.getPosition(settings.getString(PREFENCES_TIME_VALUE_KEY, "15"));
+        spinnerValue.setSelection(position);
+
+        String value = settings.getString(PREFERENCE_LATITTUDE_KEY, DMCS_LATITUDE);
+        latitudeInputEditText.setText(value);
+
+        value = settings.getString(PREFERENCES_LONGITUTDE_KEY, DMCS_LONGITUDE);
+        longitutdeEditText.setText(value);
     }
 
     @Override
@@ -57,6 +84,7 @@ public class SettingsActivity extends AppCompatActivity {
         editor.putString(PREFERNCE_TIME_UNIT_KEY, spinnerUnits.getSelectedItem().toString());
 
         editor.commit();
+
     }
 
 
