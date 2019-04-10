@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.TableRow;
 import android.widget.TextView;
 import com.example.tomek.astroweatherone.R;
 import com.example.tomek.astroweatherone.mainActivity.MainActivity;
@@ -26,6 +27,9 @@ public class SunFragment extends Fragment implements MainActivity.SunMoonRefresh
     private TextView sunSunsetAzimuthTextView;
     private TextView sunCivilMorningTwilightTextView;
     private TextView sunCivilEveningTwilightTextView;
+    private TextView sunLongitute;
+    private TextView sunLatitude;
+    private TableRow tableRow;
 
 
     // TODO: Rename and change types of parameters
@@ -88,7 +92,9 @@ public class SunFragment extends Fragment implements MainActivity.SunMoonRefresh
         sunSunsetAzimuthTextView = getView().findViewById(R.id.sun_sunset_azimuth_txt_view);
         sunCivilMorningTwilightTextView = getView().findViewById(R.id.sun_civil_morning_twilight_txt_view);
         sunCivilEveningTwilightTextView = getView().findViewById(R.id.sun_civil_evening_twilight_txt_view);
-
+        sunLatitude = getView().findViewById(R.id.sun_latitude);
+        sunLongitute = getView().findViewById(R.id.sun_longitude);
+        tableRow = getView().findViewById(R.id.my_shape);
     }
 
     @Override
@@ -123,6 +129,11 @@ public class SunFragment extends Fragment implements MainActivity.SunMoonRefresh
         if(isTimeupdate) {
             currentTimeTextView.setText(bundle.getString("DATE"));
         } else {
+
+
+            int visibility = tableRow.getVisibility() == View.VISIBLE ? View.INVISIBLE : View.VISIBLE;
+            tableRow.setVisibility(visibility);
+
             sunRiseTextView.setText(bundle.getString(StringConstants.BUNDLE_SUN_RISE_TIME, "NO DATA"));
             sunRiseAzimuthTextView.setText(bundle.getString(StringConstants.BUNDLE_SUN_RISE_AZIMUTH, "NO DATA"));
             sunSetTextView.setText(bundle.getString(StringConstants.BUNDLE_SUN_SET_TIME, "NO DATA"));

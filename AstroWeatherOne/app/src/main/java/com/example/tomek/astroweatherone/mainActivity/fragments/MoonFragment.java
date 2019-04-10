@@ -28,6 +28,8 @@ public class MoonFragment extends Fragment implements MainActivity.SunMoonRefres
     private TextView moonFullTextView;
     private TextView moonPhaseTextView;
     private TextView moonSynodicMonth;
+    private TextView moonLongitute;
+    private TextView moonLatitude;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -65,11 +67,6 @@ public class MoonFragment extends Fragment implements MainActivity.SunMoonRefres
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
-
-
-
-
     }
 
     @Override
@@ -83,6 +80,8 @@ public class MoonFragment extends Fragment implements MainActivity.SunMoonRefres
         moonFullTextView = getView().findViewById(R.id.moon_full_txt_view);
         moonPhaseTextView = getView().findViewById(R.id.moon_phase_moon_txt_view);
         moonSynodicMonth = getView().findViewById(R.id.moon_synodic_month_txt_view);
+        moonLatitude = getView().findViewById(R.id.moon_latitude);
+        moonLongitute = getView().findViewById(R.id.moon_longitude);
     }
 
     @Override

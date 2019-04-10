@@ -67,8 +67,8 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onPause() {
+        super.onPause();
 
         SharedPreferences settings = getSharedPreferences(StringConstants.SHARED_PREFERENCES_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();

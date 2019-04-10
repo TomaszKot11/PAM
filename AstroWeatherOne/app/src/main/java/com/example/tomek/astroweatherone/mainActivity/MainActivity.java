@@ -1,17 +1,24 @@
 package com.example.tomek.astroweatherone.mainActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TableRow;
+import android.widget.Toast;
 import com.astrocalculator.AstroCalculator;
 import com.astrocalculator.AstroDateTime;
 import com.example.tomek.astroweatherone.R;
 import com.example.tomek.astroweatherone.SettingsActivity;
+import com.example.tomek.astroweatherone.utilities.Settings;
+import com.example.tomek.astroweatherone.utilities.SharedPreferencesUtility;
 import com.example.tomek.astroweatherone.utilities.StringConstants;
 
 import java.util.*;
@@ -21,29 +28,22 @@ public class MainActivity extends AppCompatActivity {
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private List<SunMoonRefreshableUI> subscribersList = new ArrayList<>();
-
     private ViewPager mViewPager;
-//    private WeatherHandler handler;
-
     private Handler handler;
     private Runnable runnable;
     private Handler handlerTwo;
     private Runnable runnableTwo;
-//    private WeatherBackgroundTask weatherBackgroundTask = new WeatherBackgroundTask();
+    private long periodicWheatherUpdateTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
-        // Set up the ViewPager with the sections adapter.
         mViewPager = findViewById(R.id.container);
+
         mViewPager.setAdapter(mSectionsPagerAdapter);
     }
 
@@ -51,6 +51,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
+        Settings settings =  SharedPreferencesUtility.readSharedPreferences(getSharedPreferences(StringConstants.SHARED_PREFERENCES_NAME, 0));
+
+        periodicWheatherUpdateTime = SharedPreferencesUtility.getWeatherUpateTimeInMiliseconds(settings.getTimeValue(), settings.getTimeUnit());
+
+        Log.e(String.valueOf(periodicWheatherUpdateTime),String.valueOf(periodicWheatherUpdateTime));
+
         startPeriodicTimeUpdate();
         startPeriodicWeatherUpates();
     }
@@ -64,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
                 new WeatherBackgroundTask().execute();
 
-                handler.postDelayed(this, 3000);
+                handler.postDelayed(this, periodicWheatherUpdateTime);
             }
         };
 
@@ -124,9 +130,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void updateUI(Bundle bundle, boolean isTimeUpdate) {
-        // TODO: communiacte with fragments here
-        //Toast.makeText(this, "Weather updated!", Toast.LENGTH_SHORT).show();
-        //Toast.makeText(this, String.valueOf(subscribersList.isEmpty()), Toast.LENGTH_SHORT).show();
         for(SunMoonRefreshableUI subscriber : subscribersList) {
             subscriber.refreshUI(bundle, isTimeUpdate);
         }
@@ -139,7 +142,8 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(Bundle o) {
             super.onPostExecute(o);
 
-            // TODO: pass here bundle
+            Toast.makeText(MainActivity.this, "Weather updated!", Toast.LENGTH_SHORT).show();
+
             MainActivity.this.updateUI(o, false);
         }
 
