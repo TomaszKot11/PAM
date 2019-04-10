@@ -2,6 +2,7 @@ package com.example.tomek.astroweatherone.mainActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +18,8 @@ import com.astrocalculator.AstroCalculator;
 import com.astrocalculator.AstroDateTime;
 import com.example.tomek.astroweatherone.R;
 import com.example.tomek.astroweatherone.SettingsActivity;
+import com.example.tomek.astroweatherone.mainActivity.fragments.MoonFragment;
+import com.example.tomek.astroweatherone.mainActivity.fragments.SunFragment;
 import com.example.tomek.astroweatherone.utilities.Settings;
 import com.example.tomek.astroweatherone.utilities.SharedPreferencesUtility;
 import com.example.tomek.astroweatherone.utilities.StringConstants;
@@ -27,8 +30,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
-    private List<SunMoonRefreshableUI> subscribersList = new ArrayList<>();
     private ViewPager mViewPager;
+
+    private List<SunMoonRefreshableUI> subscribersList = new ArrayList<>();
     private Handler handler;
     private Runnable runnable;
     private Handler handlerTwo;
@@ -46,8 +50,20 @@ public class MainActivity extends AppCompatActivity {
         bundle.putString(StringConstants.PREFERENCES_LONGITUTDE_KEY, String.valueOf(settings.getLongitude()));
         bundle.putString(StringConstants.PREFERENCE_LATITTUDE_KEY, String.valueOf(settings.getLatitude()));
 
-        Log.e(String.valueOf(settings.getLatitude()), String.valueOf(settings.getLongitude()));
 
+
+        Point point = new Point();
+        getWindowManager().getDefaultDisplay().getSize(point);
+        // check in which orientation we are
+        if(point.y > point.x) {
+            // portrait
+            initializePortraitLayout(bundle);
+        } else {
+            initializeLandsacpeLayout(bundle);
+        }
+    }
+
+    private void initializePortraitLayout(Bundle bundle) {
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         mSectionsPagerAdapter.setArguments(bundle);
@@ -58,24 +74,23 @@ public class MainActivity extends AppCompatActivity {
         mViewPager.setAdapter(mSectionsPagerAdapter);
     }
 
-    //TODO: fix this!
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//        Settings settings =  SharedPreferencesUtility.readSharedPreferences(getSharedPreferences(StringConstants.SHARED_PREFERENCES_NAME, 0));
-//
-//        Bundle bundle = new Bundle();
-//        bundle.putString(StringConstants.PREFERENCES_LONGITUTDE_KEY, String.valueOf(settings.getLongitude()));
-//        bundle.putString(StringConstants.PREFERENCE_LATITTUDE_KEY, String.valueOf(settings.getLatitude()));
-//
-//
-//        Log.e(String.valueOf(settings.getLatitude()), String.valueOf(settings.getLongitude()));
-//
-//
-//        for(MainActivity.SunMoonRefreshableUI subscriber : subscribersList) {
-//            subscriber.refreshUI(bundle, false, true);
-//        }
-//    }
+    private void initializeLandsacpeLayout(Bundle bundle) {
+        SunFragment sunFragment = new SunFragment();
+        sunFragment.setArguments(bundle);
+
+        MoonFragment moonFragment = new MoonFragment();
+        moonFragment.setArguments(bundle);
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.fragment_sun, sunFragment)
+                .commit();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.fragment_moon, moonFragment)
+                .commit();
+    }
+
 
     //TODO: think it over! - in which method of the lifecycle to perform this action
     @Override
