@@ -6,23 +6,20 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import com.astrocalculator.AstroCalculator;
 import com.astrocalculator.AstroDateTime;
 import com.example.tomek.astroweatherone.R;
 import com.example.tomek.astroweatherone.SettingsActivity;
+import com.example.tomek.astroweatherone.utilities.StringConstants;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class MainActivity extends AppCompatActivity {
 
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
-    public static long ONE_SECOND_IN_MILISECONDS = 1000;
     private List<SunMoonRefreshableUI> subscribersList = new ArrayList<>();
 
     private ViewPager mViewPager;
@@ -87,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
                     bundle.putString("DATE", String.valueOf(currentTime));
                     element.refreshUI(bundle, true);
                 }
-                handler.postDelayed(this, ONE_SECOND_IN_MILISECONDS);
+                handler.postDelayed(this, StringConstants.ONE_SECOND_IN_MILISECONDS);
             }
         };
 
@@ -161,8 +158,8 @@ public class MainActivity extends AppCompatActivity {
                                                             (int)timeOffsetGreenwich,
                                                                     true);
 
-            AstroCalculator.Location location = new AstroCalculator.Location(Double.parseDouble(SettingsActivity.DMCS_LONGITUDE),
-                                                                            Double.parseDouble(SettingsActivity.DMCS_LATITUDE));
+            AstroCalculator.Location location = new AstroCalculator.Location(Double.parseDouble(StringConstants.DMCS_LONGITUDE),
+                                                                            Double.parseDouble(StringConstants.DMCS_LATITUDE));
 
             AstroCalculator astroCalculator = new AstroCalculator(astroDateTime, location);
 
@@ -174,21 +171,21 @@ public class MainActivity extends AppCompatActivity {
 
 
             // sun rise info
-            bundle.putString("SUN_RISE_TIME", sunInfo.getSunrise().toString());
-            bundle.putString("SUN_RISE_AZIMUTH", String.valueOf(sunInfo.getAzimuthRise()));
-            bundle.putString("SUN_SET_TIME", sunInfo.getSunset().toString());
-            bundle.putString("SUN_SET_AZIMUTH", String.valueOf(sunInfo.getAzimuthSet()));
-            bundle.putString("SUN_CIVIL_EVENING_TWILIGHT", sunInfo.getTwilightEvening().toString());
-            bundle.putString("SUN_CIVIL_MORNING_TWILIGHT", sunInfo.getTwilightMorning().toString());
+            bundle.putString(StringConstants.BUNDLE_SUN_RISE_TIME, sunInfo.getSunrise().toString());
+            bundle.putString(StringConstants.BUNDLE_SUN_RISE_AZIMUTH, String.valueOf(sunInfo.getAzimuthRise()));
+            bundle.putString(StringConstants.BUNDLE_SUN_SET_TIME, sunInfo.getSunset().toString());
+            bundle.putString(StringConstants.BUNDLE_SUN_SET_AZIMUTH, String.valueOf(sunInfo.getAzimuthSet()));
+            bundle.putString(StringConstants.BUNDLE_SUN_CIVIL_EVENING_TWILIGHT, sunInfo.getTwilightEvening().toString());
+            bundle.putString(StringConstants.BUNDLE_SUN_CIVIL_MORNING_TWILIGHT, sunInfo.getTwilightMorning().toString());
 
             // moon info
-            bundle.putString("MOON_RISE_TIME", moonInfo.getMoonset().toString());
-            bundle.putString("MOON_SET_TIME", moonInfo.getMoonrise().toString());
-            bundle.putString("MOON_NEW_MOON", moonInfo.getNextNewMoon().toString());
-            bundle.putString("MOON_FULL_MOON", moonInfo.getNextFullMoon().toString());
+            bundle.putString(StringConstants.BUNDLE_MOON_RISE_TIME, moonInfo.getMoonset().toString());
+            bundle.putString(StringConstants.BUNDLE_MOON_SET_TIME, moonInfo.getMoonrise().toString());
+            bundle.putString(StringConstants.BUNDLE_MOON_NEW_MOON, moonInfo.getNextNewMoon().toString());
+            bundle.putString(StringConstants.BUNDLE_MOON_FULL, moonInfo.getNextFullMoon().toString());
             //TODO: lines benath are propably wrong
-            bundle.putString("MOON_PHASE", String.valueOf(moonInfo.getIllumination()));
-            bundle.putString("MOON_SYNODIC", String.valueOf(moonInfo.getAge()));
+            bundle.putString(StringConstants.BUNDLE_MOON_PHASE, String.valueOf(moonInfo.getIllumination()));
+            bundle.putString(StringConstants.BUNDLE_MOON_SYNODIC, String.valueOf(moonInfo.getAge()));
 
             return bundle;
         }

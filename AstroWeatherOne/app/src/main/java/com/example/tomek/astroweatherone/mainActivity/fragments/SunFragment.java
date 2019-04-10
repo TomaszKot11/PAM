@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import com.example.tomek.astroweatherone.R;
 import com.example.tomek.astroweatherone.mainActivity.MainActivity;
+import com.example.tomek.astroweatherone.utilities.StringConstants;
 
 public class SunFragment extends Fragment implements MainActivity.SunMoonRefreshableUI{
     // TODO: Rename parameter arguments, choose names that match
@@ -122,12 +123,12 @@ public class SunFragment extends Fragment implements MainActivity.SunMoonRefresh
         if(isTimeupdate) {
             currentTimeTextView.setText(bundle.getString("DATE"));
         } else {
-            sunRiseTextView.setText(bundle.getString("SUN_RISE_TIME", "NO DATA"));
-            sunRiseAzimuthTextView.setText(bundle.getString("SUN_RISE_AZIMUTH", "NO DATA"));
-            sunSetTextView.setText(bundle.getString("SUN_SET_TIME", "NO DATA"));
-            sunSunsetAzimuthTextView.setText(bundle.getString("SUN_SET_AZIMUTH", "NO DATA"));
-            sunCivilEveningTwilightTextView.setText(bundle.getString("SUN_CIVIL_EVENING_TWILIGHT", "NO DATA"));
-            sunCivilMorningTwilightTextView.setText(bundle.getString("SUN_CIVIL_MORNING_TWILIGHT", "NO DATA"));
+            sunRiseTextView.setText(bundle.getString(StringConstants.BUNDLE_SUN_RISE_TIME, "NO DATA"));
+            sunRiseAzimuthTextView.setText(bundle.getString(StringConstants.BUNDLE_SUN_RISE_AZIMUTH, "NO DATA"));
+            sunSetTextView.setText(bundle.getString(StringConstants.BUNDLE_SUN_SET_TIME, "NO DATA"));
+            sunSunsetAzimuthTextView.setText(bundle.getString(StringConstants.BUNDLE_SUN_SET_AZIMUTH, "NO DATA"));
+            sunCivilEveningTwilightTextView.setText(bundle.getString(StringConstants.BUNDLE_SUN_CIVIL_EVENING_TWILIGHT, "NO DATA"));
+            sunCivilMorningTwilightTextView.setText(bundle.getString(StringConstants.BUNDLE_SUN_CIVIL_MORNING_TWILIGHT, "NO DATA"));
         }
     }
 

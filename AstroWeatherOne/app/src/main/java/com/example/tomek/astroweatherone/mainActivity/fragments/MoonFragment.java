@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.example.tomek.astroweatherone.R;
 import com.example.tomek.astroweatherone.mainActivity.MainActivity;
+import com.example.tomek.astroweatherone.utilities.StringConstants;
 
 public class MoonFragment extends Fragment implements MainActivity.SunMoonRefreshableUI {
     // TODO: Rename parameter arguments, choose names that match
@@ -91,13 +92,13 @@ public class MoonFragment extends Fragment implements MainActivity.SunMoonRefres
             currentTimeTextView.setText(bundle.getString("DATE"));
         } else {
 
-            moonRiseTextView.setText(bundle.getString("MOON_RISE_TIME", "NO DATA"));
-            moonWaneTextView.setText(bundle.getString("MOON_SET_TIME", "NO DATA"));
-            moonNewMoonTextView.setText(bundle.getString("MOON_NEW_MOON", "NO DATA"));
-            moonFullTextView.setText(bundle.getString("MOON_FULL_MOON", "NO DATA"));
+            moonRiseTextView.setText(bundle.getString(StringConstants.BUNDLE_MOON_RISE_TIME, "NO DATA"));
+            moonWaneTextView.setText(bundle.getString(StringConstants.BUNDLE_MOON_SET_TIME, "NO DATA"));
+            moonNewMoonTextView.setText(bundle.getString(StringConstants.BUNDLE_MOON_NEW_MOON, "NO DATA"));
+            moonFullTextView.setText(bundle.getString(StringConstants.BUNDLE_MOON_FULL, "NO DATA"));
             //TODO: lines benath are propably wrong
-            moonPhaseTextView.setText(bundle.getString("MOON_PHASE", "NO DATA"));
-            moonSynodicMonth.setText(bundle.getString("MOON_SYNODIC", "NO DATA"));
+            moonPhaseTextView.setText(bundle.getString(StringConstants.BUNDLE_MOON_PHASE, "NO DATA"));
+            moonSynodicMonth.setText(bundle.getString(StringConstants.BUNDLE_MOON_SYNODIC, "NO DATA"));
         }
     }
 
