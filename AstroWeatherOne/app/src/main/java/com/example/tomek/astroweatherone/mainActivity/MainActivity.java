@@ -161,8 +161,8 @@ public class MainActivity extends AppCompatActivity {
                                                             (int)timeOffsetGreenwich,
                                                                     true);
 
-            AstroCalculator.Location location = new AstroCalculator.Location(Double.parseDouble(SettingsActivity.DMCS_LATITUDE),
-                                                                              Double.parseDouble(SettingsActivity.DMCS_LONGITUDE));
+            AstroCalculator.Location location = new AstroCalculator.Location(Double.parseDouble(SettingsActivity.DMCS_LONGITUDE),
+                                                                            Double.parseDouble(SettingsActivity.DMCS_LATITUDE));
 
             AstroCalculator astroCalculator = new AstroCalculator(astroDateTime, location);
 
@@ -182,7 +182,13 @@ public class MainActivity extends AppCompatActivity {
             bundle.putString("SUN_CIVIL_MORNING_TWILIGHT", sunInfo.getTwilightMorning().toString());
 
             // moon info
-//            bundle.putString("MOON_");
+            bundle.putString("MOON_RISE_TIME", moonInfo.getMoonset().toString());
+            bundle.putString("MOON_SET_TIME", moonInfo.getMoonrise().toString());
+            bundle.putString("MOON_NEW_MOON", moonInfo.getNextNewMoon().toString());
+            bundle.putString("MOON_FULL_MOON", moonInfo.getNextFullMoon().toString());
+            //TODO: lines benath are propably wrong
+            bundle.putString("MOON_PHASE", String.valueOf(moonInfo.getIllumination()));
+            bundle.putString("MOON_SYNODIC", String.valueOf(moonInfo.getAge()));
 
             return bundle;
         }

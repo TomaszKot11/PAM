@@ -21,6 +21,12 @@ public class MoonFragment extends Fragment implements MainActivity.SunMoonRefres
     private static final String ARG_PARAM2 = "param2";
 
     private TextView currentTimeTextView;
+    private TextView moonRiseTextView;
+    private TextView moonWaneTextView;
+    private TextView moonNewMoonTextView;
+    private TextView moonFullTextView;
+    private TextView moonPhaseTextView;
+    private TextView moonSynodicMonth;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -69,7 +75,13 @@ public class MoonFragment extends Fragment implements MainActivity.SunMoonRefres
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        currentTimeTextView = (TextView) getView().findViewById(R.id.moon_current_time_txt_view);
+        currentTimeTextView = getView().findViewById(R.id.moon_current_time_txt_view);
+        moonRiseTextView = getView().findViewById(R.id.moon_rise_txt_view);
+        moonWaneTextView = getView().findViewById(R.id.moon_wane_txt_view);
+        moonNewMoonTextView = getView().findViewById(R.id.moon_new_moon_txt_view);
+        moonFullTextView = getView().findViewById(R.id.moon_full_txt_view);
+        moonPhaseTextView = getView().findViewById(R.id.moon_phase_moon_txt_view);
+        moonSynodicMonth = getView().findViewById(R.id.moon_synodic_month_txt_view);
     }
 
     @Override
@@ -79,7 +91,13 @@ public class MoonFragment extends Fragment implements MainActivity.SunMoonRefres
             currentTimeTextView.setText(bundle.getString("DATE"));
         } else {
 
-
+            moonRiseTextView.setText(bundle.getString("MOON_RISE_TIME", "NO DATA"));
+            moonWaneTextView.setText(bundle.getString("MOON_SET_TIME", "NO DATA"));
+            moonNewMoonTextView.setText(bundle.getString("MOON_NEW_MOON", "NO DATA"));
+            moonFullTextView.setText(bundle.getString("MOON_FULL_MOON", "NO DATA"));
+            //TODO: lines benath are propably wrong
+            moonPhaseTextView.setText(bundle.getString("MOON_PHASE", "NO DATA"));
+            moonSynodicMonth.setText(bundle.getString("MOON_SYNODIC", "NO DATA"));
         }
     }
 

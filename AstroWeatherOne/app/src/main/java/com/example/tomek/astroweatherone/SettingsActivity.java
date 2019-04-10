@@ -15,8 +15,8 @@ public class SettingsActivity extends AppCompatActivity {
     public static final String PREFERNCE_TIME_UNIT_KEY = "TIME_UNIT";
     public static final String PREFERENCES_LONGITUTDE_KEY = "LONGITUDE_KEY";
     public static final String PREFERENCE_LATITTUDE_KEY = "LATITUDE_KEY";
-    public static String DMCS_LONGITUDE = "51.7460238";
-    public static String DMCS_LATITUDE = "19.4528";
+    public static String DMCS_LONGITUDE = "19.4528";
+    public static String DMCS_LATITUDE = "51.7460238";
 
     private Spinner spinnerUnits;
     private ArrayAdapter<CharSequence> spinnerUnitsArrayAdapter;
