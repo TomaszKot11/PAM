@@ -3,23 +3,20 @@ package com.example.tomek.astroweatherone.mainActivity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Handler;
-import android.renderscript.Sampler;
-import android.support.design.theme.MaterialComponentsViewInflater;
 import android.support.v7.app.AppCompatActivity;
-
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-
-import android.widget.Toast;
+import com.astrocalculator.AstroCalculator;
+import com.astrocalculator.AstroDateTime;
 import com.example.tomek.astroweatherone.R;
 import com.example.tomek.astroweatherone.SettingsActivity;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -88,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
                 for(SunMoonRefreshableUI element : subscribersList) {
                     Bundle bundle = new Bundle();
                     bundle.putString("DATE", String.valueOf(currentTime));
-                    element.refreshUI(bundle);
+                    element.refreshUI(bundle, true);
                 }
                 handler.postDelayed(this, ONE_SECOND_IN_MILISECONDS);
             }
@@ -129,12 +126,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void updateUI() {
+    public void updateUI(Bundle bundle, boolean isTimeUpdate) {
         // TODO: communiacte with fragments here
         //Toast.makeText(this, "Weather updated!", Toast.LENGTH_SHORT).show();
         //Toast.makeText(this, String.valueOf(subscribersList.isEmpty()), Toast.LENGTH_SHORT).show();
         for(SunMoonRefreshableUI subscriber : subscribersList) {
-            subscriber.refreshUI(new Bundle());
+            subscriber.refreshUI(bundle, isTimeUpdate);
         }
     }
 
@@ -146,14 +143,48 @@ public class MainActivity extends AppCompatActivity {
             super.onPostExecute(o);
 
             // TODO: pass here bundle
-            MainActivity.this.updateUI();
+            MainActivity.this.updateUI(o, false);
         }
 
         @Override
         protected Bundle doInBackground(Object... activites) {
 
-            //TODO: send here requests
-            return new Bundle();
+            Calendar instance = Calendar.getInstance();
+            double timeOffsetGreenwich = (instance.get(Calendar.ZONE_OFFSET)) / (1000 * 60 * 60);
+
+            AstroDateTime astroDateTime = new AstroDateTime(instance.get(Calendar.YEAR),
+                                                            instance.get(Calendar.MONTH) + 1,
+                                                            instance.get(Calendar.DAY_OF_MONTH),
+                                                            instance.get(Calendar.HOUR),
+                                                            instance.get(Calendar.MINUTE),
+                                                            instance.get(Calendar.SECOND),
+                                                            (int)timeOffsetGreenwich,
+                                                                    true);
+
+            AstroCalculator.Location location = new AstroCalculator.Location(Double.parseDouble(SettingsActivity.DMCS_LATITUDE),
+                                                                              Double.parseDouble(SettingsActivity.DMCS_LONGITUDE));
+
+            AstroCalculator astroCalculator = new AstroCalculator(astroDateTime, location);
+
+            AstroCalculator.MoonInfo moonInfo = astroCalculator.getMoonInfo();
+            AstroCalculator.SunInfo sunInfo = astroCalculator.getSunInfo();
+
+            Bundle bundle = new Bundle();
+            //TODO: do it in a more clever way - put whole object
+
+
+            // sun rise info
+            bundle.putString("SUN_RISE_TIME", sunInfo.getSunrise().toString());
+            bundle.putString("SUN_RISE_AZIMUTH", String.valueOf(sunInfo.getAzimuthRise()));
+            bundle.putString("SUN_SET_TIME", sunInfo.getSunset().toString());
+            bundle.putString("SUN_SET_AZIMUTH", String.valueOf(sunInfo.getAzimuthSet()));
+            bundle.putString("SUN_CIVIL_EVENING_TWILIGHT", sunInfo.getTwilightEvening().toString());
+            bundle.putString("SUN_CIVIL_MORNING_TWILIGHT", sunInfo.getTwilightMorning().toString());
+
+            // moon info
+//            bundle.putString("MOON_");
+
+            return bundle;
         }
 
     }
@@ -164,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public interface SunMoonRefreshableUI {
-        void refreshUI(Bundle bundle);
+        void refreshUI(Bundle bundle, boolean isTimeUpdate);
     }
 
 }

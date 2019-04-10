@@ -73,10 +73,13 @@ public class MoonFragment extends Fragment implements MainActivity.SunMoonRefres
     }
 
     @Override
-    public void refreshUI(Bundle bundle) {
-        Toast.makeText(getContext(), "MoonFramgnet", Toast.LENGTH_SHORT).show();
-        if(bundle.getString("DATE") != null) {
+    public void refreshUI(Bundle bundle, boolean isTimeUpdate) {
+//        Toast.makeText(getContext(), "MoonFramgnet", Toast.LENGTH_SHORT).show();
+        if(isTimeUpdate) {
             currentTimeTextView.setText(bundle.getString("DATE"));
+        } else {
+
+
         }
     }
 

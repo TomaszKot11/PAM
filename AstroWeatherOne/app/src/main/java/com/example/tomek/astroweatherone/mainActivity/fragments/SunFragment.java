@@ -1,7 +1,6 @@
 package com.example.tomek.astroweatherone.mainActivity.fragments;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.TextView;
-import android.widget.Toast;
 import com.example.tomek.astroweatherone.R;
 import com.example.tomek.astroweatherone.mainActivity.MainActivity;
 
@@ -21,6 +19,13 @@ public class SunFragment extends Fragment implements MainActivity.SunMoonRefresh
     private static final String ARG_PARAM2 = "param2";
 
     private TextView currentTimeTextView;
+    private TextView sunRiseTextView;
+    private TextView sunRiseAzimuthTextView;
+    private TextView sunSetTextView;
+    private TextView sunSunsetAzimuthTextView;
+    private TextView sunCivilMorningTwilightTextView;
+    private TextView sunCivilEveningTwilightTextView;
+
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -76,6 +81,13 @@ public class SunFragment extends Fragment implements MainActivity.SunMoonRefresh
         super.onActivityCreated(savedInstanceState);
 
         currentTimeTextView = getView().findViewById(R.id.sun_current_time_txt_view);
+        sunRiseTextView = getView().findViewById(R.id.sun_rise_txt_view);
+        sunRiseAzimuthTextView = getView().findViewById(R.id.sun_sunrise_azimuth_txt_view);
+        sunSetTextView = getView().findViewById(R.id.sun_sunset_txt_view);
+        sunSunsetAzimuthTextView = getView().findViewById(R.id.sun_sunset_azimuth_txt_view);
+        sunCivilMorningTwilightTextView = getView().findViewById(R.id.sun_civil_morning_twilight_txt_view);
+        sunCivilEveningTwilightTextView = getView().findViewById(R.id.sun_civil_evening_twilight_txt_view);
+
     }
 
     @Override
@@ -105,10 +117,17 @@ public class SunFragment extends Fragment implements MainActivity.SunMoonRefresh
 
 
     @Override
-    public void refreshUI(Bundle bundle) {
-        Toast.makeText(getContext(), "SunFramgnet", Toast.LENGTH_SHORT).show();
-        if(bundle.getString("DATE") != null) {
+    public void refreshUI(Bundle bundle, boolean isTimeupdate) {
+//        Toast.makeText(getContext(), "SunFramgnet", Toast.LENGTH_SHORT).show();
+        if(isTimeupdate) {
             currentTimeTextView.setText(bundle.getString("DATE"));
+        } else {
+            sunRiseTextView.setText(bundle.getString("SUN_RISE_TIME", "NO DATA"));
+            sunRiseAzimuthTextView.setText(bundle.getString("SUN_RISE_AZIMUTH", "NO DATA"));
+            sunSetTextView.setText(bundle.getString("SUN_SET_TIME", "NO DATA"));
+            sunSunsetAzimuthTextView.setText(bundle.getString("SUN_SET_AZIMUTH", "NO DATA"));
+            sunCivilEveningTwilightTextView.setText(bundle.getString("SUN_CIVIL_EVENING_TWILIGHT", "NO DATA"));
+            sunCivilMorningTwilightTextView.setText(bundle.getString("SUN_CIVIL_MORNING_TWILIGHT", "NO DATA"));
         }
     }
 
