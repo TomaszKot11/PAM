@@ -40,12 +40,42 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Settings settings =  SharedPreferencesUtility.readSharedPreferences(getSharedPreferences(StringConstants.SHARED_PREFERENCES_NAME, 0));
+
+        Bundle bundle = new Bundle();
+        bundle.putString(StringConstants.PREFERENCES_LONGITUTDE_KEY, String.valueOf(settings.getLongitude()));
+        bundle.putString(StringConstants.PREFERENCE_LATITTUDE_KEY, String.valueOf(settings.getLatitude()));
+
+        Log.e(String.valueOf(settings.getLatitude()), String.valueOf(settings.getLongitude()));
+
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+
+        mSectionsPagerAdapter.setArguments(bundle);
+
 
         mViewPager = findViewById(R.id.container);
 
         mViewPager.setAdapter(mSectionsPagerAdapter);
     }
+
+    //TODO: fix this!
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+//        Settings settings =  SharedPreferencesUtility.readSharedPreferences(getSharedPreferences(StringConstants.SHARED_PREFERENCES_NAME, 0));
+//
+//        Bundle bundle = new Bundle();
+//        bundle.putString(StringConstants.PREFERENCES_LONGITUTDE_KEY, String.valueOf(settings.getLongitude()));
+//        bundle.putString(StringConstants.PREFERENCE_LATITTUDE_KEY, String.valueOf(settings.getLatitude()));
+//
+//
+//        Log.e(String.valueOf(settings.getLatitude()), String.valueOf(settings.getLongitude()));
+//
+//
+//        for(MainActivity.SunMoonRefreshableUI subscriber : subscribersList) {
+//            subscriber.refreshUI(bundle, false, true);
+//        }
+//    }
 
     //TODO: think it over! - in which method of the lifecycle to perform this action
     @Override
@@ -56,6 +86,15 @@ public class MainActivity extends AppCompatActivity {
         periodicWheatherUpdateTime = SharedPreferencesUtility.getWeatherUpateTimeInMiliseconds(settings.getTimeValue(), settings.getTimeUnit());
 
         Log.e(String.valueOf(periodicWheatherUpdateTime),String.valueOf(periodicWheatherUpdateTime));
+
+
+        Bundle bundle = new Bundle();
+        bundle.putString(StringConstants.PREFERENCES_LONGITUTDE_KEY, String.valueOf(settings.getLongitude()));
+        bundle.putString(StringConstants.PREFERENCE_LATITTUDE_KEY, String.valueOf(settings.getLatitude()));
+
+        for(MainActivity.SunMoonRefreshableUI subscriber : subscribersList) {
+            subscriber.refreshUI(bundle, false, true);
+        }
 
         startPeriodicTimeUpdate();
         startPeriodicWeatherUpates();
@@ -88,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
                 for(SunMoonRefreshableUI element : subscribersList) {
                     Bundle bundle = new Bundle();
                     bundle.putString("DATE", String.valueOf(currentTime));
-                    element.refreshUI(bundle, true);
+                    element.refreshUI(bundle, true, false);
                 }
                 handler.postDelayed(this, StringConstants.ONE_SECOND_IN_MILISECONDS);
             }
@@ -131,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void updateUI(Bundle bundle, boolean isTimeUpdate) {
         for(SunMoonRefreshableUI subscriber : subscribersList) {
-            subscriber.refreshUI(bundle, isTimeUpdate);
+            subscriber.refreshUI(bundle, isTimeUpdate, false);
         }
     }
 
@@ -202,7 +241,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public interface SunMoonRefreshableUI {
-        void refreshUI(Bundle bundle, boolean isTimeUpdate);
+        void refreshUI(Bundle bundle, boolean isTimeUpdate, boolean isLongitudeLatitudeUpdate);
     }
 
 }

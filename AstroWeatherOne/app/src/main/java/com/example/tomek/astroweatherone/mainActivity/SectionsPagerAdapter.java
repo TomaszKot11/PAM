@@ -1,6 +1,7 @@
 package com.example.tomek.astroweatherone.mainActivity;
 
 import android.os.Bundle;
+import android.renderscript.Sampler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -8,24 +9,33 @@ import android.util.Log;
 import com.example.tomek.astroweatherone.mainActivity.fragments.MoonFragment;
 import com.example.tomek.astroweatherone.mainActivity.fragments.SunFragment;
 
-//TODO: FragmentPagerAdapter keeps all fragments in the memory all the time (Static does the opposite thing)
+//TODO: FragmentPagerAdapter keeps all fragments in the memory all the time (State does the opposite thing)
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-    private  MainActivity mainActivity;
+    private Bundle bundle;
 
     public SectionsPagerAdapter(FragmentManager fm) {
         super(fm);
-
-        this.mainActivity = mainActivity;
     }
+
+    public void setArguments(Bundle bundle) {
+        this.bundle = bundle;
+    }
+
 
     @Override
     public Fragment getItem(int position) {
         switch(position) {
             case 0:
-                return new SunFragment();
+                SunFragment sunFragment = new SunFragment();
+                sunFragment.setArguments(bundle);
+
+                return sunFragment;
             case 1:
-                return new MoonFragment();
+                MoonFragment moonFragment = new MoonFragment();
+                moonFragment.setArguments(bundle);
+
+                return moonFragment;
             default:
                 return null;
         }

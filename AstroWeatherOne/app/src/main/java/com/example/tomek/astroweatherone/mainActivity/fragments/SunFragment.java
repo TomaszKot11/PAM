@@ -12,6 +12,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import com.example.tomek.astroweatherone.R;
 import com.example.tomek.astroweatherone.mainActivity.MainActivity;
+import com.example.tomek.astroweatherone.utilities.SharedPreferencesUtility;
 import com.example.tomek.astroweatherone.utilities.StringConstants;
 
 public class SunFragment extends Fragment implements MainActivity.SunMoonRefreshableUI{
@@ -79,6 +80,7 @@ public class SunFragment extends Fragment implements MainActivity.SunMoonRefresh
         }
 
 
+
     }
 
     @Override
@@ -95,6 +97,9 @@ public class SunFragment extends Fragment implements MainActivity.SunMoonRefresh
         sunLatitude = getView().findViewById(R.id.sun_latitude);
         sunLongitute = getView().findViewById(R.id.sun_longitude);
         tableRow = getView().findViewById(R.id.my_shape);
+
+        sunLongitute.setText((getArguments().getString(StringConstants.PREFERENCES_LONGITUTDE_KEY, StringConstants.DMCS_LONGITUDE)));
+        sunLatitude.setText((getArguments().getString(StringConstants.PREFERENCE_LATITTUDE_KEY, StringConstants.DMCS_LATITUDE)));
     }
 
     @Override
@@ -124,8 +129,14 @@ public class SunFragment extends Fragment implements MainActivity.SunMoonRefresh
 
 
     @Override
-    public void refreshUI(Bundle bundle, boolean isTimeupdate) {
+    public void refreshUI(Bundle bundle, boolean isTimeupdate, boolean isLongitudeLatitudeUpdate) {
 //        Toast.makeText(getContext(), "SunFramgnet", Toast.LENGTH_SHORT).show();
+        if(isLongitudeLatitudeUpdate) {
+            // mon
+            sunLongitute.setText((bundle.getString(StringConstants.PREFERENCES_LONGITUTDE_KEY, StringConstants.DMCS_LONGITUDE)));
+            sunLatitude.setText((bundle.getString(StringConstants.PREFERENCE_LATITTUDE_KEY, StringConstants.DMCS_LATITUDE)));
+        }
+
         if(isTimeupdate) {
             currentTimeTextView.setText(bundle.getString("DATE"));
         } else {

@@ -82,11 +82,21 @@ public class MoonFragment extends Fragment implements MainActivity.SunMoonRefres
         moonSynodicMonth = getView().findViewById(R.id.moon_synodic_month_txt_view);
         moonLatitude = getView().findViewById(R.id.moon_latitude);
         moonLongitute = getView().findViewById(R.id.moon_longitude);
+
+        moonLongitute.setText((getArguments().getString(StringConstants.PREFERENCES_LONGITUTDE_KEY, StringConstants.DMCS_LONGITUDE)));
+        moonLatitude.setText((getArguments().getString(StringConstants.PREFERENCE_LATITTUDE_KEY, StringConstants.DMCS_LATITUDE)));
     }
 
+    //TODO: refactor this
     @Override
-    public void refreshUI(Bundle bundle, boolean isTimeUpdate) {
+    public void refreshUI(Bundle bundle, boolean isTimeUpdate, boolean isLongitudeLatitudeUpdate) {
 //        Toast.makeText(getContext(), "MoonFramgnet", Toast.LENGTH_SHORT).show();
+        if(isLongitudeLatitudeUpdate) {
+           // mon
+            moonLongitute.setText((bundle.getString(StringConstants.PREFERENCES_LONGITUTDE_KEY, StringConstants.DMCS_LONGITUDE)));
+            moonLatitude.setText((bundle.getString(StringConstants.PREFERENCE_LATITTUDE_KEY, StringConstants.DMCS_LATITUDE)));
+        }
+
         if(isTimeUpdate) {
             currentTimeTextView.setText(bundle.getString("DATE"));
         } else {
@@ -98,6 +108,8 @@ public class MoonFragment extends Fragment implements MainActivity.SunMoonRefres
             //TODO: lines benath are propably wrong
             moonPhaseTextView.setText(bundle.getString(StringConstants.BUNDLE_MOON_PHASE, "NO DATA"));
             moonSynodicMonth.setText(bundle.getString(StringConstants.BUNDLE_MOON_SYNODIC, "NO DATA"));
+
+
         }
     }
 
