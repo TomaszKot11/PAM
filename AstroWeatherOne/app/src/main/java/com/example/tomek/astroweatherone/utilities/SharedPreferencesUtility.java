@@ -18,7 +18,12 @@ public class SharedPreferencesUtility {
     }
 
 
-    public static long getWeatherUpateTimeInMiliseconds(int value, String unit) {
+    public static long getWeatherUpateTimeInMiliseconds(Activity activity) {
+        SharedPreferences sharedPreferences = activity.getSharedPreferences(StringConstants.SHARED_PREFERENCES_NAME, 0);
+
+        int value = Integer.parseInt(sharedPreferences.getString(StringConstants.PREFENCES_TIME_VALUE_KEY, "15"));
+        String unit = sharedPreferences.getString(StringConstants.PREFERNCE_TIME_UNIT_KEY, "seconds");
+
         if(unit.equals("seconds")) {
             return value * 1000;
         } else if(unit.equals("minutes")) {
@@ -26,6 +31,20 @@ public class SharedPreferencesUtility {
         } else {
             return 15 * 1000;
         }
+    }
+
+
+    public static double getLongitude(Activity activity) {
+        SharedPreferences sharedPreferences = activity.getSharedPreferences(StringConstants.SHARED_PREFERENCES_NAME, 0);
+
+        return Double.parseDouble(sharedPreferences.getString(StringConstants.PREFERENCES_LONGITUTDE_KEY, StringConstants.DMCS_LONGITUDE));
+
+    }
+
+    public static double getLatitude(Activity activity) {
+        SharedPreferences sharedPreferences = activity.getSharedPreferences(StringConstants.SHARED_PREFERENCES_NAME, 0);
+
+        return Double.parseDouble(sharedPreferences.getString(StringConstants.PREFERENCE_LATITTUDE_KEY, StringConstants.DMCS_LATITUDE));
     }
 
 

@@ -29,6 +29,7 @@ import com.example.tomek.astroweatherone.utilities.StringConstants;
  * Use the {@link SettingsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+//TODO: Latitudes range from 0 to 90. Longitudes range from 0 to 180
 public class SettingsFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
@@ -36,7 +37,9 @@ public class SettingsFragment extends Fragment {
     private ArrayAdapter<CharSequence> spinnerUnitsArrayAdapter;
     private Spinner spinnerValue;
     private ArrayAdapter<CharSequence> spinnerValueArrayAdapter;
-
+    // to avoid triggering event watching on edit text when
+    // text is set programmatically
+    private boolean canWatch = false;
     private TextInputEditText latitudeInputEditText;
     private TextInputEditText longitutdeEditText;
 
@@ -126,7 +129,7 @@ public class SettingsFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(SettingsFragment.this.mListener != null) {
+                if(SettingsFragment.this.mListener != null &&  canWatch) {
                     Settings settings = SettingsFragment.this.produceSettingsFromControls();
                     SettingsFragment.this.mListener.onFragmentInteraction(settings);
                 }
@@ -142,19 +145,11 @@ public class SettingsFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(SettingsFragment.this.mListener != null) {
+                if(SettingsFragment.this.mListener != null && canWatch) {
                     Settings settings = SettingsFragment.this.produceSettingsFromControls();
                     SettingsFragment.this.mListener.onFragmentInteraction(settings);
                 }
             }
-        });
-
-        longitutdeEditText.setOnEditorActionListener((adapterView, view, i) -> {
-            if(SettingsFragment.this.mListener != null) {
-                Settings settings = SettingsFragment.this.produceSettingsFromControls();
-                SettingsFragment.this.mListener.onFragmentInteraction(settings);
-            }
-            return true;
         });
 
         spinnerUnits.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -197,6 +192,7 @@ public class SettingsFragment extends Fragment {
             return settings;
         } catch(NumberFormatException e) {
             Log.e("[SettingsFragment]", "NumberFormatException in SettingsFragment.");
+            Log.e("[SettingsFragment]", e.toString());
         }
 
         return new Settings(Double.parseDouble(StringConstants.DMCS_LONGITUDE), Double.parseDouble(StringConstants.DMCS_LATITUDE), 5, "seconds");
@@ -220,6 +216,29 @@ public class SettingsFragment extends Fragment {
 
         value = settings.getString(StringConstants.PREFERENCES_LONGITUTDE_KEY, StringConstants.DMCS_LONGITUDE);
         longitutdeEditText.setText(value);
+
+        Log.e("LONGITUDE:", String.valueOf(value));
+        Log.e("LONGITUDE:", String.valueOf(value));
+        Log.e("LONGITUDE:", String.valueOf(value));
+        Log.e("LONGITUDE:", String.valueOf(value));
+        Log.e("LONGITUDE:", String.valueOf(value));
+        Log.e("LONGITUDE:", String.valueOf(value));
+        Log.e("LONGITUDE:", String.valueOf(value));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        canWatch = true;
+    }
+
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        canWatch = false;
     }
 
     @Override

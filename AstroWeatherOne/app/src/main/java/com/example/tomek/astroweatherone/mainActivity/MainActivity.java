@@ -141,9 +141,6 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
         super.onResume();
         Settings settings =  SharedPreferencesUtility.readSharedPreferences(getSharedPreferences(StringConstants.SHARED_PREFERENCES_NAME, 0));
 
-        periodicWheatherUpdateTime = SharedPreferencesUtility.getWeatherUpateTimeInMiliseconds(settings.getTimeValue(), settings.getTimeUnit());
-
-
         Bundle bundle = new Bundle();
         bundle.putString(StringConstants.PREFERENCES_LONGITUTDE_KEY, String.valueOf(settings.getLongitude()));
         bundle.putString(StringConstants.PREFERENCE_LATITTUDE_KEY, String.valueOf(settings.getLatitude()));
@@ -163,10 +160,13 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
             @Override
             public void run() {
 
-                new WeatherBackgroundTask().execute();
+                double latitude = SharedPreferencesUtility.getLatitude(MainActivity.this);
+                double longitutde = SharedPreferencesUtility.getLongitude(MainActivity.this);
 
-                //TODO: in the tablet view the updates are not working after changing frequency
-                //periodicWheatherUpdateTime = SharedPreferencesUtility.getWeatherUpateTimeInMiliseconds(settings.getTimeValue(), settings.getTimeUnit());
+                new WeatherBackgroundTask().execute(latitude, longitutde);
+
+                periodicWheatherUpdateTime = SharedPreferencesUtility.getWeatherUpateTimeInMiliseconds(MainActivity.this);
+
 
                 handler.postDelayed(this, periodicWheatherUpdateTime);
             }
@@ -262,7 +262,7 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
     }
 
 
-    private class WeatherBackgroundTask extends AsyncTask<Object, Object, Bundle> {
+    private class WeatherBackgroundTask extends AsyncTask<Double, Object, Bundle> {
 
         @Override
         protected void onPostExecute(Bundle o) {
@@ -274,7 +274,10 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
         }
 
         @Override
-        protected Bundle doInBackground(Object... activites) {
+        protected Bundle doInBackground(Double... coordinates) {
+
+            double latitude = coordinates[0];
+            double longitude = coordinates[1];
 
             Calendar instance = Calendar.getInstance();
             double timeOffsetGreenwich = (instance.get(Calendar.ZONE_OFFSET)) / (1000 * 60 * 60);
@@ -289,8 +292,7 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
                                                                     true);
 
             //TODO; use here real data
-            AstroCalculator.Location location = new AstroCalculator.Location(Double.parseDouble(StringConstants.DMCS_LONGITUDE),
-                                                                            Double.parseDouble(StringConstants.DMCS_LATITUDE));
+            AstroCalculator.Location location = new AstroCalculator.Location(longitude, latitude);
 
             AstroCalculator astroCalculator = new AstroCalculator(astroDateTime, location);
 
@@ -299,6 +301,20 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
 
             Bundle bundle = new Bundle();
             //TODO: do it in a more clever way - put whole object
+
+
+
+            Log.e(String.valueOf(latitude), String.valueOf(longitude));
+            Log.e(String.valueOf(latitude), String.valueOf(longitude));
+            Log.e(String.valueOf(latitude), String.valueOf(longitude));
+            Log.e(String.valueOf(latitude), String.valueOf(longitude));
+            Log.e(String.valueOf(latitude), String.valueOf(longitude));
+            Log.e(String.valueOf(latitude), String.valueOf(longitude));
+            Log.e(String.valueOf(latitude), String.valueOf(longitude));
+            Log.e(String.valueOf(latitude), String.valueOf(longitude));
+            Log.e(String.valueOf(latitude), String.valueOf(longitude));
+            Log.e(String.valueOf(latitude), String.valueOf(longitude));
+            Log.e(String.valueOf(latitude), String.valueOf(longitude));
 
 
             // sun rise info
