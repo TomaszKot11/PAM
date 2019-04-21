@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +12,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import com.example.tomek.astroweatherone.R;
 import com.example.tomek.astroweatherone.mainActivity.MainActivity;
-import com.example.tomek.astroweatherone.utilities.SharedPreferencesUtility;
-import com.example.tomek.astroweatherone.utilities.StringConstants;
+import com.example.tomek.astroweatherone.utilities.ProjectConstants;
 
 public class SunFragment extends Fragment implements MainActivity.SunMoonRefreshableUI{
     // TODO: Rename parameter arguments, choose names that match
@@ -87,8 +85,8 @@ public class SunFragment extends Fragment implements MainActivity.SunMoonRefresh
 
     @Override
     public  void settingsRefreshUI(Bundle bundle) {
-        sunLatitude.setText(bundle.getString(StringConstants.PREFERENCE_LATITTUDE_KEY));
-        sunLongitute.setText(bundle.getString(StringConstants.PREFERENCES_LONGITUTDE_KEY));
+        sunLatitude.setText(bundle.getString(ProjectConstants.PREFERENCE_LATITTUDE_KEY));
+        sunLongitute.setText(bundle.getString(ProjectConstants.PREFERENCES_LONGITUTDE_KEY));
     }
 
     @Override
@@ -106,8 +104,8 @@ public class SunFragment extends Fragment implements MainActivity.SunMoonRefresh
         sunLongitute = getView().findViewById(R.id.sun_longitude);
         tableRow = getView().findViewById(R.id.my_shape);
 
-        sunLongitute.setText((getArguments().getString(StringConstants.PREFERENCES_LONGITUTDE_KEY, StringConstants.DMCS_LONGITUDE)));
-        sunLatitude.setText((getArguments().getString(StringConstants.PREFERENCE_LATITTUDE_KEY, StringConstants.DMCS_LATITUDE)));
+        sunLongitute.setText((getArguments().getString(ProjectConstants.PREFERENCES_LONGITUTDE_KEY, ProjectConstants.DMCS_LONGITUDE)));
+        sunLatitude.setText((getArguments().getString(ProjectConstants.PREFERENCE_LATITTUDE_KEY, ProjectConstants.DMCS_LATITUDE)));
     }
 
     @Override
@@ -141,8 +139,8 @@ public class SunFragment extends Fragment implements MainActivity.SunMoonRefresh
 //        Toast.makeText(getContext(), "SunFramgnet", Toast.LENGTH_SHORT).show();
         if(isLongitudeLatitudeUpdate) {
             // mon
-            sunLongitute.setText((bundle.getString(StringConstants.PREFERENCES_LONGITUTDE_KEY, StringConstants.DMCS_LONGITUDE)));
-            sunLatitude.setText((bundle.getString(StringConstants.PREFERENCE_LATITTUDE_KEY, StringConstants.DMCS_LATITUDE)));
+            sunLongitute.setText((bundle.getString(ProjectConstants.PREFERENCES_LONGITUTDE_KEY, ProjectConstants.DMCS_LONGITUDE)));
+            sunLatitude.setText((bundle.getString(ProjectConstants.PREFERENCE_LATITTUDE_KEY, ProjectConstants.DMCS_LATITUDE)));
         }
 
         if(isTimeupdate) {
@@ -153,12 +151,12 @@ public class SunFragment extends Fragment implements MainActivity.SunMoonRefresh
             int visibility = tableRow.getVisibility() == View.VISIBLE ? View.INVISIBLE : View.VISIBLE;
             tableRow.setVisibility(visibility);
 
-            sunRiseTextView.setText(bundle.getString(StringConstants.BUNDLE_SUN_RISE_TIME, "NO DATA"));
-            sunRiseAzimuthTextView.setText(bundle.getString(StringConstants.BUNDLE_SUN_RISE_AZIMUTH, "NO DATA"));
-            sunSetTextView.setText(bundle.getString(StringConstants.BUNDLE_SUN_SET_TIME, "NO DATA"));
-            sunSunsetAzimuthTextView.setText(bundle.getString(StringConstants.BUNDLE_SUN_SET_AZIMUTH, "NO DATA"));
-            sunCivilEveningTwilightTextView.setText(bundle.getString(StringConstants.BUNDLE_SUN_CIVIL_EVENING_TWILIGHT, "NO DATA"));
-            sunCivilMorningTwilightTextView.setText(bundle.getString(StringConstants.BUNDLE_SUN_CIVIL_MORNING_TWILIGHT, "NO DATA"));
+            sunRiseTextView.setText(bundle.getString(ProjectConstants.BUNDLE_SUN_RISE_TIME, "NO DATA"));
+            sunRiseAzimuthTextView.setText(bundle.getString(ProjectConstants.BUNDLE_SUN_RISE_AZIMUTH, "NO DATA"));
+            sunSetTextView.setText(bundle.getString(ProjectConstants.BUNDLE_SUN_SET_TIME, "NO DATA"));
+            sunSunsetAzimuthTextView.setText(bundle.getString(ProjectConstants.BUNDLE_SUN_SET_AZIMUTH, "NO DATA"));
+            sunCivilEveningTwilightTextView.setText(bundle.getString(ProjectConstants.BUNDLE_SUN_CIVIL_EVENING_TWILIGHT, "NO DATA"));
+            sunCivilMorningTwilightTextView.setText(bundle.getString(ProjectConstants.BUNDLE_SUN_CIVIL_MORNING_TWILIGHT, "NO DATA"));
         }
     }
 

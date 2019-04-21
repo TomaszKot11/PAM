@@ -2,7 +2,6 @@ package com.example.tomek.astroweatherone.mainActivity.fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
@@ -17,9 +16,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 import com.example.tomek.astroweatherone.R;
 import com.example.tomek.astroweatherone.utilities.Settings;
-import com.example.tomek.astroweatherone.utilities.StringConstants;
+import com.example.tomek.astroweatherone.utilities.ProjectConstants;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -40,8 +40,10 @@ public class SettingsFragment extends Fragment {
     // to avoid triggering event watching on edit text when
     // text is set programmatically
     private boolean canWatch = false;
-    private TextInputEditText latitudeInputEditText;
+    private TextInputEditText latitudeEditText;
     private TextInputEditText longitutdeEditText;
+    private String previousLatitudeValue;
+    private String previousLongitudeValue;
 
     public SettingsFragment() {
         // Required empty public constructor
@@ -98,7 +100,7 @@ public class SettingsFragment extends Fragment {
         spinnerValue = getView().findViewById(R.id.time_value_spinner);
         spinnerUnits = getView().findViewById(R.id.time_unit_spinner);
 
-        latitudeInputEditText = getView().findViewById(R.id.latitudeInputEditText);
+        latitudeEditText = getView().findViewById(R.id.latitudeInputEditText);
         longitutdeEditText = getView().findViewById(R.id.longitudeInputEditText);
 
         this.spinnerValueArrayAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.refreshing_numerical_values, android.R.layout.simple_spinner_item);
@@ -120,7 +122,7 @@ public class SettingsFragment extends Fragment {
     }
 
     private void configureActionListenersForControls() {
-        latitudeInputEditText.addTextChangedListener(new TextWatcher() {
+        latitudeEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
@@ -129,9 +131,25 @@ public class SettingsFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(SettingsFragment.this.mListener != null &&  canWatch) {
-                    Settings settings = SettingsFragment.this.produceSettingsFromControls();
-                    SettingsFragment.this.mListener.onFragmentInteraction(settings);
+                String newValue = latitudeEditText.getText().toString();
+                if(newValue.length() == 0) {
+                    Toast.makeText(getActivity(), "Can\'t be of length 0", Toast.LENGTH_LONG).show();
+                    latitudeEditText.setText(SettingsFragment.this.previousLatitudeValue);
+                }
+
+                if(newValue.length() > 0) {
+
+                    double value = Double.parseDouble(newValue);
+                    boolean validationResult = validateEditTextRange(ProjectConstants.LATITUDE_MIN, ProjectConstants.LATITUDE_MAX, value);
+
+                    if(!validationResult)
+                        latitudeEditText.setText(SettingsFragment.this.previousLatitudeValue);
+
+                    if (SettingsFragment.this.mListener != null && canWatch && validationResult) {
+                        SettingsFragment.this.previousLatitudeValue = latitudeEditText.getText().toString();
+                        Settings settings = SettingsFragment.this.produceSettingsFromControls();
+                        SettingsFragment.this.mListener.onFragmentInteraction(settings);
+                    }
                 }
             }
         });
@@ -145,9 +163,25 @@ public class SettingsFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(SettingsFragment.this.mListener != null && canWatch) {
-                    Settings settings = SettingsFragment.this.produceSettingsFromControls();
-                    SettingsFragment.this.mListener.onFragmentInteraction(settings);
+                String newValue = longitutdeEditText.getText().toString();
+                if(newValue.length() == 0) {
+                    Toast.makeText(getActivity(), "Can\'t be of length 0", Toast.LENGTH_LONG).show();
+                    longitutdeEditText.setText(SettingsFragment.this.previousLongitudeValue);
+                }
+
+                if(newValue.length() > 0) {
+                    double value = Double.parseDouble(newValue);
+                    boolean validationResult = validateEditTextRange(ProjectConstants.LONGITUDE_MIN, ProjectConstants.LATITUDE_MAX, value);
+
+                    if(!validationResult)
+                        longitutdeEditText.setText(SettingsFragment.this.previousLongitudeValue);
+
+
+                    if (SettingsFragment.this.mListener != null && canWatch && validationResult) {
+                        SettingsFragment.this.previousLongitudeValue = longitutdeEditText.getText().toString();
+                        Settings settings = SettingsFragment.this.produceSettingsFromControls();
+                        SettingsFragment.this.mListener.onFragmentInteraction(settings);
+                    }
                 }
             }
         });
@@ -180,12 +214,21 @@ public class SettingsFragment extends Fragment {
     }
 
 
+    private boolean validateEditTextRange(double min, double max, double incommingValue) {
+        if(incommingValue <= max && incommingValue >= min)
+            return true;
+
+        Toast.makeText(getActivity(), String.format("The value should be between %.1f and %.1f", min, max), Toast.LENGTH_LONG).show();
+        return  false;
+    }
+
+
 
     private Settings produceSettingsFromControls() {
         Settings settings;
         try {
             settings = new Settings(Double.parseDouble(longitutdeEditText.getText().toString()),
-                    Double.parseDouble(latitudeInputEditText.getText().toString()),
+                    Double.parseDouble(latitudeEditText.getText().toString()),
                     Integer.parseInt(spinnerValue.getSelectedItem().toString()),
                     spinnerUnits.getSelectedItem().toString());
 
@@ -195,7 +238,7 @@ public class SettingsFragment extends Fragment {
             Log.e("[SettingsFragment]", e.toString());
         }
 
-        return new Settings(Double.parseDouble(StringConstants.DMCS_LONGITUDE), Double.parseDouble(StringConstants.DMCS_LATITUDE), 5, "seconds");
+        return new Settings(Double.parseDouble(ProjectConstants.DMCS_LONGITUDE), Double.parseDouble(ProjectConstants.DMCS_LATITUDE), 5, "seconds");
     }
 
 
@@ -203,18 +246,18 @@ public class SettingsFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        SharedPreferences settings = getActivity().getSharedPreferences(StringConstants.SHARED_PREFERENCES_NAME, 0);
+        SharedPreferences settings = getActivity().getSharedPreferences(ProjectConstants.SHARED_PREFERENCES_NAME, 0);
 
-        int position = spinnerUnitsArrayAdapter.getPosition(settings.getString(StringConstants.PREFERNCE_TIME_UNIT_KEY, "seconds"));
+        int position = spinnerUnitsArrayAdapter.getPosition(settings.getString(ProjectConstants.PREFERNCE_TIME_UNIT_KEY, "seconds"));
         spinnerUnits.setSelection(position);
 
-        position = spinnerValueArrayAdapter.getPosition(settings.getString(StringConstants.PREFENCES_TIME_VALUE_KEY, "15"));
+        position = spinnerValueArrayAdapter.getPosition(settings.getString(ProjectConstants.PREFENCES_TIME_VALUE_KEY, "15"));
         spinnerValue.setSelection(position);
 
-        String value = settings.getString(StringConstants.PREFERENCE_LATITTUDE_KEY, StringConstants.DMCS_LATITUDE);
-        latitudeInputEditText.setText(value);
+        String value = settings.getString(ProjectConstants.PREFERENCE_LATITTUDE_KEY, ProjectConstants.DMCS_LATITUDE);
+        latitudeEditText.setText(value);
 
-        value = settings.getString(StringConstants.PREFERENCES_LONGITUTDE_KEY, StringConstants.DMCS_LONGITUDE);
+        value = settings.getString(ProjectConstants.PREFERENCES_LONGITUTDE_KEY, ProjectConstants.DMCS_LONGITUDE);
         longitutdeEditText.setText(value);
 
         Log.e("LONGITUDE:", String.valueOf(value));

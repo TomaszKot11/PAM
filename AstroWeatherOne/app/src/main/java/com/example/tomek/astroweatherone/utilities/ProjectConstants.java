@@ -1,6 +1,6 @@
 package com.example.tomek.astroweatherone.utilities;
 
-public final class StringConstants {
+public final class ProjectConstants {
     public static long ONE_SECOND_IN_MILISECONDS = 1000;
     // shared preferences constants
     public static final String SHARED_PREFERENCES_NAME = "APPLICATION_SETTINGS";
@@ -27,4 +27,10 @@ public final class StringConstants {
     //TODO: lines benath are propably wrong
     public static final String BUNDLE_MOON_PHASE = "MOON_PHASE";
     public static final String BUNDLE_MOON_SYNODIC = "MOON_SYNODIC";
+
+    // to validate EditText Input
+    public static final double LATITUDE_MIN = 0.0;
+    public static final double LATITUDE_MAX = 90.0;
+    public static final double LONGITUDE_MIN = 0.0;
+    public static final double LONGITUDE_MAX = 180.0;
 }

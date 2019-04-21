@@ -1,9 +1,7 @@
 package com.example.tomek.astroweatherone.mainActivity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -13,8 +11,6 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.TableRow;
 import android.widget.Toast;
 import com.astrocalculator.AstroCalculator;
 import com.astrocalculator.AstroDateTime;
@@ -26,7 +22,7 @@ import com.example.tomek.astroweatherone.mainActivity.fragments.SunFragment;
 import com.example.tomek.astroweatherone.utilities.ScreenUtilities;
 import com.example.tomek.astroweatherone.utilities.Settings;
 import com.example.tomek.astroweatherone.utilities.SharedPreferencesUtility;
-import com.example.tomek.astroweatherone.utilities.StringConstants;
+import com.example.tomek.astroweatherone.utilities.ProjectConstants;
 
 import java.util.*;
 
@@ -52,11 +48,11 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Settings settings =  SharedPreferencesUtility.readSharedPreferences(getSharedPreferences(StringConstants.SHARED_PREFERENCES_NAME, 0));
+        Settings settings =  SharedPreferencesUtility.readSharedPreferences(getSharedPreferences(ProjectConstants.SHARED_PREFERENCES_NAME, 0));
 
         Bundle bundle = new Bundle();
-        bundle.putString(StringConstants.PREFERENCES_LONGITUTDE_KEY, String.valueOf(settings.getLongitude()));
-        bundle.putString(StringConstants.PREFERENCE_LATITTUDE_KEY, String.valueOf(settings.getLatitude()));
+        bundle.putString(ProjectConstants.PREFERENCES_LONGITUTDE_KEY, String.valueOf(settings.getLongitude()));
+        bundle.putString(ProjectConstants.PREFERENCE_LATITTUDE_KEY, String.valueOf(settings.getLatitude()));
 
 
         DisplayMetrics metrics = new DisplayMetrics();
@@ -139,11 +135,11 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
     @Override
     public void onResume() {
         super.onResume();
-        Settings settings =  SharedPreferencesUtility.readSharedPreferences(getSharedPreferences(StringConstants.SHARED_PREFERENCES_NAME, 0));
+        Settings settings =  SharedPreferencesUtility.readSharedPreferences(getSharedPreferences(ProjectConstants.SHARED_PREFERENCES_NAME, 0));
 
         Bundle bundle = new Bundle();
-        bundle.putString(StringConstants.PREFERENCES_LONGITUTDE_KEY, String.valueOf(settings.getLongitude()));
-        bundle.putString(StringConstants.PREFERENCE_LATITTUDE_KEY, String.valueOf(settings.getLatitude()));
+        bundle.putString(ProjectConstants.PREFERENCES_LONGITUTDE_KEY, String.valueOf(settings.getLongitude()));
+        bundle.putString(ProjectConstants.PREFERENCE_LATITTUDE_KEY, String.valueOf(settings.getLatitude()));
 
         for(MainActivity.SunMoonRefreshableUI subscriber : subscribersList) {
             subscriber.refreshUI(bundle, false, true);
@@ -188,7 +184,7 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
                     bundle.putString("DATE", String.valueOf(currentTime));
                     element.refreshUI(bundle, true, false);
                 }
-                handler.postDelayed(this, StringConstants.ONE_SECOND_IN_MILISECONDS);
+                handler.postDelayed(this, ProjectConstants.ONE_SECOND_IN_MILISECONDS);
             }
         };
 
@@ -234,17 +230,15 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
 
     @Override
     public void onFragmentInteraction(Settings settings) {
-        Toast.makeText(this, "New request to update UI!", Toast.LENGTH_SHORT).show();
         settingsUpdated(settings);
     }
 
     private void settingsUpdated(Settings settings) {
-        //TODO: pass value to the worker
         if(screenOrientation == ScreenSizeOrientation.TABLET_PORTRAIT || screenOrientation == ScreenSizeOrientation.TABLET_LANDSAPE) {
             Bundle bundle = new Bundle();
 
-            bundle.putString(StringConstants.PREFERENCE_LATITTUDE_KEY, String.valueOf(settings.getLatitude()));
-            bundle.putString(StringConstants.PREFERENCES_LONGITUTDE_KEY, String.valueOf(settings.getLongitude()));
+            bundle.putString(ProjectConstants.PREFERENCE_LATITTUDE_KEY, String.valueOf(settings.getLatitude()));
+            bundle.putString(ProjectConstants.PREFERENCES_LONGITUTDE_KEY, String.valueOf(settings.getLongitude()));
 
             SharedPreferencesUtility.writeSharedPreferences(this, settings);
 
@@ -318,21 +312,21 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
 
 
             // sun rise info
-            bundle.putString(StringConstants.BUNDLE_SUN_RISE_TIME, sunInfo.getSunrise().toString());
-            bundle.putString(StringConstants.BUNDLE_SUN_RISE_AZIMUTH, String.valueOf(sunInfo.getAzimuthRise()));
-            bundle.putString(StringConstants.BUNDLE_SUN_SET_TIME, sunInfo.getSunset().toString());
-            bundle.putString(StringConstants.BUNDLE_SUN_SET_AZIMUTH, String.valueOf(sunInfo.getAzimuthSet()));
-            bundle.putString(StringConstants.BUNDLE_SUN_CIVIL_EVENING_TWILIGHT, sunInfo.getTwilightEvening().toString());
-            bundle.putString(StringConstants.BUNDLE_SUN_CIVIL_MORNING_TWILIGHT, sunInfo.getTwilightMorning().toString());
+            bundle.putString(ProjectConstants.BUNDLE_SUN_RISE_TIME, sunInfo.getSunrise().toString());
+            bundle.putString(ProjectConstants.BUNDLE_SUN_RISE_AZIMUTH, String.valueOf(sunInfo.getAzimuthRise()));
+            bundle.putString(ProjectConstants.BUNDLE_SUN_SET_TIME, sunInfo.getSunset().toString());
+            bundle.putString(ProjectConstants.BUNDLE_SUN_SET_AZIMUTH, String.valueOf(sunInfo.getAzimuthSet()));
+            bundle.putString(ProjectConstants.BUNDLE_SUN_CIVIL_EVENING_TWILIGHT, sunInfo.getTwilightEvening().toString());
+            bundle.putString(ProjectConstants.BUNDLE_SUN_CIVIL_MORNING_TWILIGHT, sunInfo.getTwilightMorning().toString());
 
             // moon info
-            bundle.putString(StringConstants.BUNDLE_MOON_RISE_TIME, moonInfo.getMoonset().toString());
-            bundle.putString(StringConstants.BUNDLE_MOON_SET_TIME, moonInfo.getMoonrise().toString());
-            bundle.putString(StringConstants.BUNDLE_MOON_NEW_MOON, moonInfo.getNextNewMoon().toString());
-            bundle.putString(StringConstants.BUNDLE_MOON_FULL, moonInfo.getNextFullMoon().toString());
+            bundle.putString(ProjectConstants.BUNDLE_MOON_RISE_TIME, moonInfo.getMoonset().toString());
+            bundle.putString(ProjectConstants.BUNDLE_MOON_SET_TIME, moonInfo.getMoonrise().toString());
+            bundle.putString(ProjectConstants.BUNDLE_MOON_NEW_MOON, moonInfo.getNextNewMoon().toString());
+            bundle.putString(ProjectConstants.BUNDLE_MOON_FULL, moonInfo.getNextFullMoon().toString());
             //TODO: lines benath are propably wrong
-            bundle.putString(StringConstants.BUNDLE_MOON_PHASE, String.valueOf(moonInfo.getIllumination()));
-            bundle.putString(StringConstants.BUNDLE_MOON_SYNODIC, String.valueOf(moonInfo.getAge()));
+            bundle.putString(ProjectConstants.BUNDLE_MOON_PHASE, String.valueOf(moonInfo.getIllumination()));
+            bundle.putString(ProjectConstants.BUNDLE_MOON_SYNODIC, String.valueOf(moonInfo.getAge()));
 
             return bundle;
         }

@@ -1,7 +1,6 @@
 package com.example.tomek.astroweatherone.mainActivity.fragments;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,10 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.TextView;
-import android.widget.Toast;
 import com.example.tomek.astroweatherone.R;
 import com.example.tomek.astroweatherone.mainActivity.MainActivity;
-import com.example.tomek.astroweatherone.utilities.StringConstants;
+import com.example.tomek.astroweatherone.utilities.ProjectConstants;
 
 public class MoonFragment extends Fragment implements MainActivity.SunMoonRefreshableUI {
     // TODO: Rename parameter arguments, choose names that match
@@ -73,8 +71,8 @@ public class MoonFragment extends Fragment implements MainActivity.SunMoonRefres
 
     @Override
     public  void settingsRefreshUI(Bundle bundle) {
-        moonLatitude.setText(bundle.getString(StringConstants.PREFERENCE_LATITTUDE_KEY));
-        moonLongitute.setText(bundle.getString(StringConstants.PREFERENCES_LONGITUTDE_KEY));
+        moonLatitude.setText(bundle.getString(ProjectConstants.PREFERENCE_LATITTUDE_KEY));
+        moonLongitute.setText(bundle.getString(ProjectConstants.PREFERENCES_LONGITUTDE_KEY));
     }
 
     @Override
@@ -91,8 +89,8 @@ public class MoonFragment extends Fragment implements MainActivity.SunMoonRefres
         moonLatitude = getView().findViewById(R.id.moon_latitude);
         moonLongitute = getView().findViewById(R.id.moon_longitude);
 
-        moonLongitute.setText((getArguments().getString(StringConstants.PREFERENCES_LONGITUTDE_KEY, StringConstants.DMCS_LONGITUDE)));
-        moonLatitude.setText((getArguments().getString(StringConstants.PREFERENCE_LATITTUDE_KEY, StringConstants.DMCS_LATITUDE)));
+        moonLongitute.setText((getArguments().getString(ProjectConstants.PREFERENCES_LONGITUTDE_KEY, ProjectConstants.DMCS_LONGITUDE)));
+        moonLatitude.setText((getArguments().getString(ProjectConstants.PREFERENCE_LATITTUDE_KEY, ProjectConstants.DMCS_LATITUDE)));
     }
 
     //TODO: refactor this
@@ -101,21 +99,21 @@ public class MoonFragment extends Fragment implements MainActivity.SunMoonRefres
 //        Toast.makeText(getContext(), "MoonFramgnet", Toast.LENGTH_SHORT).show();
         if(isLongitudeLatitudeUpdate) {
            // mon
-            moonLongitute.setText((bundle.getString(StringConstants.PREFERENCES_LONGITUTDE_KEY, StringConstants.DMCS_LONGITUDE)));
-            moonLatitude.setText((bundle.getString(StringConstants.PREFERENCE_LATITTUDE_KEY, StringConstants.DMCS_LATITUDE)));
+            moonLongitute.setText((bundle.getString(ProjectConstants.PREFERENCES_LONGITUTDE_KEY, ProjectConstants.DMCS_LONGITUDE)));
+            moonLatitude.setText((bundle.getString(ProjectConstants.PREFERENCE_LATITTUDE_KEY, ProjectConstants.DMCS_LATITUDE)));
         }
 
         if(isTimeUpdate) {
             currentTimeTextView.setText(bundle.getString("DATE"));
         } else {
 
-            moonRiseTextView.setText(bundle.getString(StringConstants.BUNDLE_MOON_RISE_TIME, "NO DATA"));
-            moonWaneTextView.setText(bundle.getString(StringConstants.BUNDLE_MOON_SET_TIME, "NO DATA"));
-            moonNewMoonTextView.setText(bundle.getString(StringConstants.BUNDLE_MOON_NEW_MOON, "NO DATA"));
-            moonFullTextView.setText(bundle.getString(StringConstants.BUNDLE_MOON_FULL, "NO DATA"));
+            moonRiseTextView.setText(bundle.getString(ProjectConstants.BUNDLE_MOON_RISE_TIME, "NO DATA"));
+            moonWaneTextView.setText(bundle.getString(ProjectConstants.BUNDLE_MOON_SET_TIME, "NO DATA"));
+            moonNewMoonTextView.setText(bundle.getString(ProjectConstants.BUNDLE_MOON_NEW_MOON, "NO DATA"));
+            moonFullTextView.setText(bundle.getString(ProjectConstants.BUNDLE_MOON_FULL, "NO DATA"));
             //TODO: lines benath are propably wrong
-            moonPhaseTextView.setText(bundle.getString(StringConstants.BUNDLE_MOON_PHASE, "NO DATA"));
-            moonSynodicMonth.setText(bundle.getString(StringConstants.BUNDLE_MOON_SYNODIC, "NO DATA"));
+            moonPhaseTextView.setText(bundle.getString(ProjectConstants.BUNDLE_MOON_PHASE, "NO DATA"));
+            moonSynodicMonth.setText(bundle.getString(ProjectConstants.BUNDLE_MOON_SYNODIC, "NO DATA"));
 
 
         }

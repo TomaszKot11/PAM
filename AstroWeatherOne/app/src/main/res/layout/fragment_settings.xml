@@ -97,7 +97,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/latitudeInputEditText"
-                android:hint="@string/latitude_hint" />
+                android:hint="@string/latitude_hint"
+                android:inputType="numberDecimal" />
+
     </android.support.design.widget.TextInputLayout>
 
 
@@ -116,7 +118,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id='@+id/longitudeInputEditText'
-                android:hint="@string/longitude_hint" />
+                android:hint="@string/longitude_hint"
+                android:inputType="numberDecimal" />
 
     </android.support.design.widget.TextInputLayout>
 
