@@ -2,12 +2,14 @@ package com.example.tomek.astroweatherone.mainActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,6 +22,7 @@ import com.example.tomek.astroweatherone.R;
 import com.example.tomek.astroweatherone.SettingsActivity;
 import com.example.tomek.astroweatherone.mainActivity.fragments.MoonFragment;
 import com.example.tomek.astroweatherone.mainActivity.fragments.SunFragment;
+import com.example.tomek.astroweatherone.utilities.ScreenUtilities;
 import com.example.tomek.astroweatherone.utilities.Settings;
 import com.example.tomek.astroweatherone.utilities.SharedPreferencesUtility;
 import com.example.tomek.astroweatherone.utilities.StringConstants;
@@ -38,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
     private Handler handlerTwo;
     private Runnable runnableTwo;
     private long periodicWheatherUpdateTime;
+    private enum ScreenSizeOrientation { PHONE_PORTRAIT, PHONE_LANDSAPE, TABLET_PORTRAIT, TABLET_LANDSAPE }
+    private ScreenSizeOrientation screenOrientation = ScreenSizeOrientation.PHONE_PORTRAIT;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,16 +56,36 @@ public class MainActivity extends AppCompatActivity {
         bundle.putString(StringConstants.PREFERENCE_LATITTUDE_KEY, String.valueOf(settings.getLatitude()));
 
 
+        DisplayMetrics metrics = new DisplayMetrics();
+        this.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        ScreenUtilities screenUtilities = new ScreenUtilities(this);
+        int orientation = getResources().getConfiguration().orientation;
 
-        Point point = new Point();
-        getWindowManager().getDefaultDisplay().getSize(point);
-        // check in which orientation we are
-        if(point.y > point.x) {
-            // portrait
-            initializePortraitLayout(bundle);
-        } else {
-            initializeLandsacpeLayout(bundle);
+
+        if(screenUtilities.getWidth() > 600) {
+            if(orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                // initialize landscape
+                this.screenOrientation = ScreenSizeOrientation.TABLET_LANDSAPE;
+                initializeLandsacpeLayout(bundle);
+            } else {
+                this.screenOrientation = ScreenSizeOrientation.TABLET_PORTRAIT;
+                // initialize landscape
+                initializeLandsacpeLayout(bundle);
+            }
+        }else {
+            // smaller device (phone)
+            if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                this.screenOrientation = ScreenSizeOrientation.PHONE_LANDSAPE;
+                // In landscape
+                initializeLandsacpeLayout(bundle);
+            } else {
+                this.screenOrientation = ScreenSizeOrientation.PHONE_PORTRAIT;
+                // In portrait
+                initializePortraitLayout(bundle);
+            }
         }
+
+
     }
 
     private void initializePortraitLayout(Bundle bundle) {
@@ -99,8 +124,6 @@ public class MainActivity extends AppCompatActivity {
         Settings settings =  SharedPreferencesUtility.readSharedPreferences(getSharedPreferences(StringConstants.SHARED_PREFERENCES_NAME, 0));
 
         periodicWheatherUpdateTime = SharedPreferencesUtility.getWeatherUpateTimeInMiliseconds(settings.getTimeValue(), settings.getTimeUnit());
-
-        Log.e(String.valueOf(periodicWheatherUpdateTime),String.valueOf(periodicWheatherUpdateTime));
 
 
         Bundle bundle = new Bundle();
@@ -162,9 +185,13 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main_activity2, menu);
-        return true;
+        if(screenOrientation == ScreenSizeOrientation.PHONE_PORTRAIT || screenOrientation == ScreenSizeOrientation.PHONE_LANDSAPE) {
+            // Inflate the menu; this adds items to the action bar if it is present.
+            getMenuInflater().inflate(R.menu.menu_main_activity2, menu);
+            return true;
+        }
+
+       return false;
     }
 
     // hamburger options selecting
