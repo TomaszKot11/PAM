@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.example.tomek.astroweatherone.R;
 import com.example.tomek.astroweatherone.utilities.Settings;
 import com.example.tomek.astroweatherone.utilities.ProjectConstants;
+import com.example.tomek.astroweatherone.utilities.SharedPreferencesUtility;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,7 +30,6 @@ import com.example.tomek.astroweatherone.utilities.ProjectConstants;
  * Use the {@link SettingsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-//TODO: Latitudes range from 0 to 90. Longitudes range from 0 to 180
 public class SettingsFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
@@ -57,7 +57,6 @@ public class SettingsFragment extends Fragment {
      * @param param2 Parameter 2.
      * @return A new instance of fragment SettingsFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static SettingsFragment newInstance(String param1, String param2) {
         SettingsFragment fragment = new SettingsFragment();
         Bundle args = new Bundle();
@@ -109,6 +108,9 @@ public class SettingsFragment extends Fragment {
         assingCharAdaptersToSpinners(spinnerValue, spinnerValueArrayAdapter);
         assingCharAdaptersToSpinners(spinnerUnits, spinnerUnitsArrayAdapter);
 
+        this.previousLatitudeValue = String.valueOf(SharedPreferencesUtility.getLatitude(getActivity()));
+        this.previousLongitudeValue = String.valueOf(SharedPreferencesUtility.getLongitude(getActivity()));
+
 
         configureActionListenersForControls();
 
@@ -132,10 +134,6 @@ public class SettingsFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
                 String newValue = latitudeEditText.getText().toString();
-                if(newValue.length() == 0) {
-                    Toast.makeText(getActivity(), "Can\'t be of length 0", Toast.LENGTH_LONG).show();
-                    latitudeEditText.setText(SettingsFragment.this.previousLatitudeValue);
-                }
 
                 if(newValue.length() > 0) {
 
@@ -164,18 +162,12 @@ public class SettingsFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
                 String newValue = longitutdeEditText.getText().toString();
-                if(newValue.length() == 0) {
-                    Toast.makeText(getActivity(), "Can\'t be of length 0", Toast.LENGTH_LONG).show();
-                    longitutdeEditText.setText(SettingsFragment.this.previousLongitudeValue);
-                }
 
                 if(newValue.length() > 0) {
-                    double value = Double.parseDouble(newValue);
-                    boolean validationResult = validateEditTextRange(ProjectConstants.LONGITUDE_MIN, ProjectConstants.LATITUDE_MAX, value);
+                    boolean validationResult = validateEditTextRange(ProjectConstants.LONGITUDE_MIN, ProjectConstants.LONGITUDE_MAX, Double.parseDouble(newValue));
 
                     if(!validationResult)
                         longitutdeEditText.setText(SettingsFragment.this.previousLongitudeValue);
-
 
                     if (SettingsFragment.this.mListener != null && canWatch && validationResult) {
                         SettingsFragment.this.previousLongitudeValue = longitutdeEditText.getText().toString();
@@ -215,6 +207,8 @@ public class SettingsFragment extends Fragment {
 
 
     private boolean validateEditTextRange(double min, double max, double incommingValue) {
+        if(!canWatch) return true;
+
         if(incommingValue <= max && incommingValue >= min)
             return true;
 
@@ -301,7 +295,6 @@ public class SettingsFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Settings settings);
     }
 }

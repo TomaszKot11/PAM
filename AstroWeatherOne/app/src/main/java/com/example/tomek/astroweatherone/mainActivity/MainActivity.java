@@ -26,8 +26,6 @@ import com.example.tomek.astroweatherone.utilities.ProjectConstants;
 
 import java.util.*;
 
-//TODO: if background processor properly working?
-//TODO: constraints on edit text in settings
 public class MainActivity extends AppCompatActivity implements SettingsFragment.OnFragmentInteractionListener {
 
 
@@ -130,8 +128,6 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
                 .commit();
     }
 
-
-    //TODO: think it over! - in which method of the lifecycle to perform this action
     @Override
     public void onResume() {
         super.onResume();
@@ -285,7 +281,7 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
                                                             (int)timeOffsetGreenwich,
                                                                     true);
 
-            //TODO; use here real data
+
             AstroCalculator.Location location = new AstroCalculator.Location(longitude, latitude);
 
             AstroCalculator astroCalculator = new AstroCalculator(astroDateTime, location);
@@ -294,22 +290,6 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
             AstroCalculator.SunInfo sunInfo = astroCalculator.getSunInfo();
 
             Bundle bundle = new Bundle();
-            //TODO: do it in a more clever way - put whole object
-
-
-
-            Log.e(String.valueOf(latitude), String.valueOf(longitude));
-            Log.e(String.valueOf(latitude), String.valueOf(longitude));
-            Log.e(String.valueOf(latitude), String.valueOf(longitude));
-            Log.e(String.valueOf(latitude), String.valueOf(longitude));
-            Log.e(String.valueOf(latitude), String.valueOf(longitude));
-            Log.e(String.valueOf(latitude), String.valueOf(longitude));
-            Log.e(String.valueOf(latitude), String.valueOf(longitude));
-            Log.e(String.valueOf(latitude), String.valueOf(longitude));
-            Log.e(String.valueOf(latitude), String.valueOf(longitude));
-            Log.e(String.valueOf(latitude), String.valueOf(longitude));
-            Log.e(String.valueOf(latitude), String.valueOf(longitude));
-
 
             // sun rise info
             bundle.putString(ProjectConstants.BUNDLE_SUN_RISE_TIME, sunInfo.getSunrise().toString());

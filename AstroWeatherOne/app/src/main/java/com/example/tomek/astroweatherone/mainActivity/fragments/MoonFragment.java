@@ -14,11 +14,6 @@ import com.example.tomek.astroweatherone.mainActivity.MainActivity;
 import com.example.tomek.astroweatherone.utilities.ProjectConstants;
 
 public class MoonFragment extends Fragment implements MainActivity.SunMoonRefreshableUI {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
     private TextView currentTimeTextView;
     private TextView moonRiseTextView;
     private TextView moonWaneTextView;
@@ -30,9 +25,7 @@ public class MoonFragment extends Fragment implements MainActivity.SunMoonRefres
 
     private TextView moonLatitude;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+
 
     private OnFragmentInteractionListener mListener;
 
@@ -53,8 +46,6 @@ public class MoonFragment extends Fragment implements MainActivity.SunMoonRefres
     public static MoonFragment newInstance(String param1, String param2) {
         MoonFragment fragment = new MoonFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -62,10 +53,6 @@ public class MoonFragment extends Fragment implements MainActivity.SunMoonRefres
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
 
