@@ -1,5 +1,7 @@
 package com.example.tomek.astroweatherone.utilities;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 
 public class SharedPreferencesUtility {
@@ -24,5 +26,19 @@ public class SharedPreferencesUtility {
         } else {
             return 15 * 1000;
         }
+    }
+
+
+    public static void writeSharedPreferences(Activity activity, Settings settings) {
+        SharedPreferences sharedPreferences = activity.getSharedPreferences(StringConstants.SHARED_PREFERENCES_NAME, 0);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putString(StringConstants.PREFENCES_TIME_VALUE_KEY, String.valueOf(settings.getTimeValue()));
+        editor.putString(StringConstants.PREFERENCE_LATITTUDE_KEY, String.valueOf(settings.getLatitude()));
+        editor.putString(StringConstants.PREFERENCES_LONGITUTDE_KEY, String.valueOf(settings.getLongitude()));
+        editor.putString(StringConstants.PREFERNCE_TIME_UNIT_KEY, settings.getTimeUnit());
+
+        editor.commit();
+
     }
 }

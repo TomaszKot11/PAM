@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,6 +82,13 @@ public class SunFragment extends Fragment implements MainActivity.SunMoonRefresh
 
 
 
+    }
+
+
+    @Override
+    public  void settingsRefreshUI(Bundle bundle) {
+        sunLatitude.setText(bundle.getString(StringConstants.PREFERENCE_LATITTUDE_KEY));
+        sunLongitute.setText(bundle.getString(StringConstants.PREFERENCES_LONGITUTDE_KEY));
     }
 
     @Override

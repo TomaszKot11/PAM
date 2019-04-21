@@ -21,6 +21,7 @@ import com.astrocalculator.AstroDateTime;
 import com.example.tomek.astroweatherone.R;
 import com.example.tomek.astroweatherone.SettingsActivity;
 import com.example.tomek.astroweatherone.mainActivity.fragments.MoonFragment;
+import com.example.tomek.astroweatherone.mainActivity.fragments.SettingsFragment;
 import com.example.tomek.astroweatherone.mainActivity.fragments.SunFragment;
 import com.example.tomek.astroweatherone.utilities.ScreenUtilities;
 import com.example.tomek.astroweatherone.utilities.Settings;
@@ -29,7 +30,9 @@ import com.example.tomek.astroweatherone.utilities.StringConstants;
 
 import java.util.*;
 
-public class MainActivity extends AppCompatActivity {
+//TODO: if background processor properly working?
+//TODO: constraints on edit text in settings
+public class MainActivity extends AppCompatActivity implements SettingsFragment.OnFragmentInteractionListener {
 
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
@@ -66,13 +69,13 @@ public class MainActivity extends AppCompatActivity {
             if(orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 // initialize landscape
                 this.screenOrientation = ScreenSizeOrientation.TABLET_LANDSAPE;
-                initializeLandsacpeLayout(bundle);
+                initializeTabletLayout(bundle);
             } else {
                 this.screenOrientation = ScreenSizeOrientation.TABLET_PORTRAIT;
                 // initialize landscape
-                initializeLandsacpeLayout(bundle);
+                initializeTabletLayout(bundle);
             }
-        }else {
+        } else {
             // smaller device (phone)
             if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 this.screenOrientation = ScreenSizeOrientation.PHONE_LANDSAPE;
@@ -86,6 +89,21 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
+    }
+
+
+    private void initializeTabletLayout(Bundle bundle) {
+        initializeLandsacpeLayout(bundle);
+
+        SettingsFragment settingsFragment = new SettingsFragment();
+
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.fragment_settings, settingsFragment)
+                .commit();
+
+        settingsFragment.subscribeListener(this);
     }
 
     private void initializePortraitLayout(Bundle bundle) {
@@ -147,6 +165,9 @@ public class MainActivity extends AppCompatActivity {
 
                 new WeatherBackgroundTask().execute();
 
+                //TODO: in the tablet view the updates are not working after changing frequency
+                //periodicWheatherUpdateTime = SharedPreferencesUtility.getWeatherUpateTimeInMiliseconds(settings.getTimeValue(), settings.getTimeUnit());
+
                 handler.postDelayed(this, periodicWheatherUpdateTime);
             }
         };
@@ -197,16 +218,40 @@ public class MainActivity extends AppCompatActivity {
     // hamburger options selecting
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
+        if(screenOrientation == ScreenSizeOrientation.PHONE_PORTRAIT || screenOrientation == ScreenSizeOrientation.PHONE_LANDSAPE) {
+            int id = item.getItemId();
 
-        // run Settings activity
-        if (id == R.id.action_settings) {
-            Intent intent = new Intent(this, SettingsActivity.class);
-            startActivity(intent);
-            return true;
+            // run Settings activity
+            if (id == R.id.action_settings) {
+                Intent intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
+                return true;
+            }
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onFragmentInteraction(Settings settings) {
+        Toast.makeText(this, "New request to update UI!", Toast.LENGTH_SHORT).show();
+        settingsUpdated(settings);
+    }
+
+    private void settingsUpdated(Settings settings) {
+        //TODO: pass value to the worker
+        if(screenOrientation == ScreenSizeOrientation.TABLET_PORTRAIT || screenOrientation == ScreenSizeOrientation.TABLET_LANDSAPE) {
+            Bundle bundle = new Bundle();
+
+            bundle.putString(StringConstants.PREFERENCE_LATITTUDE_KEY, String.valueOf(settings.getLatitude()));
+            bundle.putString(StringConstants.PREFERENCES_LONGITUTDE_KEY, String.valueOf(settings.getLongitude()));
+
+            SharedPreferencesUtility.writeSharedPreferences(this, settings);
+
+            for (SunMoonRefreshableUI subscriber : subscribersList) {
+                subscriber.settingsRefreshUI(bundle);
+            }
+        }
     }
 
 
@@ -223,7 +268,7 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(Bundle o) {
             super.onPostExecute(o);
 
-            Toast.makeText(MainActivity.this, "Weather updated!", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(MainActivity.this, "Weather updated!", Toast.LENGTH_SHORT).show();
 
             MainActivity.this.updateUI(o, false);
         }
@@ -243,6 +288,7 @@ public class MainActivity extends AppCompatActivity {
                                                             (int)timeOffsetGreenwich,
                                                                     true);
 
+            //TODO; use here real data
             AstroCalculator.Location location = new AstroCalculator.Location(Double.parseDouble(StringConstants.DMCS_LONGITUDE),
                                                                             Double.parseDouble(StringConstants.DMCS_LATITUDE));
 
@@ -284,6 +330,7 @@ public class MainActivity extends AppCompatActivity {
 
     public interface SunMoonRefreshableUI {
         void refreshUI(Bundle bundle, boolean isTimeUpdate, boolean isLongitudeLatitudeUpdate);
+        void settingsRefreshUI(Bundle bundle);
     }
 
 }
