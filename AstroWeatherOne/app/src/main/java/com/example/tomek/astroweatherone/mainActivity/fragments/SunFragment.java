@@ -1,6 +1,7 @@
 package com.example.tomek.astroweatherone.mainActivity.fragments;
 
 import android.content.Context;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -8,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.FrameLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import com.example.tomek.astroweatherone.R;
@@ -104,13 +106,26 @@ public class SunFragment extends Fragment implements MainActivity.SunMoonRefresh
         sunLongitute = getView().findViewById(R.id.sun_longitude);
         tableRow = getView().findViewById(R.id.my_shape);
 
+
+        startAnimation();
+
         sunLongitute.setText((getArguments().getString(ProjectConstants.PREFERENCES_LONGITUTDE_KEY, ProjectConstants.DMCS_LONGITUDE)));
         sunLatitude.setText((getArguments().getString(ProjectConstants.PREFERENCE_LATITTUDE_KEY, ProjectConstants.DMCS_LATITUDE)));
+    }
+
+    private void startAnimation() {
+        FrameLayout frameLayout =  getView().findViewById(R.id.fragment_soon_frame_layout);
+
+        AnimationDrawable animationDrawable = (AnimationDrawable)frameLayout.getBackground();
+        animationDrawable.setEnterFadeDuration(2000);
+        animationDrawable.setExitFadeDuration(4000);
+        animationDrawable.start();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_sun, container, false);
     }

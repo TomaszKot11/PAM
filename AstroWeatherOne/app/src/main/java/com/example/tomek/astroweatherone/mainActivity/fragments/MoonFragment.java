@@ -1,6 +1,7 @@
 package com.example.tomek.astroweatherone.mainActivity.fragments;
 
 import android.content.Context;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -8,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import com.example.tomek.astroweatherone.R;
 import com.example.tomek.astroweatherone.mainActivity.MainActivity;
@@ -76,9 +78,21 @@ public class MoonFragment extends Fragment implements MainActivity.SunMoonRefres
         moonLatitude = getView().findViewById(R.id.moon_latitude);
         moonLongitute = getView().findViewById(R.id.moon_longitude);
 
+        startAnimation();
+
         moonLongitute.setText((getArguments().getString(ProjectConstants.PREFERENCES_LONGITUTDE_KEY, ProjectConstants.DMCS_LONGITUDE)));
         moonLatitude.setText((getArguments().getString(ProjectConstants.PREFERENCE_LATITTUDE_KEY, ProjectConstants.DMCS_LATITUDE)));
     }
+
+    private void startAnimation() {
+        FrameLayout frameLayout =  getView().findViewById(R.id.fragment_moon_frame_layout);
+
+        AnimationDrawable animationDrawable = (AnimationDrawable)frameLayout.getBackground();
+        animationDrawable.setEnterFadeDuration(2000);
+        animationDrawable.setExitFadeDuration(4000);
+        animationDrawable.start();
+    }
+
 
     //TODO: refactor this
     @Override

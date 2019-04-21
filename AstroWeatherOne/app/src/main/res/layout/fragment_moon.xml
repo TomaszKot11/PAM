@@ -3,6 +3,8 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
+             android:background="@drawable/moon_gradient_list"
+             android:id="@+id/fragment_moon_frame_layout"
              tools:context=".mainActivity.fragments.MoonFragment">
 
     <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -19,6 +21,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="match_parent"
+                    android:textColor="@android:color/white"
                     android:text="Bieżący czas:"/>
 
             <TextView
@@ -26,6 +29,7 @@
                     android:layout_weight="1"
                     android:layout_height="match_parent"
                     android:id="@+id/moon_current_time_txt_view"
+                    android:textColor="@android:color/white"
                     android:text="2019-04-09 22:57:26"/>
         </TableRow>
 
@@ -37,6 +41,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="match_parent"
+                    android:textColor="@android:color/white"
                     android:text="Długość geograficzna::"/>
 
             <TextView
@@ -44,11 +49,13 @@
                     android:layout_weight="1"
                     android:layout_height="match_parent"
                     android:id="@+id/moon_longitude"
+                    android:textColor="@android:color/white"
                     android:text="20:00"/>
             <TextView
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="match_parent"
+                    android:textColor="@android:color/white"
                     android:text="Szerokość geograficzna:"/>
 
             <TextView
@@ -56,6 +63,7 @@
                     android:layout_weight="1"
                     android:layout_height="match_parent"
                     android:id="@+id/moon_latitude"
+                    android:textColor="@android:color/white"
                     android:text="5:50"/>
         </TableRow>
 
@@ -67,6 +75,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="match_parent"
+                    android:textColor="@android:color/white"
                     android:text="Wschód:"/>
 
             <TextView
@@ -74,11 +83,13 @@
                     android:layout_weight="1"
                     android:layout_height="match_parent"
                     android:id="@+id/moon_rise_txt_view"
+                    android:textColor="@android:color/white"
                     android:text="20:00"/>
             <TextView
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="match_parent"
+                    android:textColor="@android:color/white"
                     android:text="Zachód:"/>
 
             <TextView
@@ -86,6 +97,7 @@
                     android:layout_weight="1"
                     android:layout_height="match_parent"
                     android:id="@+id/moon_wane_txt_view"
+                    android:textColor="@android:color/white"
                     android:text="5:50"/>
         </TableRow>
 
@@ -97,6 +109,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="match_parent"
+                    android:textColor="@android:color/white"
                     android:text="Nów:"/>
 
             <TextView
@@ -104,11 +117,13 @@
                     android:layout_weight="1"
                     android:layout_height="match_parent"
                     android:id="@+id/moon_new_moon_txt_view"
+                    android:textColor="@android:color/white"
                     android:text="2019-04-09 22:57:26"/>
             <TextView
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="match_parent"
+                    android:textColor="@android:color/white"
                     android:text="Pełnia:"/>
 
             <TextView
@@ -116,6 +131,7 @@
                     android:layout_weight="1"
                     android:layout_height="match_parent"
                     android:id="@+id/moon_full_txt_view"
+                    android:textColor="@android:color/white"
                     android:text="2019-04-22 23:57:26"/>
         </TableRow>
 
@@ -127,18 +143,21 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="match_parent"
+                    android:textColor="@android:color/white"
                     android:text="Faza Księżyca:"/>
 
             <TextView
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="match_parent"
+                    android:textColor="@android:color/white"
                     android:id="@+id/moon_phase_moon_txt_view"
                     android:text="Ostatnia kwadra"/>
             <TextView
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="match_parent"
+                    android:textColor="@android:color/white"
                     android:text="Dzień synodyczny:"/>
 
             <TextView
@@ -146,6 +165,7 @@
                     android:layout_weight="1"
                     android:layout_height="match_parent"
                     android:id="@+id/moon_synodic_month_txt_view"
+                    android:textColor="@android:color/white"
                     android:text="poniedziałek, 2019-04-22 23:57:26"/>
         </TableRow>
     </TableLayout>
