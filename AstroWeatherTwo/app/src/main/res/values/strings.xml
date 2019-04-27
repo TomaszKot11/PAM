@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">AstroWeatherTwo</string>
+    <string name="title_activity_main2">MainActivity2</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="title_activity_settings">Settings</string>
+
+
+    <string name="refreshing_unit_label">Time unit:</string>
+    <string name="refreshing_numerical_value">Time value:</string>
+    <string name="latitude">Latitude:</string>
+    <string name="latitude_hint">Latitude</string>
+    <string name="longitude">Longitude:</string>
+    <string name="longitude_hint">Longitude</string>
+
+    <string-array name="refreshing_units">
+        <item>seconds</item>
+        <item>minutes</item>
+    </string-array>
+
+    <string-array name="refreshing_numerical_values">
+        <item>1</item>
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+    </string-array>
+</resources>

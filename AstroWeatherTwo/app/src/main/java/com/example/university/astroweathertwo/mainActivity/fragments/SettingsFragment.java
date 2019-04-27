@@ -1,7 +1,8 @@
-package com.example.tomek.astroweatherone.mainActivity.fragments;
+package com.example.university.astroweathertwo.mainActivity.fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
@@ -12,16 +13,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
-import com.example.tomek.astroweatherone.R;
-import com.example.tomek.astroweatherone.utilities.Settings;
-import com.example.tomek.astroweatherone.utilities.ProjectConstants;
-import com.example.tomek.astroweatherone.utilities.SharedPreferencesUtility;
-
+import com.example.university.astroweathertwo.R;
+import com.example.university.astroweathertwo.utilities.ProjectConstants;
+import com.example.university.astroweathertwo.utilities.Settings;
+import com.example.university.astroweathertwo.utilities.SharedPreferencesUtility;
 
 public class SettingsFragment extends Fragment {
 
@@ -107,7 +106,7 @@ public class SettingsFragment extends Fragment {
 
         configureActionListenersForControls();
 
-   }
+    }
 
     private void assingCharAdaptersToSpinners(Spinner spinner, ArrayAdapter<CharSequence> arrayAdapter) {
         // Specify the layout to use when the list of choices appears

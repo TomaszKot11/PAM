@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:background="@drawable/gradient_list"
+             android:id="@+id/fragment_soon_frame_layout"
+             tools:context=".mainActivity.fragments.SunFragment">
+
+    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent"
+                 android:shrinkColumns="0, 1"
+                 android:stretchColumns="1">
+
+        <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="0dp">
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:textColor="@android:color/white"
+                    android:text="Bieżący czas:"/>
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:id="@+id/sun_current_time_txt_view"
+                    android:textColor="@android:color/white"
+                    android:text="2019-04-09 22:57:26"/>
+        </TableRow>
+
+        <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="0dp">
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:textColor="@android:color/white"
+                    android:text="Długość geograficzna::"/>
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:textColor="@android:color/white"
+                    android:id="@+id/sun_longitude"
+                    android:text="20:00"/>
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:textColor="@android:color/white"
+                    android:text="Szerokość geograficzna:"/>
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:textColor="@android:color/white"
+                    android:id="@+id/sun_latitude"
+                    android:text="5:50"/>
+        </TableRow>
+
+        <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="0dp">
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:textColor="@android:color/white"
+                    android:text="Wschód:"/>
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:textColor="@android:color/white"
+                    android:id="@+id/sun_rise_txt_view"
+                    android:text="6:00"/>
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:textColor="@android:color/white"
+                    android:text="Azymut:"/>
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:id="@+id/sun_sunrise_azimuth_txt_view"
+                    android:textColor="@android:color/white"
+                    android:text="30°"/>
+        </TableRow>
+
+        <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="0dp">
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:textColor="@android:color/white"
+                    android:text="Zachód:"/>
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:id="@+id/sun_sunset_txt_view"
+                    android:textColor="@android:color/white"
+                    android:text="18:50"/>
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:textColor="@android:color/white"
+                    android:text="Azymut:"/>
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:id="@+id/sun_sunset_azimuth_txt_view"
+                    android:textColor="@android:color/white"
+                    android:text="30°"/>
+        </TableRow>
+
+        <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="0dp">
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:textColor="@android:color/white"
+                    android:text="Wschód cywilny:"/>
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:id="@+id/sun_civil_morning_twilight_txt_view"
+                    android:textColor="@android:color/white"
+                    android:text="5:57:26"/>
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:textColor="@android:color/white"
+                    android:text="Zmierch cywilny:"/>
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:id="@+id/sun_civil_evening_twilight_txt_view"
+                    android:textColor="@android:color/white"
+                    android:text="18:57:26"/>
+        </TableRow>
+
+        <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:id="@+id/my_shape"
+                android:visibility="visible">
+
+            <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/dot_shape" />
+
+            <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="10"
+                    android:layout_height="match_parent"/>
+        </TableRow>
+    </TableLayout>
+</FrameLayout>
