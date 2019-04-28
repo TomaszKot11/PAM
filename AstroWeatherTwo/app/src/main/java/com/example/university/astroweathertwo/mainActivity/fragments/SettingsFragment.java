@@ -14,7 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
-import com.example.university.astroweathertwo.ListActivity;
+import com.example.university.astroweathertwo.CitiesListActivity;
 import com.example.university.astroweathertwo.R;
 import com.example.university.astroweathertwo.SettingsActivity;
 import com.example.university.astroweathertwo.mainActivity.MainActivity;
@@ -126,7 +126,7 @@ public class SettingsFragment extends Fragment {
 //        mainActivity.changeForAllCitiesFragment();
         showAllCitiesButton.setOnClickListener(v -> {
             if(SettingsFragment.this.getActivity() instanceof SettingsActivity) {
-                Intent intent = new Intent(getActivity(), ListActivity.class);
+                Intent intent = new Intent(getActivity(), CitiesListActivity.class);
                 startActivity(intent);
             } else if(SettingsFragment.this.getActivity() instanceof  MainActivity) {
                 SettingsFragment.this.mListener.citiesListClicked();
@@ -325,16 +325,6 @@ public class SettingsFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Settings settings);
         void citiesListClicked();

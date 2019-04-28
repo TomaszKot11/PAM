@@ -1,6 +1,5 @@
 package com.example.university.astroweathertwo.mainActivity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
@@ -19,7 +18,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.astrocalculator.AstroCalculator;
 import com.astrocalculator.AstroDateTime;
-import com.example.university.astroweathertwo.ListActivity;
 import com.example.university.astroweathertwo.R;
 import com.example.university.astroweathertwo.SettingsActivity;
 import com.example.university.astroweathertwo.mainActivity.fragments.MoonFragment;
@@ -38,6 +36,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+
+//TODO: when tablet is rotated the list disappears - save the state ;)
+//TODO: add button to go back
 public class MainActivity extends AppCompatActivity implements SettingsFragment.OnFragmentInteractionListener {
 
 
@@ -82,15 +83,7 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
         });
         requestManager.addToRequestQueue(request);
     }
-//
-//    public void changeForAllCitiesFragment() {
-//
-//
-//
 
-//
-//
-//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

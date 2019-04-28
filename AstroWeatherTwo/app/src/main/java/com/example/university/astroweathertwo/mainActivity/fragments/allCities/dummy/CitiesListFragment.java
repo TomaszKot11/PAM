@@ -6,11 +6,12 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.example.university.astroweathertwo.R;
-import com.example.university.astroweathertwo.mainActivity.fragments.allCities.dummy.DummyContent.DummyItem;
+import com.example.university.astroweathertwo.utilities.database.entities.City;
 
 /**
  * A fragment representing a list of Items.
@@ -66,7 +67,13 @@ public class CitiesListFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyCityRecyclerViewAdapter(DummyContent.ITEMS, mListener));
+            CityContentProvider.loadCitiesFromDatabase(context);
+
+            for(City city : CityContentProvider.ITEMS) {
+                Log.e("City:", city.toString());
+            }
+
+            recyclerView.setAdapter(new CityRecyclerViewAdapter(CityContentProvider.ITEMS, mListener));
         }
         return view;
     }
@@ -89,6 +96,6 @@ public class CitiesListFragment extends Fragment {
 
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onListFragmentInteraction(City item);
     }
 }

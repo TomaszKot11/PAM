@@ -1,28 +1,23 @@
 package com.example.university.astroweathertwo.mainActivity.fragments.allCities.dummy;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import com.example.university.astroweathertwo.R;
 import com.example.university.astroweathertwo.mainActivity.fragments.allCities.dummy.CitiesListFragment.OnListFragmentInteractionListener;
-import com.example.university.astroweathertwo.mainActivity.fragments.allCities.dummy.DummyContent.DummyItem;
+import com.example.university.astroweathertwo.utilities.database.entities.City;
 
 import java.util.List;
 
-/**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
- * specified {@link OnListFragmentInteractionListener}.
- * TODO: Replace the implementation with code for your data type.
- */
-public class MyCityRecyclerViewAdapter extends RecyclerView.Adapter<MyCityRecyclerViewAdapter.ViewHolder> {
+public class CityRecyclerViewAdapter extends RecyclerView.Adapter<CityRecyclerViewAdapter.ViewHolder> {
 
-    private final List<DummyItem> mValues;
+    private List<City> mValues;
     private final OnListFragmentInteractionListener mListener;
 
-    public MyCityRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
+    public CityRecyclerViewAdapter(List<City> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
@@ -36,9 +31,18 @@ public class MyCityRecyclerViewAdapter extends RecyclerView.Adapter<MyCityRecycl
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
+
+        for(int i = 0 ; i < 50 ; i ++) {
+            Log.e("witam", mValues.get(position).toString());
+        }
+
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+        holder.cityNameTextView.setText(mValues.get(position).getName());
+        holder.cityCountryCodeTextView.setText(mValues.get(position).getCountryCode());
+        holder.cityWoeidCodeTextView.setText(mValues.get(position).getWoeid());
+
+        //TODO: figure this out
+        //holder.cityDatabaseIdTextView.setText(mValues.get(position).getId());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,20 +63,24 @@ public class MyCityRecyclerViewAdapter extends RecyclerView.Adapter<MyCityRecycl
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView mIdView;
-        public final TextView mContentView;
-        public DummyItem mItem;
+        public final TextView cityNameTextView;
+        public final TextView cityCountryCodeTextView;
+        public final TextView cityDatabaseIdTextView;
+        public final TextView cityWoeidCodeTextView;
+        public City mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.item_number);
-            mContentView = (TextView) view.findViewById(R.id.content);
+            cityNameTextView = view.findViewById(R.id.city_name_text_view);
+            cityCountryCodeTextView = view.findViewById(R.id.city_country_code_text_view);
+            cityDatabaseIdTextView = view.findViewById(R.id.city_database_id_text_view);
+            cityWoeidCodeTextView = view.findViewById(R.id.city_woeid_code_text_view);
         }
 
         @Override
         public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            return super.toString() + " '" + cityCountryCodeTextView.getText() + "'";
         }
     }
 }
