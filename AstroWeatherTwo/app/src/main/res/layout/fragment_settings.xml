@@ -119,4 +119,51 @@
 
         </android.support.design.widget.TextInputLayout>
     </TableRow>
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:gravity="center_horizontal">
+
+    <TextView
+            android:text="@string/add_favourite_city"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textViewFavouriteCitiess"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="16dp"/>
+    </TableRow>
+
+    <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp">
+
+        <android.support.design.widget.TextInputLayout
+                android:layout_width="206dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"
+                android:id="@+id/favouriteCityTextInputLayout">
+
+            <android.support.design.widget.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id='@+id/favouriteCityInputEditText'
+                    android:hint="@string/favourite_city_hint"
+                    android:inputType="numberDecimal" />
+
+        </android.support.design.widget.TextInputLayout>
+        <Button
+                android:text="@string/longitude"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/buttonAddFavouriteCity"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="16dp"/>
+    </TableRow>
+
 </TableLayout>

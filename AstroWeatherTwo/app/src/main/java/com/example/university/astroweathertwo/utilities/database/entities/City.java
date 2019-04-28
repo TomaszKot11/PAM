@@ -6,6 +6,8 @@ public class City {
     private String countryCode;
     private String woeid;
 
+    public City() { }
+
     public City(String name, String countryCode, String woeid) {
         this.name = name;
         this.countryCode = countryCode;
