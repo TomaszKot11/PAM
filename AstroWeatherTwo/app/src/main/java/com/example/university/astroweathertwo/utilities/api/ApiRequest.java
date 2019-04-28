@@ -62,7 +62,8 @@ public class ApiRequest<T> extends JsonRequest<T>  {
 
     @Override
     public String getUrl() {
-        return baseUrl + "?location=sunnyvale,ca&format=json";
+        //"?location=sunnyvale,ca&format=json"
+        return baseUrl + "?location=lodz,pl&format=json";
     }
 
     @Override
