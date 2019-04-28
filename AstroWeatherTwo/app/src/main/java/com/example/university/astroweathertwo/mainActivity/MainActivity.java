@@ -1,10 +1,12 @@
 package com.example.university.astroweathertwo.mainActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,11 +19,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.astrocalculator.AstroCalculator;
 import com.astrocalculator.AstroDateTime;
+import com.example.university.astroweathertwo.ListActivity;
 import com.example.university.astroweathertwo.R;
 import com.example.university.astroweathertwo.SettingsActivity;
 import com.example.university.astroweathertwo.mainActivity.fragments.MoonFragment;
 import com.example.university.astroweathertwo.mainActivity.fragments.SettingsFragment;
 import com.example.university.astroweathertwo.mainActivity.fragments.SunFragment;
+import com.example.university.astroweathertwo.mainActivity.fragments.allCities.dummy.CitiesListFragment;
 import com.example.university.astroweathertwo.utilities.ProjectConstants;
 import com.example.university.astroweathertwo.utilities.ScreenUtilities;
 import com.example.university.astroweathertwo.utilities.Settings;
@@ -55,6 +59,8 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
     public void onStart() {
         super.onStart();
 
+
+        //TODO: remove it to another place
         ApiRequester requestManager = ApiRequester.getInstance(this);
         ApiRequest request = new ApiRequest(Request.Method.GET, null, null, new Response.Listener() {
             @Override
@@ -76,8 +82,15 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
         });
         requestManager.addToRequestQueue(request);
     }
+//
+//    public void changeForAllCitiesFragment() {
+//
+//
+//
 
-
+//
+//
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -283,6 +296,24 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
             for (SunMoonRefreshableUI subscriber : subscribersList) {
                 subscriber.settingsRefreshUI(bundle);
             }
+        }
+    }
+
+    @Override
+    public void citiesListClicked() {
+        switch(this.screenOrientation) {
+            case PHONE_LANDSAPE:
+            case PHONE_PORTRAIT:
+                break;
+            case TABLET_LANDSAPE:
+            case TABLET_PORTRAIT:
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+
+                CitiesListFragment citiesListFragment = new CitiesListFragment();
+                ft.replace(R.id.fragment_settings, citiesListFragment);
+
+                ft.commit();
+                break;
         }
     }
 

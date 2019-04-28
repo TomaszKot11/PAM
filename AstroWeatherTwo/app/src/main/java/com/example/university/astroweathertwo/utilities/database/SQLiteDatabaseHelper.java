@@ -10,6 +10,7 @@ import com.example.university.astroweathertwo.utilities.database.entities.City;
 import java.util.LinkedList;
 import java.util.List;
 
+// https://medium.com/@ssaurel/learn-to-save-data-with-sqlite-on-android-b11a8f7718d3
 public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "AstroWeatherTwoDB";
@@ -20,9 +21,18 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_WOEID = "woeid";
     private static final String[] COLUMNS = { KEY_ID, KEY_NAME, KEY_COUNTRY_CODE, KEY_WOEID };
 
+    private static SQLiteDatabaseHelper instance = null;
 
-    public SQLiteDatabaseHelper(Context context) {
+
+    private SQLiteDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    }
+
+    public static SQLiteDatabaseHelper getInstance(Context context) {
+        if(instance == null)
+            instance = new SQLiteDatabaseHelper(context);
+
+        return instance;
     }
 
     @Override

@@ -35,4 +35,7 @@ public class SettingsActivity extends AppCompatActivity implements SettingsFragm
     public void onFragmentInteraction(Settings settings) {
         SharedPreferencesUtility.writeSharedPreferences(this, settings);
     }
+
+    @Override
+    public void citiesListClicked() { }
 }

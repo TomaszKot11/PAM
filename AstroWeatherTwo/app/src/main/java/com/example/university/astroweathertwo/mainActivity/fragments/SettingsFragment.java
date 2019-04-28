@@ -1,8 +1,8 @@
 package com.example.university.astroweathertwo.mainActivity.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
@@ -13,14 +13,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
-import android.widget.Toast;
+import android.widget.*;
+import com.example.university.astroweathertwo.ListActivity;
 import com.example.university.astroweathertwo.R;
+import com.example.university.astroweathertwo.SettingsActivity;
+import com.example.university.astroweathertwo.mainActivity.MainActivity;
 import com.example.university.astroweathertwo.utilities.ProjectConstants;
 import com.example.university.astroweathertwo.utilities.Settings;
 import com.example.university.astroweathertwo.utilities.SharedPreferencesUtility;
+import com.example.university.astroweathertwo.utilities.database.SQLiteDatabaseHelper;
+import com.example.university.astroweathertwo.utilities.database.entities.City;
+
+import java.util.List;
 
 public class SettingsFragment extends Fragment {
 
@@ -34,8 +38,14 @@ public class SettingsFragment extends Fragment {
     private boolean canWatch = false;
     private TextInputEditText latitudeEditText;
     private TextInputEditText longitutdeEditText;
+    private TextInputEditText favouriteCityEditText;
+
+    private Button favouriteAddCityButton;
+    private Button showAllCitiesButton;
+
     private String previousLatitudeValue;
     private String previousLongitudeValue;
+
 
     public SettingsFragment() {
         // Required empty public constructor
@@ -85,6 +95,7 @@ public class SettingsFragment extends Fragment {
 
         latitudeEditText = getView().findViewById(R.id.latitudeInputEditText);
         longitutdeEditText = getView().findViewById(R.id.longitudeInputEditText);
+        favouriteCityEditText = getView().findViewById(R.id.favourite_city_input_edit_text);
 
         this.spinnerValueArrayAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.refreshing_numerical_values, android.R.layout.simple_spinner_item);
         this.spinnerUnitsArrayAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.refreshing_units, android.R.layout.simple_spinner_item);
@@ -95,10 +106,64 @@ public class SettingsFragment extends Fragment {
         this.previousLatitudeValue = String.valueOf(SharedPreferencesUtility.getLatitude(getActivity()));
         this.previousLongitudeValue = String.valueOf(SharedPreferencesUtility.getLongitude(getActivity()));
 
+        favouriteAddCityButton = getView().findViewById(R.id.button_add_favourite_city);
+        showAllCitiesButton = getView().findViewById(R.id.button_see_all_cities);
 
         configureActionListenersForControls();
 
+        configureSaveToDatabaseButtonClick();
+
+        configureShowAllCitiesClick();
+
+
+        getAllCities();
+
     }
+
+
+    private void configureShowAllCitiesClick() {
+//        MainActivity mainActivity = (MainActivity)getActivity();
+//        mainActivity.changeForAllCitiesFragment();
+        showAllCitiesButton.setOnClickListener(v -> {
+            if(SettingsFragment.this.getActivity() instanceof SettingsActivity) {
+                Intent intent = new Intent(getActivity(), ListActivity.class);
+                startActivity(intent);
+            } else if(SettingsFragment.this.getActivity() instanceof  MainActivity) {
+                SettingsFragment.this.mListener.citiesListClicked();
+            }
+        });
+
+    }
+
+
+    private void configureSaveToDatabaseButtonClick() {
+        this.favouriteAddCityButton.setOnClickListener(v -> {
+            SQLiteDatabaseHelper sqLiteDatabaseHelper = SQLiteDatabaseHelper.getInstance(getActivity());
+
+            //TODO: in the background?
+            //TODO: real data!
+            //TODO: validation that city is valid
+            City city = new City(favouriteCityEditText.getText().toString(), favouriteAddCityButton.getText().toString(), "123213");
+
+            sqLiteDatabaseHelper.addCity(city);
+        });
+    }
+
+
+    private void getAllCities() {
+        SQLiteDatabaseHelper sqLiteDatabaseHelper = SQLiteDatabaseHelper.getInstance(getActivity());
+
+        List<City> cities = sqLiteDatabaseHelper.allCities();
+
+
+        for(City city : cities) {
+            Log.e("City", cities.toString());
+        }
+    }
+
+
+
+
 
     private void assingCharAdaptersToSpinners(Spinner spinner, ArrayAdapter<CharSequence> arrayAdapter) {
         // Specify the layout to use when the list of choices appears
@@ -237,14 +302,6 @@ public class SettingsFragment extends Fragment {
 
         value = settings.getString(ProjectConstants.PREFERENCES_LONGITUTDE_KEY, ProjectConstants.DMCS_LONGITUDE);
         longitutdeEditText.setText(value);
-
-        Log.e("LONGITUDE:", String.valueOf(value));
-        Log.e("LONGITUDE:", String.valueOf(value));
-        Log.e("LONGITUDE:", String.valueOf(value));
-        Log.e("LONGITUDE:", String.valueOf(value));
-        Log.e("LONGITUDE:", String.valueOf(value));
-        Log.e("LONGITUDE:", String.valueOf(value));
-        Log.e("LONGITUDE:", String.valueOf(value));
     }
 
     @Override
@@ -280,5 +337,6 @@ public class SettingsFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Settings settings);
+        void citiesListClicked();
     }
 }
