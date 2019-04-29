@@ -14,7 +14,9 @@ public class SharedPreferencesUtility {
         int timeValue = Integer.parseInt(sharedPreferences.getString(ProjectConstants.PREFENCES_TIME_VALUE_KEY, "15"));
         String timeUnit = sharedPreferences.getString(ProjectConstants.PREFERNCE_TIME_UNIT_KEY, "seconds");
 
-        return new Settings(latitude, longitutde, timeValue, timeUnit);
+        String localizationString = sharedPreferences.getString(ProjectConstants.PREFERENCES_LOCALIZATION_STRING_KEY, "lodz,pl");
+
+        return new Settings(latitude, longitutde, timeValue, timeUnit, localizationString);
     }
 
 
@@ -47,6 +49,12 @@ public class SharedPreferencesUtility {
         return Double.parseDouble(sharedPreferences.getString(ProjectConstants.PREFERENCE_LATITTUDE_KEY, ProjectConstants.DMCS_LATITUDE));
     }
 
+    public static String getLocalizationString(Activity activity) {
+        SharedPreferences sharedPreferences = activity.getSharedPreferences(ProjectConstants.SHARED_PREFERENCES_NAME, 0);
+
+        return sharedPreferences.getString(ProjectConstants.PREFERENCES_LOCALIZATION_STRING_KEY, "lodz,pl");
+    }
+
 
     public static void writeSharedPreferences(Activity activity, Settings settings) {
         SharedPreferences sharedPreferences = activity.getSharedPreferences(ProjectConstants.SHARED_PREFERENCES_NAME, 0);
@@ -56,6 +64,7 @@ public class SharedPreferencesUtility {
         editor.putString(ProjectConstants.PREFERENCE_LATITTUDE_KEY, String.valueOf(settings.getLatitude()));
         editor.putString(ProjectConstants.PREFERENCES_LONGITUTDE_KEY, String.valueOf(settings.getLongitude()));
         editor.putString(ProjectConstants.PREFERNCE_TIME_UNIT_KEY, settings.getTimeUnit());
+        editor.putString(ProjectConstants.PREFERENCES_LOCALIZATION_STRING_KEY, settings.getWeatherLocalizationString());
 
         editor.commit();
 

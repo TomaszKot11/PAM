@@ -6,6 +6,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import com.example.university.astroweathertwo.mainActivity.fragments.MoonFragment;
 import com.example.university.astroweathertwo.mainActivity.fragments.SunFragment;
+import com.example.university.astroweathertwo.mainActivity.fragments.apiWeatherFragments.AdditionalWeatherInformationFragment;
+import com.example.university.astroweathertwo.mainActivity.fragments.apiWeatherFragments.BasicWeatherInformationFragment;
+import com.example.university.astroweathertwo.mainActivity.fragments.apiWeatherFragments.ForthcomingWeatherCondtionsFragment;
 
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
@@ -33,6 +36,18 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
                 moonFragment.setArguments(bundle);
 
                 return moonFragment;
+            case 2:
+                BasicWeatherInformationFragment basicWeatherInformationFragment = new BasicWeatherInformationFragment();
+
+                return basicWeatherInformationFragment;
+            case 3:
+                AdditionalWeatherInformationFragment additionalWeatherInformationFragment = new AdditionalWeatherInformationFragment();
+
+                return additionalWeatherInformationFragment;
+            case 4:
+                ForthcomingWeatherCondtionsFragment forthcomingWeatherCondtionsFragment = new ForthcomingWeatherCondtionsFragment();
+
+                return forthcomingWeatherCondtionsFragment;
             default:
                 return null;
         }
@@ -46,6 +61,12 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
                 return "Sun astro";
             case 1:
                 return "Moon astro";
+            case 2:
+                return "Basic Weather Info";
+            case 3:
+                return "Additional Weather Info";
+            case 4:
+                return "Forthcoming Weather Info";
             default:
                 return null;
         }
@@ -53,6 +74,6 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 2;
+        return 5;
     }
 }

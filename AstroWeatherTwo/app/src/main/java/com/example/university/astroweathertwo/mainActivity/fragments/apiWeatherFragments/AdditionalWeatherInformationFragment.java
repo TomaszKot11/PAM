@@ -1,4 +1,4 @@
-package com.example.university.astroweathertwo.mainActivity.fragments;
+package com.example.university.astroweathertwo.mainActivity.fragments.apiWeatherFragments;
 
 import android.content.Context;
 import android.net.Uri;
@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import com.example.university.astroweathertwo.R;
 
-public class ForthcomingWeatherCondtionsFragment extends Fragment {
+public class AdditionalWeatherInformationFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -22,7 +22,7 @@ public class ForthcomingWeatherCondtionsFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public ForthcomingWeatherCondtionsFragment() {
+    public AdditionalWeatherInformationFragment() {
         // Required empty public constructor
     }
 
@@ -32,11 +32,11 @@ public class ForthcomingWeatherCondtionsFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment ForthcomingWeatherCondtionsFragment.
+     * @return A new instance of fragment AdditionalWeatherInformationFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ForthcomingWeatherCondtionsFragment newInstance(String param1, String param2) {
-        ForthcomingWeatherCondtionsFragment fragment = new ForthcomingWeatherCondtionsFragment();
+    public static AdditionalWeatherInformationFragment newInstance(String param1, String param2) {
+        AdditionalWeatherInformationFragment fragment = new AdditionalWeatherInformationFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -57,7 +57,7 @@ public class ForthcomingWeatherCondtionsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_forthcoming_weather_condtions, container, false);
+        return inflater.inflate(R.layout.fragment_additional_weather_information, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -72,9 +72,6 @@ public class ForthcomingWeatherCondtionsFragment extends Fragment {
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
         }
     }
 

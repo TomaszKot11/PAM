@@ -8,6 +8,7 @@ public final class ProjectConstants {
     public static final String PREFERNCE_TIME_UNIT_KEY = "TIME_UNIT";
     public static final String PREFERENCES_LONGITUTDE_KEY = "LONGITUDE_KEY";
     public static final String PREFERENCE_LATITTUDE_KEY = "LATITUDE_KEY";
+    public static final String PREFERENCES_LOCALIZATION_STRING_KEY = "LOCALIZATION_STRING";
     public static String DMCS_LONGITUDE = "19.4528";
     public static String DMCS_LATITUDE = "51.7460238";
 

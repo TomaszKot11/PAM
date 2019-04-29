@@ -1,4 +1,4 @@
-package com.example.university.astroweathertwo.mainActivity.fragments;
+package com.example.university.astroweathertwo.mainActivity.fragments.apiWeatherFragments;
 
 import android.content.Context;
 import android.net.Uri;
@@ -73,9 +73,6 @@ public class BasicWeatherInformationFragment extends Fragment {
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
         }
     }
 

@@ -115,11 +115,6 @@ public class SettingsFragment extends Fragment {
 
         ArrayList<String> arr = getLocalizationFromDatabase();
 
-
-        for(int i = 0 ; i < 50 ; i++) {
-            Log.e("Arr:", String.valueOf(arr.size()));
-        }
-
         this.spinnerWeatherLocalizationAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, arr);
 
         spinnerWeatherLocalizationAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -189,6 +184,7 @@ public class SettingsFragment extends Fragment {
 
     private void performSavingFavouriteCity() {
         //TODO: in the background?
+        //TODO: avoid duplication of localizations
         String location = favouriteCityEditText.getText().toString();
 
         if(!location.matches("[A-Za-z]+,[A-Za-z]+")) {
@@ -334,6 +330,21 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
         });
+
+        spinnerWeatherLocalization.setOnItemSelectedListener(
+                new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        if(SettingsFragment.this.mListener != null) {
+                            Settings settings = SettingsFragment.this.produceSettingsFromControls();
+                            SettingsFragment.this.mListener.onFragmentInteraction(settings);
+                        }
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {}
+                }
+        );
     }
 
 
@@ -352,10 +363,16 @@ public class SettingsFragment extends Fragment {
     private Settings produceSettingsFromControls() {
         Settings settings;
         try {
+            String localizationString = "lodz,pl";
+            if(spinnerWeatherLocalization.getSelectedItem() != null) {
+                localizationString = spinnerWeatherLocalization.getSelectedItem().toString();
+            }
+
             settings = new Settings(Double.parseDouble(longitutdeEditText.getText().toString()),
                     Double.parseDouble(latitudeEditText.getText().toString()),
                     Integer.parseInt(spinnerValue.getSelectedItem().toString()),
-                    spinnerUnits.getSelectedItem().toString());
+                    spinnerUnits.getSelectedItem().toString(),
+                    localizationString);
 
             return settings;
         } catch(NumberFormatException e) {
@@ -363,7 +380,7 @@ public class SettingsFragment extends Fragment {
             Log.e("[SettingsFragment]", e.toString());
         }
 
-        return new Settings(Double.parseDouble(ProjectConstants.DMCS_LONGITUDE), Double.parseDouble(ProjectConstants.DMCS_LATITUDE), 5, "seconds");
+        return new Settings(Double.parseDouble(ProjectConstants.DMCS_LONGITUDE), Double.parseDouble(ProjectConstants.DMCS_LATITUDE), 5, "seconds", "lodz,pl");
     }
 
 
@@ -378,6 +395,12 @@ public class SettingsFragment extends Fragment {
 
         position = spinnerValueArrayAdapter.getPosition(settings.getString(ProjectConstants.PREFENCES_TIME_VALUE_KEY, "15"));
         spinnerValue.setSelection(position);
+
+        String weatherLocalization = settings.getString(ProjectConstants.PREFERENCES_LOCALIZATION_STRING_KEY, "NONE");
+        if(!weatherLocalization.equals("NONE")) {
+            position = spinnerWeatherLocalizationAdapter.getPosition(weatherLocalization);
+            spinnerWeatherLocalization.setSelection(position);
+        }
 
         String value = settings.getString(ProjectConstants.PREFERENCE_LATITTUDE_KEY, ProjectConstants.DMCS_LATITUDE);
         latitudeEditText.setText(value);
