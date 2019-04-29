@@ -205,7 +205,6 @@ public class SettingsFragment extends Fragment {
 
         List<City> cities = sqLiteDatabaseHelper.allCities();
 
-
         for(City city : cities) {
             Log.e("City", cities.toString());
         }
