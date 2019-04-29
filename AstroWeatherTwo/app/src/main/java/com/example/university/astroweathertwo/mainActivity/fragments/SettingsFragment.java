@@ -14,6 +14,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.example.university.astroweathertwo.CitiesListActivity;
 import com.example.university.astroweathertwo.R;
 import com.example.university.astroweathertwo.SettingsActivity;
@@ -21,8 +24,12 @@ import com.example.university.astroweathertwo.mainActivity.MainActivity;
 import com.example.university.astroweathertwo.utilities.ProjectConstants;
 import com.example.university.astroweathertwo.utilities.Settings;
 import com.example.university.astroweathertwo.utilities.SharedPreferencesUtility;
+import com.example.university.astroweathertwo.utilities.api.ApiRequest;
+import com.example.university.astroweathertwo.utilities.api.ApiRequester;
 import com.example.university.astroweathertwo.utilities.database.SQLiteDatabaseHelper;
 import com.example.university.astroweathertwo.utilities.database.entities.City;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -42,6 +49,7 @@ public class SettingsFragment extends Fragment {
 
     private Button favouriteAddCityButton;
     private Button showAllCitiesButton;
+    private Button forceRefreshButton;
 
     private String previousLatitudeValue;
     private String previousLongitudeValue;
@@ -108,6 +116,7 @@ public class SettingsFragment extends Fragment {
 
         favouriteAddCityButton = getView().findViewById(R.id.button_add_favourite_city);
         showAllCitiesButton = getView().findViewById(R.id.button_see_all_cities);
+        forceRefreshButton = getView().findViewById(R.id.btn_refresh_data);
 
         configureActionListenersForControls();
 
@@ -115,15 +124,22 @@ public class SettingsFragment extends Fragment {
 
         configureShowAllCitiesClick();
 
+        configureForceRefreshDataClick();
 
         getAllCities();
 
     }
 
 
+
+    private void configureForceRefreshDataClick() {
+        forceRefreshButton.setOnClickListener(v -> {
+            //TODO: send here api request
+
+        });
+    }
+
     private void configureShowAllCitiesClick() {
-//        MainActivity mainActivity = (MainActivity)getActivity();
-//        mainActivity.changeForAllCitiesFragment();
         showAllCitiesButton.setOnClickListener(v -> {
             if(SettingsFragment.this.getActivity() instanceof SettingsActivity) {
                 Intent intent = new Intent(getActivity(), CitiesListActivity.class);
@@ -137,18 +153,52 @@ public class SettingsFragment extends Fragment {
 
 
     private void configureSaveToDatabaseButtonClick() {
-        this.favouriteAddCityButton.setOnClickListener(v -> {
-            SQLiteDatabaseHelper sqLiteDatabaseHelper = SQLiteDatabaseHelper.getInstance(getActivity());
-
-            //TODO: in the background?
-            //TODO: real data!
-            //TODO: validation that city is valid
-            City city = new City(favouriteCityEditText.getText().toString(), favouriteAddCityButton.getText().toString(), "123213");
-
-            sqLiteDatabaseHelper.addCity(city);
-        });
+        this.favouriteAddCityButton.setOnClickListener(v -> SettingsFragment.this.performSavingFavouriteCity());
     }
 
+
+    private void performSavingFavouriteCity() {
+        //TODO: in the background?
+        String location = favouriteCityEditText.getText().toString();
+
+        if(!location.matches("[A-Za-z]+,[A-Za-z]+")) {
+            Toast.makeText(getActivity(), "Not valid location", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        ApiRequester requestManager = ApiRequester.getInstance(getActivity());
+
+        ApiRequest request = new ApiRequest(Request.Method.GET, null, null, location,  new Response.Listener() {
+            @Override
+            public void onResponse(Object response) {
+                try {
+                    int woeid = ((JSONObject) response).getJSONObject("location").getInt("woeid");
+
+                    Log.e("Response", ((JSONObject)response).toString());
+                    Log.e(location, String.valueOf(woeid));
+
+                    String[] cityCode = location.split(",");
+
+                    City city = new City(cityCode[0], cityCode[1], String.valueOf(woeid), location);
+                    SQLiteDatabaseHelper sqLiteDatabaseHelper = SQLiteDatabaseHelper.getInstance(getActivity());
+                    sqLiteDatabaseHelper.addCity(city);
+
+                    Toast.makeText(SettingsFragment.this.getActivity(), "Favourite city saved!", Toast.LENGTH_LONG).show();
+                } catch(JSONException e) {
+                    Toast.makeText(getActivity(), "Not valid location", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // Add error handling here
+                Log.e("API error: ", "Error while woeid validatiion API call in SettingsFragment");
+                Toast.makeText(getActivity(), "Not valid location", Toast.LENGTH_SHORT).show();;
+            }
+        });
+
+        requestManager.addToRequestQueue(request);
+    }
 
     private void getAllCities() {
         SQLiteDatabaseHelper sqLiteDatabaseHelper = SQLiteDatabaseHelper.getInstance(getActivity());

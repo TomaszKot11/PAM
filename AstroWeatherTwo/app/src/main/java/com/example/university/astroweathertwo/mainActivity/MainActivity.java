@@ -10,12 +10,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.astrocalculator.AstroCalculator;
 import com.astrocalculator.AstroDateTime;
 import com.example.university.astroweathertwo.R;
@@ -28,8 +24,6 @@ import com.example.university.astroweathertwo.utilities.ProjectConstants;
 import com.example.university.astroweathertwo.utilities.ScreenUtilities;
 import com.example.university.astroweathertwo.utilities.Settings;
 import com.example.university.astroweathertwo.utilities.SharedPreferencesUtility;
-import com.example.university.astroweathertwo.utilities.api.ApiRequest;
-import com.example.university.astroweathertwo.utilities.api.ApiRequester;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -60,28 +54,24 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
     public void onStart() {
         super.onStart();
 
+        String location = "lodz,pl";
 
-        //TODO: remove it to another place
-        ApiRequester requestManager = ApiRequester.getInstance(this);
-        ApiRequest request = new ApiRequest(Request.Method.GET, null, null, new Response.Listener() {
-            @Override
-            public void onResponse(Object response) {
-                // Add success logic here
-                for(int i = 0; i < 50; i++) {
-                    if(response != null) {
-                        Log.e("Response!",  response.toString());
-                    }
-                }
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                // Add error handling here
-                Log.e("API error: ", "#onErrorResponse in MainActivity");
-            }
-        });
-        requestManager.addToRequestQueue(request);
+//        ApiRequester requestManager = ApiRequester.getInstance(this);
+//
+//        ApiRequest request = new ApiRequest(Request.Method.GET, null, null, location,  new Response.Listener() {
+//            @Override
+//            public void onResponse(Object response) {
+//                Log.e("Response", ((JSONObject)response).toString());
+//            }
+//        }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                // Add error handling here
+//                Log.e("API error: ", "#onErrorResponse in MainActivity");
+//            }
+//        });
+//
+//        requestManager.addToRequestQueue(request);
     }
 
 

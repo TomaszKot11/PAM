@@ -32,13 +32,16 @@ import java.util.Map;
 
 public class ApiRequest<T> extends JsonRequest<T>  {
     // https://medium.com/code-better/hiding-api-keys-from-your-android-repository-b23f5598b906
-    final String appId =  BuildConfig.AppId;
-    final String CONSUMER_KEY = BuildConfig.ConsumerKey;
-    final String CONSUMER_SECRET = BuildConfig.ConsumerSecret;
-    final String baseUrl = BuildConfig.BaseUrl;
+    private final String appId =  BuildConfig.AppId;
+    private final String CONSUMER_KEY = BuildConfig.ConsumerKey;
+    private final String CONSUMER_SECRET = BuildConfig.ConsumerSecret;
+    private final String baseUrl = BuildConfig.BaseUrl;
+    private String location = "lodz,pl";
 
-    public ApiRequest(int method, String url, String requestBody, Response.Listener<T> listener, Response.ErrorListener errorListener) {
+    public ApiRequest(int method, String url, String requestBody, String location, Response.Listener<T> listener, Response.ErrorListener errorListener) {
         super(method, url, requestBody, listener, errorListener);
+        if(location != null)
+            this.location = location;
     }
 
     @Override
@@ -60,10 +63,17 @@ public class ApiRequest<T> extends JsonRequest<T>  {
         return headers;
     }
 
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+
     @Override
     public String getUrl() {
         //"?location=sunnyvale,ca&format=json"
-        return baseUrl + "?location=lodz,pl&format=json";
+       // Log.e("Adres URL", baseUrl + "?location="+location +"&format=json");
+        return baseUrl + "?location="+ location + "&format=json";
     }
 
     @Override
@@ -89,9 +99,6 @@ public class ApiRequest<T> extends JsonRequest<T>  {
     private T parseResponse(String jsonObject) throws JSONException {
 
         JSONObject jsonObject1 = new JSONObject(jsonObject);
-
-        for(int i = 0 ; i < 50 ; i++)
-            Log.e("JSON OBJECT: ", jsonObject1.toString());
 
         //getJSONObject() gwtJSONArray() get()
 

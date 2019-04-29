@@ -3,19 +3,25 @@ package com.example.university.astroweathertwo.utilities.database.entities;
 public class City {
     private int id;
     private String name;
+    private String locationString;
     private String countryCode;
     private String woeid;
 
     public City() { }
 
-    public City(String name, String countryCode, String woeid) {
+    public City(String name, String countryCode, String woeid, String locationString) {
         this.name = name;
         this.countryCode = countryCode;
         this.woeid = woeid;
+        this.locationString = locationString;
     }
 
     public int getId() {
         return id;
+    }
+
+    public String getLocationString() {
+        return locationString;
     }
 
     public String getName() {
@@ -28,6 +34,10 @@ public class City {
 
     public String getWoeid() {
         return woeid;
+    }
+
+    public void setLocationString(String locationString) {
+        this.locationString = locationString;
     }
 
     public void setId(int id) {
@@ -51,6 +61,7 @@ public class City {
         return "City{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", locationString='" + locationString + '\'' +
                 ", countryCode='" + countryCode + '\'' +
                 ", woeid='" + woeid + '\'' +
                 '}';

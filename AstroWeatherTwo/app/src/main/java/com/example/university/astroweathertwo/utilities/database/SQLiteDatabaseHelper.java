@@ -18,8 +18,9 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_ID = "id";
     private static final String KEY_NAME = "name";
     private static final String KEY_COUNTRY_CODE = "country_code";
+    private static final String KEY_LOCATION_STRING = "location_string";
     private static final String KEY_WOEID = "woeid";
-    private static final String[] COLUMNS = { KEY_ID, KEY_NAME, KEY_COUNTRY_CODE, KEY_WOEID };
+    private static final String[] COLUMNS = { KEY_ID, KEY_NAME, KEY_COUNTRY_CODE, KEY_WOEID, KEY_LOCATION_STRING };
 
     private static SQLiteDatabaseHelper instance = null;
 
@@ -39,7 +40,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String CREATION_TABLE = "CREATE TABLE Cities ( "
                 + "id INTEGER PRIMARY KEY AUTOINCREMENT, " + "name TEXT, "
-                + "country_code TEXT, " + "woeid TEXT )";
+                + "country_code TEXT, " + "woeid TEXT, location_string TEXT )";
 
         db.execSQL(CREATION_TABLE);
     }
@@ -77,6 +78,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
         city.setName(cursor.getString(1));
         city.setCountryCode(cursor.getString(2));
         city.setWoeid(cursor.getString(3));
+        city.setLocationString(cursor.getString(4));
 
         return city;
     }
@@ -87,16 +89,18 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
         String query = "SELECT  * FROM " + TABLE_NAME;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
-        City player = null;
+        City city = null;
 
         if (cursor.moveToFirst()) {
             do {
-                player = new City();
-                player.setId(Integer.parseInt(cursor.getString(0)));
-                player.setName(cursor.getString(1));
-                player.setCountryCode(cursor.getString(2));
-                player.setWoeid(cursor.getString(3));
-                players.add(player);
+                city = new City();
+                city.setId(Integer.parseInt(cursor.getString(0)));
+                city.setName(cursor.getString(1));
+                city.setCountryCode(cursor.getString(2));
+                city.setWoeid(cursor.getString(3));
+                city.setLocationString(cursor.getString(4));
+                players.add(city);
+
             } while (cursor.moveToNext());
         }
 
@@ -109,6 +113,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
         values.put(KEY_NAME, city.getName());
         values.put(KEY_COUNTRY_CODE, city.getCountryCode());
         values.put(KEY_WOEID, city.getWoeid());
+        values.put(KEY_LOCATION_STRING, city.getLocationString());
         // insert
         db.insert(TABLE_NAME,null, values);
         db.close();
@@ -120,6 +125,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
         values.put(KEY_NAME, city.getName());
         values.put(KEY_COUNTRY_CODE, city.getCountryCode());
         values.put(KEY_WOEID, city.getWoeid());
+        values.put(KEY_LOCATION_STRING, city.getLocationString());
 
         int i = db.update(TABLE_NAME, // table
                 values, // column/value
