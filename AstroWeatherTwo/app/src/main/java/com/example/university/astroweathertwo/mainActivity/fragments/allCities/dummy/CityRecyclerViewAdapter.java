@@ -1,13 +1,16 @@
 package com.example.university.astroweathertwo.mainActivity.fragments.allCities.dummy;
 
+import android.os.strictmode.SqliteObjectLeakedViolation;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import com.example.university.astroweathertwo.R;
 import com.example.university.astroweathertwo.mainActivity.fragments.allCities.dummy.CitiesListFragment.OnListFragmentInteractionListener;
+import com.example.university.astroweathertwo.utilities.database.SQLiteDatabaseHelper;
 import com.example.university.astroweathertwo.utilities.database.entities.City;
 
 import java.util.List;
@@ -67,6 +70,7 @@ public class CityRecyclerViewAdapter extends RecyclerView.Adapter<CityRecyclerVi
         public final TextView cityCountryCodeTextView;
         public final TextView cityDatabaseIdTextView;
         public final TextView cityWoeidCodeTextView;
+        public final Button btnDeleteFavouriteCity;
         public City mItem;
 
         public ViewHolder(View view) {
@@ -76,6 +80,16 @@ public class CityRecyclerViewAdapter extends RecyclerView.Adapter<CityRecyclerVi
             cityCountryCodeTextView = view.findViewById(R.id.city_country_code_text_view);
             cityDatabaseIdTextView = view.findViewById(R.id.city_database_id_text_view);
             cityWoeidCodeTextView = view.findViewById(R.id.city_woeid_code_text_view);
+            btnDeleteFavouriteCity = view.findViewById(R.id.btn_delete_city);
+
+            btnDeleteFavouriteCity.setOnClickListener(v -> {
+                SQLiteDatabaseHelper sqLiteDatabaseHelper = SQLiteDatabaseHelper.getInstance(view.getContext());
+
+                sqLiteDatabaseHelper.deleteOne(mItem);
+                mValues.remove(mItem);
+
+                CityRecyclerViewAdapter.this.notifyDataSetChanged();
+            });
         }
 
         @Override
