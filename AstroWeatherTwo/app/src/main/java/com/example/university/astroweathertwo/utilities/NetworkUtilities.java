@@ -11,8 +11,8 @@ public class NetworkUtilities {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-         if(!(activeNetworkInfo != null && activeNetworkInfo.isConnected()) {
-            Toast.makeText(context, "Network connection not available", Toast.LENGTH_LONG).show()
+         if(!(activeNetworkInfo != null && activeNetworkInfo.isConnected())) {
+            Toast.makeText(context, "Network connection not available", Toast.LENGTH_LONG).show();
             return false;
         }
 

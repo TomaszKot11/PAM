@@ -166,8 +166,7 @@
     </TableRow>
     <TableRow
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:gravity="center_horizontal">
+            android:layout_height="0dp">
 
         <Button
                 android:text="@string/button_see_all_cities"
@@ -176,6 +175,14 @@
                 android:id="@+id/button_see_all_cities"
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="16dp"/>
+        <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_refresh_data"
+                android:text="@string/refresh_data_button"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="16dp" />
+
     </TableRow>
 
 
