@@ -18,6 +18,7 @@
     <string name="button_see_all_cities">See all cities</string>
     <string name="delete_favourite_city_brn">Delete from list</string>
     <string name="refresh_data_button">Force refresh data</string>
+    <string name="label_weather_localization">Weather for:</string>
 
     <string-array name="refreshing_units">
         <item>seconds</item>

@@ -10,6 +10,7 @@ import com.example.university.astroweathertwo.utilities.database.entities.City;
 import java.util.LinkedList;
 import java.util.List;
 
+//TODO: limit somehow number of records
 // https://medium.com/@ssaurel/learn-to-save-data-with-sqlite-on-android-b11a8f7718d3
 public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;

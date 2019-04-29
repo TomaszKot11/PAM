@@ -188,7 +188,31 @@
                     android:text="@string/refresh_data_button"
                     android:layout_marginTop="10dp"
                     android:layout_marginStart="16dp" />
-
         </TableRow>
+
+        <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp">
+
+            <TextView
+                    android:text="@string/label_weather_localization"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/text_view_weather_localization"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="10dp"/>
+
+            <Spinner
+                    android:layout_width="206dp"
+                    android:layout_height="20dp"
+                    android:id="@+id/weather_localization_spinner"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="16dp"/>
+        </TableRow>
+
+
     </TableLayout>
 </ScrollView>

@@ -31,6 +31,8 @@ import com.example.university.astroweathertwo.utilities.database.entities.City;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SettingsFragment extends Fragment {
@@ -40,6 +42,8 @@ public class SettingsFragment extends Fragment {
     private ArrayAdapter<CharSequence> spinnerUnitsArrayAdapter;
     private Spinner spinnerValue;
     private ArrayAdapter<CharSequence> spinnerValueArrayAdapter;
+    private Spinner spinnerWeatherLocalization;
+    private ArrayAdapter<String> spinnerWeatherLocalizationAdapter;
     // to avoid triggering event watching on edit text when
     // text is set programmatically
     private boolean canWatch = false;
@@ -100,6 +104,7 @@ public class SettingsFragment extends Fragment {
 
         spinnerValue = getView().findViewById(R.id.time_value_spinner);
         spinnerUnits = getView().findViewById(R.id.time_unit_spinner);
+        spinnerWeatherLocalization = getView().findViewById(R.id.weather_localization_spinner);
 
         latitudeEditText = getView().findViewById(R.id.latitudeInputEditText);
         longitutdeEditText = getView().findViewById(R.id.longitudeInputEditText);
@@ -107,6 +112,18 @@ public class SettingsFragment extends Fragment {
 
         this.spinnerValueArrayAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.refreshing_numerical_values, android.R.layout.simple_spinner_item);
         this.spinnerUnitsArrayAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.refreshing_units, android.R.layout.simple_spinner_item);
+
+        ArrayList<String> arr = getLocalizationFromDatabase();
+
+
+        for(int i = 0 ; i < 50 ; i++) {
+            Log.e("Arr:", String.valueOf(arr.size()));
+        }
+
+        this.spinnerWeatherLocalizationAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, arr);
+
+        spinnerWeatherLocalizationAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerWeatherLocalization.setAdapter(spinnerWeatherLocalizationAdapter);
 
         assingCharAdaptersToSpinners(spinnerValue, spinnerValueArrayAdapter);
         assingCharAdaptersToSpinners(spinnerUnits, spinnerUnitsArrayAdapter);
@@ -128,6 +145,19 @@ public class SettingsFragment extends Fragment {
 
         getAllCities();
 
+    }
+
+    private ArrayList<String> getLocalizationFromDatabase() {
+        SQLiteDatabaseHelper sqLiteDatabaseHelper = SQLiteDatabaseHelper.getInstance(getActivity());
+
+       List<City> cities =  sqLiteDatabaseHelper.allCities();
+       ArrayList<String> charSequencesList = new ArrayList<>();
+
+       for(City city : cities) {
+            charSequencesList.add(city.getLocationString());
+       }
+
+       return charSequencesList;
     }
 
 
@@ -182,6 +212,9 @@ public class SettingsFragment extends Fragment {
                     City city = new City(cityCode[0], cityCode[1], String.valueOf(woeid), location);
                     SQLiteDatabaseHelper sqLiteDatabaseHelper = SQLiteDatabaseHelper.getInstance(getActivity());
                     sqLiteDatabaseHelper.addCity(city);
+
+                    SettingsFragment.this.spinnerWeatherLocalizationAdapter.add(city.getLocationString());
+                    SettingsFragment.this.spinnerWeatherLocalizationAdapter.notifyDataSetChanged();
 
                     Toast.makeText(SettingsFragment.this.getActivity(), "Favourite city saved!", Toast.LENGTH_LONG).show();
                 } catch(JSONException e) {
