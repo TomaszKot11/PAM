@@ -82,6 +82,10 @@ public class CityRecyclerViewAdapter extends RecyclerView.Adapter<CityRecyclerVi
             cityWoeidCodeTextView = view.findViewById(R.id.city_woeid_code_text_view);
             btnDeleteFavouriteCity = view.findViewById(R.id.btn_delete_city);
 
+            configureOnDeleteButtonClickListener(view);
+        }
+
+        private void configureOnDeleteButtonClickListener(View view) {
             btnDeleteFavouriteCity.setOnClickListener(v -> {
                 SQLiteDatabaseHelper sqLiteDatabaseHelper = SQLiteDatabaseHelper.getInstance(view.getContext());
 
