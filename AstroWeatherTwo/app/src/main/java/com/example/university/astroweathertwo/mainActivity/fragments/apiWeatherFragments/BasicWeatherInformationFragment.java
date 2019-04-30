@@ -99,7 +99,7 @@ public class BasicWeatherInformationFragment extends Fragment implements MainAct
             timeTextView.setText(timeInformation);
             temperatureTextView.setText(temperatureInformation);
             pressureTextView.setText(pressureInformation);
-            
+
         } catch(JSONException | NullPointerException e) {
             //TODO: refactor this
             Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_LONG).show();

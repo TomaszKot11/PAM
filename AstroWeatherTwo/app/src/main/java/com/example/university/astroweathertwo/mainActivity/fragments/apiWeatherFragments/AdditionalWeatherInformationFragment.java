@@ -3,14 +3,20 @@ package com.example.university.astroweathertwo.mainActivity.fragments.apiWeather
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.TextView;
+import android.widget.Toast;
 import com.example.university.astroweathertwo.R;
+import com.example.university.astroweathertwo.mainActivity.MainActivity;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-public class AdditionalWeatherInformationFragment extends Fragment {
+public class AdditionalWeatherInformationFragment extends Fragment implements MainActivity.ApiRequestObtainable {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -20,20 +26,17 @@ public class AdditionalWeatherInformationFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    private TextView windStrengthTextView;
+    private TextView windDirectionTextView;
+    private TextView humidityTextView;
+    private TextView visibilityTextView;
+
     private OnFragmentInteractionListener mListener;
 
     public AdditionalWeatherInformationFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AdditionalWeatherInformationFragment.
-     */
     // TODO: Rename and change types and number of parameters
     public static AdditionalWeatherInformationFragment newInstance(String param1, String param2) {
         AdditionalWeatherInformationFragment fragment = new AdditionalWeatherInformationFragment();
@@ -42,6 +45,17 @@ public class AdditionalWeatherInformationFragment extends Fragment {
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
+    }
+
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        windStrengthTextView = getView().findViewById(R.id.wind_strength_text_view);
+        windDirectionTextView = getView().findViewById(R.id.wind_direction_text_view);
+        humidityTextView = getView().findViewById(R.id.humidity_text_view);
+        visibilityTextView = getView().findViewById(R.id.visibility_text_view);
     }
 
     @Override
@@ -64,6 +78,29 @@ public class AdditionalWeatherInformationFragment extends Fragment {
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
+        }
+    }
+
+    @Override
+    public void refreshUI(JSONObject jsonObject) {
+        //TODO: implement me!
+        try {
+            JSONObject windObject = jsonObject.getJSONObject("current_observation").getJSONObject("wind");
+            String windStrength = String.valueOf(windObject.getDouble("speed"));
+            String windDirection = String.valueOf(windObject.getDouble("direction"));
+
+            JSONObject atmosphereObject = jsonObject.getJSONObject("atmosphere");
+            String humidity = String.valueOf(atmosphereObject.getInt("humidity"));
+            String visiblity = String.valueOf(atmosphereObject.getDouble("visibility"));
+
+            // set the labels
+            windStrengthTextView.setText(windStrength);
+            windDirectionTextView.setText(windDirection);
+            humidityTextView.setText(humidity);
+            visibilityTextView.setText(visiblity);
+
+        } catch(JSONException | NullPointerException e) {
+            Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_LONG).show();
         }
     }
 
