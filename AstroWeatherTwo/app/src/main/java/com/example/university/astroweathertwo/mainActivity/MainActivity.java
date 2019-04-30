@@ -10,8 +10,12 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.astrocalculator.AstroCalculator;
 import com.astrocalculator.AstroDateTime;
 import com.example.university.astroweathertwo.R;
@@ -24,6 +28,9 @@ import com.example.university.astroweathertwo.utilities.ProjectConstants;
 import com.example.university.astroweathertwo.utilities.ScreenUtilities;
 import com.example.university.astroweathertwo.utilities.Settings;
 import com.example.university.astroweathertwo.utilities.SharedPreferencesUtility;
+import com.example.university.astroweathertwo.utilities.api.ApiRequest;
+import com.example.university.astroweathertwo.utilities.api.ApiRequester;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -47,31 +54,43 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
     private long periodicWheatherUpdateTime;
     private enum ScreenSizeOrientation { PHONE_PORTRAIT, PHONE_LANDSAPE, TABLET_PORTRAIT, TABLET_LANDSAPE }
     private ScreenSizeOrientation screenOrientation = ScreenSizeOrientation.PHONE_PORTRAIT;
+    private List<ApiRequestObtainable> apiSubscribers = new ArrayList<>();
 
 
 
     @Override
     public void onStart() {
         super.onStart();
+        //TODO: read data from the file system
+
 
         String location = "lodz,pl";
 
-//        ApiRequester requestManager = ApiRequester.getInstance(this);
-//
-//        ApiRequest request = new ApiRequest(Request.Method.GET, null, null, location,  new Response.Listener() {
-//            @Override
-//            public void onResponse(Object response) {
-//                Log.e("Response", ((JSONObject)response).toString());
-//            }
-//        }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                // Add error handling here
-//                Log.e("API error: ", "#onErrorResponse in MainActivity");
-//            }
-//        });
-//
-//        requestManager.addToRequestQueue(request);
+        ApiRequester requestManager = ApiRequester.getInstance(this);
+
+        ApiRequest request = new ApiRequest(Request.Method.GET, null, null, location,  new Response.Listener() {
+            @Override
+            public void onResponse(Object response) {
+                for(ApiRequestObtainable ob : MainActivity.this.apiSubscribers) {
+                    ob.refreshUI((JSONObject)response);
+                    Log.e("MAIN ACTIVITY", "INSIDE SUBSCRIBERS LIST");
+                }
+
+                Log.e("Response", ((JSONObject)response).toString());
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // Add error handling here
+                Log.e("API error: ", "#onErrorResponse in MainActivity");
+            }
+        });
+
+        requestManager.addToRequestQueue(request);
+    }
+
+    public void subscribeApiListener(ApiRequestObtainable apiSubscriber) {
+        this.apiSubscribers.add(apiSubscriber);
     }
 
 
@@ -370,10 +389,14 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
 
     }
 
-    public void addSubscriberFragment(SunMoonRefreshableUI subsriber) {
+    public void addSubscriberFragment(ApiRequestObtainable subsriber) {
         this.subscribersList.add(subsriber);
     }
 
+
+    public interface ApiRequestObtainable {
+        void refreshUI(JSONObject jsonObject);
+    }
 
     public interface SunMoonRefreshableUI {
         void refreshUI(Bundle bundle, boolean isTimeUpdate, boolean isLongitudeLatitudeUpdate);

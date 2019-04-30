@@ -17,7 +17,7 @@ android {
     buildTypes {
         debug {
             buildConfigField "String", "AppId", ASTRO_WEATTHER_TWO__APP_ID
-            buildConfigField "String", "ConsumerKey", ASTRO_WEATTHER_TWO__CONSUMER_KEY
+                buildConfigField "String", "ConsumerKey", ASTRO_WEATTHER_TWO__CONSUMER_KEY
             buildConfigField "String", "ConsumerSecret", ASTRO_WEATTHER_TWO__CONSUMER_SECRET
             buildConfigField "String", "BaseUrl", ASTRO_WEATTHER_TWO__BASE_URL
         }
