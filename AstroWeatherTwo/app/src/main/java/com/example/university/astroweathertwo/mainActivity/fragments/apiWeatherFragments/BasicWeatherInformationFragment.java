@@ -33,6 +33,7 @@ public class BasicWeatherInformationFragment extends Fragment implements MainAct
     private TextView timeTextView;
     private TextView temperatureTextView;
     private TextView pressureTextView;
+    private TextView descriptionTextView;
 
 
     private OnFragmentInteractionListener mListener;
@@ -102,6 +103,7 @@ public class BasicWeatherInformationFragment extends Fragment implements MainAct
             JSONObject currentObservationObject = jsonObject.getJSONObject("current_observation");
             String temperatureInformation = String.valueOf(currentObservationObject.getJSONObject("condition").getDouble("temperature"));
             String pressureInformation = String.valueOf(currentObservationObject.getJSONObject("atmosphere").getDouble("pressure"));
+            String description =  currentObservationObject.getJSONObject("condition").getString("text");
 
             // set text view texes
             cityNameTextView.setText(cityName);
@@ -109,6 +111,7 @@ public class BasicWeatherInformationFragment extends Fragment implements MainAct
             timeTextView.setText(timeInformation);
             temperatureTextView.setText(temperatureInformation);
             pressureTextView.setText(pressureInformation);
+            descriptionTextView.setText(description);
         } catch(JSONException | NullPointerException e) {
             //TODO: refactor this
             Log.e("BasicWeatherInformation", e.toString());
@@ -126,6 +129,7 @@ public class BasicWeatherInformationFragment extends Fragment implements MainAct
        timeTextView = getView().findViewById(R.id.time_text_view);
        temperatureTextView = getView().findViewById(R.id.temperature_text_view);
        pressureTextView = getView().findViewById(R.id.pressure_text_view);
+       descriptionTextView = getView().findViewById(R.id.description_text_view);
 
         if(getActivity() instanceof MainActivity)
             updateUIWithInfoFromApi(((MainActivity)getActivity()).getJsonObject());

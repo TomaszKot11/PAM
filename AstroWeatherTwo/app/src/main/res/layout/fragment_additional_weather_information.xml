@@ -1,34 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             tools:context=".mainActivity.fragments.apiWeatherFragments.AdditionalWeatherInformationFragment">
+             android:id="@+id/fragment_soon_frame_layout"
+             tools:context=".mainActivity.fragments.SunFragment">
 
-    <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/wind_strength_text_view"
-            android:text="Wind strength"/>
+    <TableLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent"
+                 android:shrinkColumns="0, 1"
+                 android:stretchColumns="1">
 
-    <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/wind_direction_text_view"
-            android:layout_below="@id/wind_strength_text_view"
-            android:text="Wind direction"/>
+        <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="0dp">
 
-    <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/wind_direction_text_view"
-            android:id="@+id/humidity_text_view"
-            android:text="Humidity"/>
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Wind strength: " />
 
-    <TextView
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/wind_strength_text_view" />
+
+        </TableRow>
+
+
+        <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="0dp">
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Wind direction: " />
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/wind_direction_text_view" />
+
+        </TableRow>
+
+        <TableRow
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/humidity_text_view"
-            android:id="@+id/visibility_text_view"
-            android:text="Visibility"/>
-</RelativeLayout>
+            android:layout_height="0dp">
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Humidity: " />
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/humidity_text_view" />
+        </TableRow>
+
+
+        <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="0dp">
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Visibility: " />
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/visibility_text_view"/>
+        </TableRow>
+    </TableLayout>
+</FrameLayout>
