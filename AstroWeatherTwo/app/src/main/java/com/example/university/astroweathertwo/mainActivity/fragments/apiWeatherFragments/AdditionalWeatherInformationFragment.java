@@ -1,5 +1,6 @@
 package com.example.university.astroweathertwo.mainActivity.fragments.apiWeatherFragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -56,6 +57,32 @@ public class AdditionalWeatherInformationFragment extends Fragment implements Ma
         windDirectionTextView = getView().findViewById(R.id.wind_direction_text_view);
         humidityTextView = getView().findViewById(R.id.humidity_text_view);
         visibilityTextView = getView().findViewById(R.id.visibility_text_view);
+
+        Activity curretnAcitvity = getActivity();
+
+        if(curretnAcitvity instanceof MainActivity)
+            updateUIWithDataFromApi(((MainActivity) curretnAcitvity).getJsonObject());
+    }
+
+    private void updateUIWithDataFromApi(JSONObject jsonObject) {
+        try {
+            JSONObject windObject = jsonObject.getJSONObject("current_observation").getJSONObject("wind");
+            String windStrength = String.valueOf(windObject.getDouble("speed"));
+            String windDirection = String.valueOf(windObject.getDouble("direction"));
+
+            JSONObject atmosphereObject = jsonObject.getJSONObject("current_observation").getJSONObject("atmosphere");
+            String humidity = String.valueOf(atmosphereObject.getInt("humidity"));
+            String visiblity = String.valueOf(atmosphereObject.getDouble("visibility"));
+
+            // set the labels
+            windStrengthTextView.setText(windStrength);
+            windDirectionTextView.setText(windDirection);
+            humidityTextView.setText(humidity);
+            visibilityTextView.setText(visiblity);
+
+        } catch(JSONException | NullPointerException e) {
+            Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
@@ -83,25 +110,7 @@ public class AdditionalWeatherInformationFragment extends Fragment implements Ma
 
     @Override
     public void refreshUI(JSONObject jsonObject) {
-        //TODO: implement me!
-        try {
-            JSONObject windObject = jsonObject.getJSONObject("current_observation").getJSONObject("wind");
-            String windStrength = String.valueOf(windObject.getDouble("speed"));
-            String windDirection = String.valueOf(windObject.getDouble("direction"));
-
-            JSONObject atmosphereObject = jsonObject.getJSONObject("atmosphere");
-            String humidity = String.valueOf(atmosphereObject.getInt("humidity"));
-            String visiblity = String.valueOf(atmosphereObject.getDouble("visibility"));
-
-            // set the labels
-            windStrengthTextView.setText(windStrength);
-            windDirectionTextView.setText(windDirection);
-            humidityTextView.setText(humidity);
-            visibilityTextView.setText(visiblity);
-
-        } catch(JSONException | NullPointerException e) {
-            Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_LONG).show();
-        }
+        updateUIWithDataFromApi(jsonObject);
     }
 
     @Override
