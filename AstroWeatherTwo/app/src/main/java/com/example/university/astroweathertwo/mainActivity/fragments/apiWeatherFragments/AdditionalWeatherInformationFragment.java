@@ -60,8 +60,10 @@ public class AdditionalWeatherInformationFragment extends Fragment implements Ma
 
         Activity curretnAcitvity = getActivity();
 
-        if(curretnAcitvity instanceof MainActivity)
+        if(curretnAcitvity instanceof MainActivity) {
             updateUIWithDataFromApi(((MainActivity) curretnAcitvity).getJsonObject());
+            ((MainActivity) curretnAcitvity).addSubscribeApiListener(this);
+        }
     }
 
     private void updateUIWithDataFromApi(JSONObject jsonObject) {

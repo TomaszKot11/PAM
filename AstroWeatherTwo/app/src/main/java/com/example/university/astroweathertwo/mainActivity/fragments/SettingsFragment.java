@@ -234,9 +234,9 @@ public class SettingsFragment extends Fragment {
 
         List<City> cities = sqLiteDatabaseHelper.allCities();
 
-        for(City city : cities) {
-            Log.e("City", cities.toString());
-        }
+//        for(City city : cities) {
+//            Log.e("City", cities.toString());
+//        }
     }
 
 
@@ -364,9 +364,9 @@ public class SettingsFragment extends Fragment {
         Settings settings;
         try {
             String localizationString = "lodz,pl";
-            if(spinnerWeatherLocalization.getSelectedItem() != null) {
+            if(spinnerWeatherLocalization.getSelectedItem() != null)
                 localizationString = spinnerWeatherLocalization.getSelectedItem().toString();
-            }
+
 
             settings = new Settings(Double.parseDouble(longitutdeEditText.getText().toString()),
                     Double.parseDouble(latitudeEditText.getText().toString()),

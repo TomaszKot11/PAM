@@ -30,7 +30,6 @@ public class SettingsActivity extends AppCompatActivity implements SettingsFragm
                 .commit();
     }
 
-
     @Override
     public void onFragmentInteraction(Settings settings) {
         SharedPreferencesUtility.writeSharedPreferences(this, settings);

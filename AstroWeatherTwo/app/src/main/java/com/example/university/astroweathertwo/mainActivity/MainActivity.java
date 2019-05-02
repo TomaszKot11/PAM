@@ -5,7 +5,6 @@ import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -52,43 +51,19 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
     private Runnable runnable;
     private Handler handlerTwo;
     private Runnable runnableTwo;
-    private long periodicWheatherUpdateTime;
+    private long periodicWeatherUpdateTime;
     private enum ScreenSizeOrientation { PHONE_PORTRAIT, PHONE_LANDSAPE, TABLET_PORTRAIT, TABLET_LANDSAPE }
     private ScreenSizeOrientation screenOrientation = ScreenSizeOrientation.PHONE_PORTRAIT;
     private List<ApiRequestObtainable> apiSubscribers = new ArrayList<>();
     private JSONObject jsonObject;
+    private String location = "lodz,pl";
 
     @Override
     public void onStart() {
         super.onStart();
-        //TODO: read data from the file system
+        //TODO: read data from the file system + update only on change or whe the data is outdated
 
-
-        String location = "berlin,de";
-
-        ApiRequester requestManager = ApiRequester.getInstance(this);
-
-        ApiRequest request = new ApiRequest(Request.Method.GET, null, null, location,  new Response.Listener() {
-            @Override
-            public void onResponse(Object response) {
-
-                for(ApiRequestObtainable ob : MainActivity.this.apiSubscribers)
-                    ob.refreshUI((JSONObject)response);
-//                    Log.e("MAIN ACTIVITY", "INSIDE SUBSCRIBERS LIST");
-
-                MainActivity.this.jsonObject = (JSONObject)response;
-
-                Log.e("Response", ((JSONObject)response).toString());
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                // Add error handling here
-                Log.e("API error: ", "#onErrorResponse in MainActivity");
-            }
-        });
-
-        requestManager.addToRequestQueue(request);
+        sendWeatherApiRequest();
     }
 
 
@@ -197,16 +172,18 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
         bundle.putString(ProjectConstants.PREFERENCES_LONGITUTDE_KEY, String.valueOf(settings.getLongitude()));
         bundle.putString(ProjectConstants.PREFERENCE_LATITTUDE_KEY, String.valueOf(settings.getLatitude()));
 
+        this.location = settings.getWeatherLocalizationString();
+
         for(MainActivity.SunMoonRefreshableUI subscriber : subscribersList) {
             subscriber.refreshUI(bundle, false, true);
         }
 
         startPeriodicTimeUpdate();
-        startPeriodicWeatherUpates();
+        startPeriodicWeatherUpdates();
     }
 
     // TODO: change this to use shared preferences value
-    private void startPeriodicWeatherUpates() {
+    private void startPeriodicWeatherUpdates() {
         this.handlerTwo = new Handler();
         this.runnableTwo =  new Runnable() {
             @Override
@@ -217,10 +194,10 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
 
                 new WeatherBackgroundTask().execute(latitude, longitutde);
 
-                periodicWheatherUpdateTime = SharedPreferencesUtility.getWeatherUpateTimeInMiliseconds(MainActivity.this);
+                periodicWeatherUpdateTime = SharedPreferencesUtility.getWeatherUpateTimeInMiliseconds(MainActivity.this);
 
 
-                handler.postDelayed(this, periodicWheatherUpdateTime);
+                handler.postDelayed(this, periodicWeatherUpdateTime);
             }
         };
 
@@ -284,12 +261,43 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
         return super.onOptionsItemSelected(item);
     }
 
+    private void sendWeatherApiRequest() {
+        ApiRequester requestManager = ApiRequester.getInstance(this);
+
+        ApiRequest request = new ApiRequest(Request.Method.GET, null, null, this.location,  new Response.Listener() {
+            @Override
+            public void onResponse(Object response) {
+
+                for(ApiRequestObtainable ob : MainActivity.this.apiSubscribers)
+                    ob.refreshUI((JSONObject)response);
+
+                MainActivity.this.jsonObject = (JSONObject)response;
+
+                Log.e("Response", ((JSONObject)response).toString());
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // Add error handling here
+                Log.e("API error: ", "#onErrorResponse in MainActivity");
+            }
+        });
+
+        requestManager.addToRequestQueue(request);
+    }
+
     @Override
     public void onFragmentInteraction(Settings settings) {
         settingsUpdated(settings);
     }
 
     private void settingsUpdated(Settings settings) {
+
+        if(!this.location.equals(settings.getWeatherLocalizationString())) {
+            this.location = settings.getWeatherLocalizationString();
+            sendWeatherApiRequest();
+        }
+
         if(screenOrientation == ScreenSizeOrientation.TABLET_PORTRAIT || screenOrientation == ScreenSizeOrientation.TABLET_LANDSAPE) {
             Bundle bundle = new Bundle();
 

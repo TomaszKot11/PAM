@@ -141,7 +141,7 @@ public class BasicWeatherInformationFragment extends Fragment implements MainAct
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+       super.onActivityCreated(savedInstanceState);
 
        cityNameTextView = getView().findViewById(R.id.city_name_text_view);
        geographicalCoordinatesTextView = getView().findViewById(R.id.geographical_coordiantes_text_view);
@@ -151,8 +151,10 @@ public class BasicWeatherInformationFragment extends Fragment implements MainAct
        descriptionTextView = getView().findViewById(R.id.description_text_view);
        weatherConditionsVisualization  = getView().findViewById(R.id.weather_visualization_image_view);
 
-        if(getActivity() instanceof MainActivity)
+        if(getActivity() instanceof MainActivity) {
             updateUIWithInfoFromApi(((MainActivity)getActivity()).getJsonObject());
+            ((MainActivity)getActivity()).addSubscribeApiListener(this);
+        }
 
 
     }
