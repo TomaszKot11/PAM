@@ -1,5 +1,6 @@
 package com.example.university.astroweathertwo.mainActivity.fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -159,7 +160,10 @@ public class SettingsFragment extends Fragment {
 
     private void configureForceRefreshDataClick() {
         forceRefreshButton.setOnClickListener(v -> {
-            //TODO: send here api request
+            Activity activity = SettingsFragment.this.getActivity();
+
+            if(activity instanceof MainActivity)
+                ((MainActivity)activity).sendWeatherApiRequest();
 
         });
     }

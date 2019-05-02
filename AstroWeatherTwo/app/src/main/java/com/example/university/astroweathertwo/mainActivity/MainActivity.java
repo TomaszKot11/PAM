@@ -38,6 +38,7 @@ import java.util.Date;
 import java.util.List;
 
 
+//TODO: weathe only updates after second click?!
 //TODO: when tablet is rotated the list disappears - save the state ;)
 //TODO: add button to go back
 public class MainActivity extends AppCompatActivity implements SettingsFragment.OnFragmentInteractionListener {
@@ -261,7 +262,7 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
         return super.onOptionsItemSelected(item);
     }
 
-    private void sendWeatherApiRequest() {
+    public void sendWeatherApiRequest() {
         ApiRequester requestManager = ApiRequester.getInstance(this);
 
         ApiRequest request = new ApiRequest(Request.Method.GET, null, null, this.location,  new Response.Listener() {
