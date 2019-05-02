@@ -1,6 +1,7 @@
 package com.example.university.astroweathertwo.mainActivity.fragments.apiWeatherFragments;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,12 +11,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.university.astroweathertwo.R;
 import com.example.university.astroweathertwo.mainActivity.MainActivity;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class BasicWeatherInformationFragment extends Fragment implements MainActivity.ApiRequestObtainable {
@@ -34,6 +40,16 @@ public class BasicWeatherInformationFragment extends Fragment implements MainAct
     private TextView temperatureTextView;
     private TextView pressureTextView;
     private TextView descriptionTextView;
+    private ImageView weatherConditionsVisualization;
+    private static Map<Integer, String> weatherCodeImageNameHash = new HashMap<>();
+
+
+    static {
+        for(int i = 0 ; i < 47; i++)
+            weatherCodeImageNameHash.put(i, i + ".png");
+
+        weatherCodeImageNameHash.put(3200, "na.png");
+    }
 
 
     private OnFragmentInteractionListener mListener;
@@ -105,6 +121,8 @@ public class BasicWeatherInformationFragment extends Fragment implements MainAct
             String pressureInformation = String.valueOf(currentObservationObject.getJSONObject("atmosphere").getDouble("pressure"));
             String description =  currentObservationObject.getJSONObject("condition").getString("text");
 
+            Integer weatherConditionsCode = currentObservationObject.getJSONObject("condition").getInt("code");
+
             // set text view texes
             cityNameTextView.setText(cityName);
             geographicalCoordinatesTextView.setText(geographicalCoordinates);
@@ -112,7 +130,8 @@ public class BasicWeatherInformationFragment extends Fragment implements MainAct
             temperatureTextView.setText(temperatureInformation);
             pressureTextView.setText(pressureInformation);
             descriptionTextView.setText(description);
-        } catch(JSONException | NullPointerException e) {
+            weatherConditionsVisualization.setBackground(Drawable.createFromStream(getActivity().getAssets().open(BasicWeatherInformationFragment.weatherCodeImageNameHash.get(weatherConditionsCode)), "na.png"));
+        } catch(JSONException | NullPointerException | IOException e) {
             //TODO: refactor this
             Log.e("BasicWeatherInformation", e.toString());
             Log.d("BasicWeatherInformation", Log.getStackTraceString(e));
@@ -130,6 +149,7 @@ public class BasicWeatherInformationFragment extends Fragment implements MainAct
        temperatureTextView = getView().findViewById(R.id.temperature_text_view);
        pressureTextView = getView().findViewById(R.id.pressure_text_view);
        descriptionTextView = getView().findViewById(R.id.description_text_view);
+       weatherConditionsVisualization  = getView().findViewById(R.id.weather_visualization_image_view);
 
         if(getActivity() instanceof MainActivity)
             updateUIWithInfoFromApi(((MainActivity)getActivity()).getJsonObject());

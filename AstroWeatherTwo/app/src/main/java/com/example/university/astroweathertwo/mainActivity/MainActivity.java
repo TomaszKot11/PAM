@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
         //TODO: read data from the file system
 
 
-        String location = "lodz,pl";
+        String location = "berlin,de";
 
         ApiRequester requestManager = ApiRequester.getInstance(this);
 

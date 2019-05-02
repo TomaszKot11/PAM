@@ -6,99 +6,113 @@
              android:id="@+id/fragment_soon_frame_layout"
              tools:context=".mainActivity.fragments.SunFragment">
 
-<TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:shrinkColumns="0, 1"
-        android:stretchColumns="1">
-
-    <TableRow
+    <TableLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp">
+            android:layout_height="match_parent"
+            android:shrinkColumns="0, 1"
+            android:stretchColumns="1">
 
-        <TextView
+        <TableRow
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="City name: " />
+                android:layout_height="0dp">
 
-        <TextView
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="City name: " />
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/city_name_text_view" />
+
+        </TableRow>
+
+
+        <TableRow
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/city_name_text_view" />
+                android:layout_height="0dp">
 
-    </TableRow>
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Geographical coordinates: " />
 
+            <TextView android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:id="@+id/geographical_coordiantes_text_view" />
 
-    <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="0dp">
+        </TableRow>
 
-        <TextView
+        <TableRow
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Geographical coordinates: " />
+                android:layout_height="0dp">
 
-        <TextView android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:id="@+id/geographical_coordiantes_text_view" />
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Time: " />
 
-    </TableRow>
+            <TextView android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:id="@+id/time_text_view" />
+        </TableRow>
 
-    <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="0dp">
 
-        <TextView
+        <TableRow
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Time: " />
+                android:layout_height="0dp">
 
-        <TextView android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:id="@+id/time_text_view" />
-    </TableRow>
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Temperature: " />
 
+            <TextView android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:id="@+id/temperature_text_view" />
+        </TableRow>
 
-    <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="0dp">
-
-        <TextView
+        <TableRow
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Temperature: " />
+                android:layout_height="0dp">
 
-        <TextView android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:id="@+id/temperature_text_view" />
-    </TableRow>
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Pressure: " />
 
-    <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="0dp">
+            <TextView android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:id="@+id/pressure_text_view" />
+        </TableRow>
 
-        <TextView
+        <TableRow
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Pressure: " />
+                android:layout_height="0dp">
 
-        <TextView android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:id="@+id/pressure_text_view" />
-    </TableRow>
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Description: " />
 
-    <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="0dp">
+            <TextView android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:id="@+id/description_text_view" />
+        </TableRow>
 
-        <TextView
+        <TableRow
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Description: " />
+                android:layout_weight="2"
+                android:layout_height="0dp">
 
-        <TextView android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:id="@+id/description_text_view" />
-    </TableRow>
-</TableLayout>
+            <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_span="2"
+                    android:scaleType="centerInside"
+                    android:id="@+id/weather_visualization_image_view"/>
+
+        </TableRow>
+    </TableLayout>
 </FrameLayout>
