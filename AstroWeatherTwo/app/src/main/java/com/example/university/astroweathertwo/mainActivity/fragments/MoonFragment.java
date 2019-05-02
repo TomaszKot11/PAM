@@ -25,7 +25,6 @@ public class MoonFragment extends Fragment implements MainActivity.SunMoonRefres
     private TextView moonPhaseTextView;
     private TextView moonSynodicMonth;
     private TextView moonLongitute;
-
     private TextView moonLatitude;
 
 
@@ -37,15 +36,6 @@ public class MoonFragment extends Fragment implements MainActivity.SunMoonRefres
     }
 
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment MoonFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static MoonFragment newInstance(String param1, String param2) {
         MoonFragment fragment = new MoonFragment();
         Bundle args = new Bundle();
@@ -136,9 +126,9 @@ public class MoonFragment extends Fragment implements MainActivity.SunMoonRefres
             mListener = (OnFragmentInteractionListener) context;
         }
 
-        if(getActivity() instanceof  MainActivity) {
-            ((MainActivity)getActivity()).addSubscriberFragment(this);
-        }
+//        if(getActivity() instanceof  MainActivity) {
+//            ((MainActivity)getActivity()).addSubscriberSunMoonFragment(this);
+//        }
     }
 
     @Override

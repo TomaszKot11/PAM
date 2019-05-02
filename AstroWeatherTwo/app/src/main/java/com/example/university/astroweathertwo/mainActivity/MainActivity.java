@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
         ApiRequest request = new ApiRequest(Request.Method.GET, null, null, location,  new Response.Listener() {
             @Override
             public void onResponse(Object response) {
+
                 for(ApiRequestObtainable ob : MainActivity.this.apiSubscribers) {
                     ob.refreshUI((JSONObject)response);
                     Log.e("MAIN ACTIVITY", "INSIDE SUBSCRIBERS LIST");
@@ -88,12 +89,6 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
 
         requestManager.addToRequestQueue(request);
     }
-
-    public void subscribeApiListener(ApiRequestObtainable apiSubscriber) {
-        this.apiSubscribers.add(apiSubscriber);
-    }
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -389,8 +384,12 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
 
     }
 
-    public void addSubscriberFragment(ApiRequestObtainable subsriber) {
+    public void addSubscriberSunMoonFragment(SunMoonRefreshableUI subsriber) {
         this.subscribersList.add(subsriber);
+    }
+
+    public void addSubscribeApiListener(ApiRequestObtainable apiSubscriber) {
+        this.apiSubscribers.add(apiSubscriber);
     }
 
 

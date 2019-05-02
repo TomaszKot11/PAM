@@ -2,7 +2,6 @@ package com.example.university.astroweathertwo.mainActivity.fragments;
 
 import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -51,7 +50,7 @@ public class SunFragment extends Fragment implements MainActivity.SunMoonRefresh
         super.setArguments(args);
         MainActivity mainActivity = args.getParcelable("mainActivity");
         if(mainActivity != null) {
-            mainActivity.addSubscriberFragment(this);
+            mainActivity.addSubscriberSunMoonFragment(this);
         }
     }
 
@@ -139,7 +138,7 @@ public class SunFragment extends Fragment implements MainActivity.SunMoonRefresh
         }
 
         if(getActivity() instanceof  MainActivity) {
-            ((MainActivity)getActivity()).addSubscriberFragment(this);
+            ((MainActivity)getActivity()).addSubscriberSunMoonFragment(this);
         }
     }
 

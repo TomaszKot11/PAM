@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,8 +84,11 @@ public class BasicWeatherInformationFragment extends Fragment implements MainAct
 
     @Override
     public void refreshUI(JSONObject jsonObject) {
-        //TODO: update the UI
         try {
+
+            for(int i = 0; i < 50; i++)
+                Log.e("Witam", "Witam");
+
             JSONObject locationObject = jsonObject.getJSONObject("location");
             String cityName = locationObject.getString("city");
             String geographicalCoordinates = locationObject.getDouble("lat") + " " + locationObject.getDouble("long");
@@ -102,6 +106,7 @@ public class BasicWeatherInformationFragment extends Fragment implements MainAct
 
         } catch(JSONException | NullPointerException e) {
             //TODO: refactor this
+            Log.e("BasicWeatherInformation", e.toString());
             Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_LONG).show();
         }
     }
@@ -110,8 +115,9 @@ public class BasicWeatherInformationFragment extends Fragment implements MainAct
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+
         if(getActivity() instanceof MainActivity) {
-            ((MainActivity) getActivity()).addSubscriberFragment(this);
+            ((MainActivity) getActivity()).addSubscribeApiListener(this);
         }
 
 
