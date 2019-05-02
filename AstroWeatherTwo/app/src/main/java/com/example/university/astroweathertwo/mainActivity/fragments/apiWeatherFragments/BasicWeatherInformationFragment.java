@@ -82,31 +82,37 @@ public class BasicWeatherInformationFragment extends Fragment implements MainAct
         }
     }
 
+
+    //TODO: this is propably to be removed
     @Override
     public void refreshUI(JSONObject jsonObject) {
+            updateUIWithInfoFromApi(jsonObject);
+    }
+
+
+    private void updateUIWithInfoFromApi(JSONObject jsonObject) {
+
         try {
-
-            for(int i = 0; i < 50; i++)
-                Log.e("Witam", "Witam");
-
+            //decompose JSON
             JSONObject locationObject = jsonObject.getJSONObject("location");
             String cityName = locationObject.getString("city");
             String geographicalCoordinates = locationObject.getDouble("lat") + " " + locationObject.getDouble("long");
-            String timeInformation = locationObject.getString("timezone_id") ;
-            String temperatureInformation = jsonObject.getJSONObject("condition").getString("temperature");
-            String pressureInformation = String.valueOf(jsonObject.getJSONObject("atmosphere").getDouble("pressure"));
+            String timeInformation = locationObject.getString("timezone_id");
+
+            JSONObject currentObservationObject = jsonObject.getJSONObject("current_observation");
+            String temperatureInformation = String.valueOf(currentObservationObject.getJSONObject("condition").getDouble("temperature"));
+            String pressureInformation = String.valueOf(currentObservationObject.getJSONObject("atmosphere").getDouble("pressure"));
 
             // set text view texes
-
             cityNameTextView.setText(cityName);
             geographicalCoordinatesTextView.setText(geographicalCoordinates);
             timeTextView.setText(timeInformation);
             temperatureTextView.setText(temperatureInformation);
             pressureTextView.setText(pressureInformation);
-
         } catch(JSONException | NullPointerException e) {
             //TODO: refactor this
             Log.e("BasicWeatherInformation", e.toString());
+            Log.d("BasicWeatherInformation", Log.getStackTraceString(e));
             Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_LONG).show();
         }
     }
@@ -115,17 +121,14 @@ public class BasicWeatherInformationFragment extends Fragment implements MainAct
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-
-        if(getActivity() instanceof MainActivity) {
-            ((MainActivity) getActivity()).addSubscribeApiListener(this);
-        }
-
-
        cityNameTextView = getView().findViewById(R.id.city_name_text_view);
        geographicalCoordinatesTextView = getView().findViewById(R.id.geographical_coordiantes_text_view);
        timeTextView = getView().findViewById(R.id.time_text_view);
        temperatureTextView = getView().findViewById(R.id.temperature_text_view);
        pressureTextView = getView().findViewById(R.id.pressure_text_view);
+
+        if(getActivity() instanceof MainActivity)
+            updateUIWithInfoFromApi(((MainActivity)getActivity()).getJsonObject());
 
 
     }

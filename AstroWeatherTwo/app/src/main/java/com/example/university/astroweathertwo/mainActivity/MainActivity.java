@@ -5,6 +5,7 @@ import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -55,8 +56,7 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
     private enum ScreenSizeOrientation { PHONE_PORTRAIT, PHONE_LANDSAPE, TABLET_PORTRAIT, TABLET_LANDSAPE }
     private ScreenSizeOrientation screenOrientation = ScreenSizeOrientation.PHONE_PORTRAIT;
     private List<ApiRequestObtainable> apiSubscribers = new ArrayList<>();
-
-
+    private JSONObject jsonObject;
 
     @Override
     public void onStart() {
@@ -72,10 +72,11 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
             @Override
             public void onResponse(Object response) {
 
-                for(ApiRequestObtainable ob : MainActivity.this.apiSubscribers) {
+                for(ApiRequestObtainable ob : MainActivity.this.apiSubscribers)
                     ob.refreshUI((JSONObject)response);
-                    Log.e("MAIN ACTIVITY", "INSIDE SUBSCRIBERS LIST");
-                }
+//                    Log.e("MAIN ACTIVITY", "INSIDE SUBSCRIBERS LIST");
+
+                MainActivity.this.jsonObject = (JSONObject)response;
 
                 Log.e("Response", ((JSONObject)response).toString());
             }
@@ -88,6 +89,11 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
         });
 
         requestManager.addToRequestQueue(request);
+    }
+
+
+    public JSONObject getJsonObject() {
+        return jsonObject;
     }
 
     @Override
@@ -151,6 +157,7 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
 
     private void initializePortraitLayout(Bundle bundle) {
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+
 
         mSectionsPagerAdapter.setArguments(bundle);
 

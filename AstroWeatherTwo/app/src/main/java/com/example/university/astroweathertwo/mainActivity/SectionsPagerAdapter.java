@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import com.example.university.astroweathertwo.mainActivity.fragments.MoonFragment;
 import com.example.university.astroweathertwo.mainActivity.fragments.SunFragment;
 import com.example.university.astroweathertwo.mainActivity.fragments.apiWeatherFragments.AdditionalWeatherInformationFragment;
@@ -53,7 +54,6 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         }
     }
 
-    //TODO: make some tabs this method is useful
     @Override
     public CharSequence getPageTitle(int position) {
         switch(position) {
