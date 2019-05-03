@@ -114,7 +114,7 @@ public class BasicWeatherInformationFragment extends Fragment implements MainAct
             //TODO: refactor this
             Log.e("BasicWeatherInformation", e.toString());
             Log.d("BasicWeatherInformation", Log.getStackTraceString(e));
-            Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_LONG).show();
+            //Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_LONG).show();
         }
     }
 

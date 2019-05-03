@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -86,7 +87,9 @@ public class AdditionalWeatherInformationFragment extends Fragment implements Ma
             visibilityTextView.setText(visiblity);
 
         } catch(JSONException | NullPointerException e) {
-            Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_LONG).show();
+            Log.e("BasicWeatherInformation", e.toString());
+            Log.d("BasicWeatherInformation", Log.getStackTraceString(e));
+            //Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_LONG).show();
         }
     }
 
