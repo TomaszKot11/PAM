@@ -79,7 +79,7 @@ public class AdditionalWeatherInformationFragment extends Fragment implements Ma
             JSONObject atmosphereObject = jsonObject.getJSONObject("current_observation").getJSONObject("atmosphere");
             String humidity = String.valueOf(atmosphereObject.getInt("humidity"));
             String visiblity = String.valueOf(atmosphereObject.getDouble("visibility"));
-
+            
             // set the labels
             windStrengthTextView.setText(windStrength);
             windDirectionTextView.setText(windDirection);

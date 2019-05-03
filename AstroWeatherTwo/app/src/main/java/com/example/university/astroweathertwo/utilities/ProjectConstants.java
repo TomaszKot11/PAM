@@ -9,6 +9,7 @@ public final class ProjectConstants {
     public static final String PREFERENCES_LONGITUTDE_KEY = "LONGITUDE_KEY";
     public static final String PREFERENCE_LATITTUDE_KEY = "LATITUDE_KEY";
     public static final String PREFERENCES_LOCALIZATION_STRING_KEY = "LOCALIZATION_STRING";
+    public static final String PREFERENCES_TIME_TO_UPDATE_JSON_KEY = "TIME_TO_UPDATE_JSON";
     public static String DMCS_LONGITUDE = "19.4528";
     public static String DMCS_LATITUDE = "51.7460238";
 
@@ -34,4 +35,7 @@ public final class ProjectConstants {
     public static final double LATITUDE_MAX = 90.0;
     public static final double LONGITUDE_MIN = 0.0;
     public static final double LONGITUDE_MAX = 180.0;
+
+    // api request sending frequency
+    public static final int MINUTES_TILL_NEXT_API_REQUEST_IN_MINUTES = 30;
 }

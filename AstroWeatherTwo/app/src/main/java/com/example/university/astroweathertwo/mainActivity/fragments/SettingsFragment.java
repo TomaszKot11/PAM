@@ -320,6 +320,11 @@ public class SettingsFragment extends Fragment {
                         if(SettingsFragment.this.mListener != null) {
                             Settings settings = SettingsFragment.this.produceSettingsFromControls();
                             SettingsFragment.this.mListener.onFragmentInteraction(settings);
+
+                            Activity currentActivity = getActivity();
+                            if(currentActivity instanceof  MainActivity) {
+                                ((MainActivity)currentActivity).sendWeatherApiRequest();
+                            }
                         }
                     }
 

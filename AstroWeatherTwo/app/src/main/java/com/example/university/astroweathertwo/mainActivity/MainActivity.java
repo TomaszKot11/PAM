@@ -10,10 +10,12 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -34,12 +36,14 @@ import com.example.university.astroweathertwo.utilities.Settings;
 import com.example.university.astroweathertwo.utilities.SharedPreferencesUtility;
 import com.example.university.astroweathertwo.utilities.api.ApiRequest;
 import com.example.university.astroweathertwo.utilities.api.ApiRequester;
+import org.apache.commons.lang3.time.DateUtils;
+import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.*;
 
 
 //TODO: weathe only updates after second click?!
@@ -62,15 +66,33 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
     private List<ApiRequestObtainable> apiSubscribers = new ArrayList<>();
     private JSONObject jsonObject;
     private String location = "lodz,pl";
+    private Date jsonApiTimeToUpdate;
+    private static boolean APPLICATION_RUNNING = false;
 
     @Override
     public void onStart() {
         super.onStart();
-        //TODO: read data from the file system + update only on change or whe the data is outdated
+        //TODO: read data from the file system
 
         this.location = SharedPreferencesUtility.getLocalizationString(this);
 
-        sendWeatherApiRequest();
+        if(APPLICATION_RUNNING) {
+            sendWeatherApiRequest();
+        } else {
+            this.jsonApiTimeToUpdate = SharedPreferencesUtility.readTimeToUpdateJsonOnStart(this);
+
+            sendWeatherApiRequestOnApplicationStart();
+        }
+
+        APPLICATION_RUNNING = true;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        // this is propably unecessary
+        APPLICATION_RUNNING = false;
     }
 
 
@@ -284,6 +306,10 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
                     ob.refreshUI((JSONObject)response);
 
                 MainActivity.this.jsonObject = (JSONObject)response;
+                if(!APPLICATION_RUNNING) {
+                    MainActivity.this.jsonApiTimeToUpdate = DateUtils.addMinutes(new Date(System.currentTimeMillis()), ProjectConstants.MINUTES_TILL_NEXT_API_REQUEST_IN_MINUTES);
+                    SharedPreferencesUtility.writeTimeToUpdateJsonOnStart(MainActivity.this, MainActivity.this.jsonApiTimeToUpdate.toString());
+                }
 
                 Log.e("Response", ((JSONObject)response).toString());
             }
@@ -297,6 +323,13 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
 
 
         requestManager.addToRequestQueue(request);
+    }
+
+    private void sendWeatherApiRequestOnApplicationStart() {
+        if(jsonApiTimeToUpdate != null && (new Date(System.currentTimeMillis()).before(jsonApiTimeToUpdate)))
+            return ;
+
+        sendWeatherApiRequest();
     }
 
     public int getCurrentViewPagerPosition() {

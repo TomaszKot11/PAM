@@ -4,6 +4,8 @@ package com.example.university.astroweathertwo.utilities;
 import android.app.Activity;
 import android.content.SharedPreferences;
 
+import java.util.Date;
+
 public class SharedPreferencesUtility {
 
     public static Settings readSharedPreferences(SharedPreferences sharedPreferences) {
@@ -55,6 +57,25 @@ public class SharedPreferencesUtility {
         return sharedPreferences.getString(ProjectConstants.PREFERENCES_LOCALIZATION_STRING_KEY, "lodz,pl");
     }
 
+    public static void writeTimeToUpdateJsonOnStart(Activity activity, String dateString) {
+        SharedPreferences sharedPreferences = activity.getSharedPreferences(ProjectConstants.SHARED_PREFERENCES_NAME, 0);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putString(ProjectConstants.PREFERENCES_TIME_TO_UPDATE_JSON_KEY, dateString);
+
+        editor.commit();
+    }
+
+    public static Date readTimeToUpdateJsonOnStart(Activity activity) {
+        SharedPreferences sharedPreferences = activity.getSharedPreferences(ProjectConstants.SHARED_PREFERENCES_NAME, 0);
+
+        String stringDate = sharedPreferences.getString(ProjectConstants.PREFERENCES_TIME_TO_UPDATE_JSON_KEY, null);
+        Date date = null;
+        if(stringDate != null)
+            date = new Date(stringDate);
+
+        return date;
+    }
 
     public static void writeSharedPreferences(Activity activity, Settings settings) {
         SharedPreferences sharedPreferences = activity.getSharedPreferences(ProjectConstants.SHARED_PREFERENCES_NAME, 0);
