@@ -29,7 +29,7 @@ public class ForthcomingWeatherCondtionsFragment extends Fragment implements Mai
 
 
     private OnFragmentInteractionListener mListener;
-    private List<View> listViews = new LinkedList<>();
+    private List<TableRow> listViews = new LinkedList<>();
     public static final int NUMBER_OF_FORTHCOMMING_WEATHER_LIST_ELEMENTS = 10;
     // required empty constructor
     public ForthcomingWeatherCondtionsFragment() { }
@@ -49,46 +49,37 @@ public class ForthcomingWeatherCondtionsFragment extends Fragment implements Mai
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+//        LinearLayout linearLayout = (LinearLayout)rootView.findViewById(R.id.scroll_view_forthcomming_weather_linear_layout);
+//        Activity currentActivity = getActivity();
+//        JSONObject jsonObject = currentActivity instanceof MainActivity ? ((MainActivity)currentActivity).getJsonObject() : null;
+//
+//        for(int i = 0 ; i < NUMBER_OF_FORTHCOMMING_WEATHER_LIST_ELEMENTS ; i++) {
+//            View view = inflater.inflate(R.layout.forthcoming_weather_tile,null);
+//
 
-//        listViews.clear();
-        ScrollView rootView = (ScrollView)inflater.inflate(R.layout.fragment_forthcoming_weather_condtions, container, false);
+//            view.setBackgroundColor(color);
+//            try {
+//                if (jsonObject != null) refreshSingleListElementUI(jsonObject, i, view);
+//            } catch(JSONException e) {
+//                Log.e("ForthcommingWeather", e.toString());
+//                Log.d("ForthcommingWeather", Log.getStackTraceString(e));
+//                Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_LONG).show();
+//            }
+//
+//            linearLayout.addView(view);
+//        }
 
-        LinearLayout linearLayout = (LinearLayout)rootView.findViewById(R.id.scroll_view_forthcomming_weather_linear_layout);
-        Activity currentActivity = getActivity();
-        JSONObject jsonObject = currentActivity instanceof MainActivity ? ((MainActivity)currentActivity).getJsonObject() : null;
-
-        for(int i = 0 ; i < NUMBER_OF_FORTHCOMMING_WEATHER_LIST_ELEMENTS ; i++) {
-            View view = inflater.inflate(R.layout.forthcoming_weather_tile,null);
-
-           Random rnd = new Random();
-           int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
-
-            view.setBackgroundColor(color);
-            try {
-                if (jsonObject != null) refreshSingleListElementUI(jsonObject, i, view);
-            } catch(JSONException e) {
-                Log.e("ForthcommingWeather", e.toString());
-                Log.d("ForthcommingWeather", Log.getStackTraceString(e));
-                Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_LONG).show();
-            }
-
-            linearLayout.addView(view);
-        }
-
-        return rootView;
+        return inflater.inflate(R.layout.fragment_forthcoming_weather_condtions, container, false);
     }
 
 
     @Override
     public void refreshUI(JSONObject jsonObject) {
-//        refreshAllListElementUI(jsonObject);
-        //replace the fragment forces to call the onCreateView
-        getActivity().getSupportFragmentManager()
-                .beginTransaction()
-                .detach(this)
-                .attach(this)
-                .commit();
+        if(listViews.size() == NUMBER_OF_FORTHCOMMING_WEATHER_LIST_ELEMENTS)
+            refreshAllListElements(jsonObject);
     }
+
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -97,7 +88,41 @@ public class ForthcomingWeatherCondtionsFragment extends Fragment implements Mai
         Activity currentActivity = getActivity();
         if(currentActivity instanceof MainActivity) {
             ((MainActivity) currentActivity).addSubscribeApiListener(this);
-            JSONObject jsonObject = ((MainActivity)currentActivity).getJsonObject();
+//            JSONObject jsonObject = ((MainActivity)currentActivity).getJsonObject();
+        }
+
+        Random random = new Random();
+
+
+        //TODO: this could be written better
+        listViews.add(getView().findViewById(R.id.table_row_0));
+        listViews.add(getView().findViewById(R.id.table_row_1));
+        listViews.add(getView().findViewById(R.id.table_row_2));
+        listViews.add(getView().findViewById(R.id.table_row_3));
+        listViews.add(getView().findViewById(R.id.table_row_4));
+        listViews.add(getView().findViewById(R.id.table_row_5));
+        listViews.add(getView().findViewById(R.id.table_row_6));
+        listViews.add(getView().findViewById(R.id.table_row_7));
+        listViews.add(getView().findViewById(R.id.table_row_8));
+        listViews.add(getView().findViewById(R.id.table_row_9));
+
+
+        for(int i = 0 ; i < listViews.size(); i++)
+            listViews.get(i).setBackgroundColor(getRandomColor(random));
+
+
+    }
+
+    private int getRandomColor(Random rnd) {
+        return Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+    }
+
+    private void refreshAllListElements(JSONObject jsonObject) {
+        try {
+            for (int i = 0; i < NUMBER_OF_FORTHCOMMING_WEATHER_LIST_ELEMENTS; i++)
+                refreshSingleListElementUI(jsonObject, i, listViews.get(i));
+        } catch(JSONException e) {
+            Toast.makeText(getContext(), "Error while updating forthcomming weather list!", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -132,6 +157,7 @@ public class ForthcomingWeatherCondtionsFragment extends Fragment implements Mai
             Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_LONG).show();
         }
     }
+
 
     @Override
     public void onAttach(Context context) {

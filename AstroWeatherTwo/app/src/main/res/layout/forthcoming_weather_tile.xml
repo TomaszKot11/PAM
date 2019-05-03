@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:id="@+id/forthcomming_weather_tile" >
-
-    <TableRow
+<TableRow
+            xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
-            android:layout_height="0dp">
+            android:layout_height="0dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp">
 
         <ImageView
                 android:layout_width="0dp"
@@ -38,7 +36,4 @@
                     android:id="@+id/forthcomming_high_temperature_text_view"/>
 
         </LinearLayout>
-
-    </TableRow>
-
-</TableLayout>
+</TableRow>

@@ -7,10 +7,90 @@
              android:fillViewport="true"
              tools:context=".mainActivity.fragments.apiWeatherFragments.ForthcomingWeatherCondtionsFragment">
 
-    <LinearLayout
+    <TableLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:id="@+id/scroll_view_forthcomming_weather_linear_layout">
-    </LinearLayout>
+            android:layout_height="match_parent" >
+
+            <include
+                    android:id="@+id/table_row_0"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    layout="@layout/forthcoming_weather_tile" />
+
+        <include
+                android:id="@+id/table_row_1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                layout="@layout/forthcoming_weather_tile" />
+
+        <include
+                android:id="@+id/table_row_2"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                layout="@layout/forthcoming_weather_tile" />
+
+        <include
+                android:id="@+id/table_row_3"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                layout="@layout/forthcoming_weather_tile" />
+
+        <include
+                android:id="@+id/table_row_4"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                layout="@layout/forthcoming_weather_tile" />
+
+
+        <include
+                android:id="@+id/table_row_5"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                layout="@layout/forthcoming_weather_tile" />
+
+        <include
+                android:id="@+id/table_row_6"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                layout="@layout/forthcoming_weather_tile" />
+
+        <include
+                android:id="@+id/table_row_7"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                layout="@layout/forthcoming_weather_tile" />
+
+        <include
+                android:id="@+id/table_row_8"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                layout="@layout/forthcoming_weather_tile" />
+
+        <include
+                android:id="@+id/table_row_9"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                layout="@layout/forthcoming_weather_tile" />
+
+    </TableLayout>
 </ScrollView>
