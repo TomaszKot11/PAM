@@ -38,4 +38,7 @@ public final class ProjectConstants {
 
     // api request sending frequency
     public static final int MINUTES_TILL_NEXT_API_REQUEST_IN_MINUTES = 30;
+
+    // name of the file to which the weather json is serialized
+    public static final String SERIALIZED_WEATHER_JSON_FILE_NAME = "weather_json.json";
 }

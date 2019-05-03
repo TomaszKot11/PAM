@@ -37,6 +37,8 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -294,11 +296,16 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
 
     public void sendWeatherApiRequest() {
         if(!NetworkUtilities.isConnectedToTheWeb(getApplicationContext())) {
-            //TODO: deserialize here the json from the file
-            Toast.makeText(this, "The application is not currently connected to the web", Toast.LENGTH_LONG).show();
-        } else {
-            //TODO: serialize the json here!
+            try {
+                this.jsonObject = FIleSystemUtilities.deserializeJsonFromTheFile(this, ProjectConstants.SERIALIZED_WEATHER_JSON_FILE_NAME);
+            } catch(IOException | ClassNotFoundException | JSONException e) {
+                Toast.makeText(MainActivity.this, "Error while retrieving json in offline mode, please connect to the Internet", Toast.LENGTH_LONG).show();
 
+                Log.e("MainActivity", e.toString());
+            }
+
+
+        } else {
             ApiRequester requestManager = ApiRequester.getInstance(this);
 
             ApiRequest request = new ApiRequest(Request.Method.GET, null, null, this.location, new Response.Listener() {
@@ -313,6 +320,16 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
                         MainActivity.this.jsonApiTimeToUpdate = DateUtils.addMinutes(new Date(System.currentTimeMillis()), ProjectConstants.MINUTES_TILL_NEXT_API_REQUEST_IN_MINUTES);
                         SharedPreferencesUtility.writeTimeToUpdateJsonOnStart(MainActivity.this, MainActivity.this.jsonApiTimeToUpdate.toString());
                     }
+
+                    try {
+                        // serialize the obtained object to the file
+                        FIleSystemUtilities.serializeJsonToTheFile(MainActivity.this, ProjectConstants.SERIALIZED_WEATHER_JSON_FILE_NAME, (JSONObject) response);
+                    } catch(IOException e) {
+                        Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_LONG).show();
+
+                        Log.e("MainActivity", "Error while serializing JSONObject");
+                    }
+
 
                     Log.e("Response", ((JSONObject) response).toString());
                 }
