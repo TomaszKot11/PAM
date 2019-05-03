@@ -49,26 +49,6 @@ public class ForthcomingWeatherCondtionsFragment extends Fragment implements Mai
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-//        LinearLayout linearLayout = (LinearLayout)rootView.findViewById(R.id.scroll_view_forthcomming_weather_linear_layout);
-//        Activity currentActivity = getActivity();
-//        JSONObject jsonObject = currentActivity instanceof MainActivity ? ((MainActivity)currentActivity).getJsonObject() : null;
-//
-//        for(int i = 0 ; i < NUMBER_OF_FORTHCOMMING_WEATHER_LIST_ELEMENTS ; i++) {
-//            View view = inflater.inflate(R.layout.forthcoming_weather_tile,null);
-//
-
-//            view.setBackgroundColor(color);
-//            try {
-//                if (jsonObject != null) refreshSingleListElementUI(jsonObject, i, view);
-//            } catch(JSONException e) {
-//                Log.e("ForthcommingWeather", e.toString());
-//                Log.d("ForthcommingWeather", Log.getStackTraceString(e));
-//                Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_LONG).show();
-//            }
-//
-//            linearLayout.addView(view);
-//        }
-
         return inflater.inflate(R.layout.fragment_forthcoming_weather_condtions, container, false);
     }
 
@@ -86,10 +66,9 @@ public class ForthcomingWeatherCondtionsFragment extends Fragment implements Mai
         super.onActivityCreated(savedInstanceState);
 
         Activity currentActivity = getActivity();
-        if(currentActivity instanceof MainActivity) {
+        if(currentActivity instanceof MainActivity)
             ((MainActivity) currentActivity).addSubscribeApiListener(this);
-//            JSONObject jsonObject = ((MainActivity)currentActivity).getJsonObject();
-        }
+
 
         Random random = new Random();
 
@@ -107,7 +86,7 @@ public class ForthcomingWeatherCondtionsFragment extends Fragment implements Mai
         listViews.add(getView().findViewById(R.id.table_row_9));
 
 
-        for(int i = 0 ; i < listViews.size(); i++)
+        for(int i = 0; i < listViews.size(); i++)
             listViews.get(i).setBackgroundColor(getRandomColor(random));
 
 
