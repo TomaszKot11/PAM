@@ -23,4 +23,22 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1" />
+
+    <FrameLayout
+            android:layout_weight="1"
+            android:id="@+id/fragment_basic_weather_information"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    <FrameLayout
+            android:layout_weight="1"
+            android:id="@+id/fragment_additional_weather_information"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    <FrameLayout
+            android:id="@+id/fragment_forthcomming_weather_information"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="match_parent" />
 </LinearLayout>
