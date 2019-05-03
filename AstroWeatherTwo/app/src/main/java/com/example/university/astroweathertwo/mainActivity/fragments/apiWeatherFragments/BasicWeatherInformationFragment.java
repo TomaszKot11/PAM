@@ -1,6 +1,7 @@
 package com.example.university.astroweathertwo.mainActivity.fragments.apiWeatherFragments;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -23,18 +24,10 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 
 public class BasicWeatherInformationFragment extends Fragment implements MainActivity.ApiRequestObtainable {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
     private TextView cityNameTextView;
     private TextView geographicalCoordinatesTextView;
     private TextView timeTextView;
@@ -63,8 +56,6 @@ public class BasicWeatherInformationFragment extends Fragment implements MainAct
     public static BasicWeatherInformationFragment newInstance(String param1, String param2) {
         BasicWeatherInformationFragment fragment = new BasicWeatherInformationFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -72,25 +63,20 @@ public class BasicWeatherInformationFragment extends Fragment implements MainAct
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_basic_weather_information, container, false);
+
+        Random rnd = new Random();
+        int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+        View rootView = inflater.inflate(R.layout.fragment_basic_weather_information, container, false);
+        rootView.setBackgroundColor(color);
+
+        return rootView;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
 
 
     //TODO: this is propably to be removed

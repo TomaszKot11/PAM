@@ -2,6 +2,7 @@ package com.example.university.astroweathertwo.mainActivity.fragments.apiWeather
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,6 +17,8 @@ import com.example.university.astroweathertwo.R;
 import com.example.university.astroweathertwo.mainActivity.MainActivity;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Random;
 
 public class AdditionalWeatherInformationFragment extends Fragment implements MainActivity.ApiRequestObtainable {
     // TODO: Rename parameter arguments, choose names that match
@@ -99,8 +102,13 @@ public class AdditionalWeatherInformationFragment extends Fragment implements Ma
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_additional_weather_information, container, false);
+
+        Random rnd = new Random();
+        int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+        View rootView = inflater.inflate(R.layout.fragment_additional_weather_information, container, false);
+        rootView.setBackgroundColor(color);
+
+        return rootView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

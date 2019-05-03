@@ -5,6 +5,7 @@ import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -24,6 +25,9 @@ import com.example.university.astroweathertwo.mainActivity.fragments.MoonFragmen
 import com.example.university.astroweathertwo.mainActivity.fragments.SettingsFragment;
 import com.example.university.astroweathertwo.mainActivity.fragments.SunFragment;
 import com.example.university.astroweathertwo.mainActivity.fragments.allCities.dummy.CitiesListFragment;
+import com.example.university.astroweathertwo.mainActivity.fragments.apiWeatherFragments.AdditionalWeatherInformationFragment;
+import com.example.university.astroweathertwo.mainActivity.fragments.apiWeatherFragments.BasicWeatherInformationFragment;
+import com.example.university.astroweathertwo.mainActivity.fragments.apiWeatherFragments.ForthcomingWeatherCondtionsFragment;
 import com.example.university.astroweathertwo.utilities.ProjectConstants;
 import com.example.university.astroweathertwo.utilities.ScreenUtilities;
 import com.example.university.astroweathertwo.utilities.Settings;
@@ -91,6 +95,8 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
         ScreenUtilities screenUtilities = new ScreenUtilities(this);
         int orientation = getResources().getConfiguration().orientation;
 
+        Log.e("screen width", String.valueOf(screenUtilities.getWidth()));
+
         if(screenUtilities.getWidth() > 600) {
             if(orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 // initialize landscape
@@ -155,14 +161,18 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
         MoonFragment moonFragment = new MoonFragment();
         moonFragment.setArguments(bundle);
 
+        BasicWeatherInformationFragment basicWeatherInformationFragment = new BasicWeatherInformationFragment();
+        AdditionalWeatherInformationFragment additionalWeatherInformationFragment = new AdditionalWeatherInformationFragment();
+        ForthcomingWeatherCondtionsFragment forthcomingWeatherCondtionsFragment = new ForthcomingWeatherCondtionsFragment();
+
         getSupportFragmentManager()
-                .beginTransaction()
-                .add(R.id.fragment_sun, sunFragment)
-                .commit();
-        getSupportFragmentManager()
-                .beginTransaction()
-                .add(R.id.fragment_moon, moonFragment)
-                .commit();
+                 .beginTransaction()
+                 .add(R.id.fragment_sun, sunFragment)
+                 .add(R.id.fragment_moon, moonFragment)
+                 .add(R.id.fragment_basic_weather_information, basicWeatherInformationFragment)
+                 .add(R.id.fragment_additional_weather_information, additionalWeatherInformationFragment)
+                 .add(R.id.fragment_forthcomming_weather_information, forthcomingWeatherCondtionsFragment)
+                 .commit();
     }
 
     @Override

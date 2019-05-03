@@ -60,7 +60,7 @@ public class ForthcomingWeatherCondtionsFragment extends Fragment implements Mai
         for(int i = 0 ; i < NUMBER_OF_FORTHCOMMING_WEATHER_LIST_ELEMENTS ; i++) {
             View view = inflater.inflate(R.layout.forthcoming_weather_tile,null);
 
-            Random rnd = new Random();
+           Random rnd = new Random();
            int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
 
             view.setBackgroundColor(color);
