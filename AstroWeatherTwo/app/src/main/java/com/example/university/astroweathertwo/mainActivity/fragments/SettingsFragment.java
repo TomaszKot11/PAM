@@ -114,12 +114,7 @@ public class SettingsFragment extends Fragment {
         this.spinnerValueArrayAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.refreshing_numerical_values, android.R.layout.simple_spinner_item);
         this.spinnerUnitsArrayAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.refreshing_units, android.R.layout.simple_spinner_item);
 
-        ArrayList<String> arr = getLocalizationFromDatabase();
-
-        this.spinnerWeatherLocalizationAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, arr);
-
-        spinnerWeatherLocalizationAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerWeatherLocalization.setAdapter(spinnerWeatherLocalizationAdapter);
+        updateCitySpinner();
 
         assingCharAdaptersToSpinners(spinnerValue, spinnerValueArrayAdapter);
         assingCharAdaptersToSpinners(spinnerUnits, spinnerUnitsArrayAdapter);
@@ -138,9 +133,6 @@ public class SettingsFragment extends Fragment {
         configureShowAllCitiesClick();
 
         configureForceRefreshDataClick();
-
-        getAllCities();
-
     }
 
     private ArrayList<String> getLocalizationFromDatabase() {
@@ -232,20 +224,6 @@ public class SettingsFragment extends Fragment {
 
         requestManager.addToRequestQueue(request);
     }
-
-    private void getAllCities() {
-        SQLiteDatabaseHelper sqLiteDatabaseHelper = SQLiteDatabaseHelper.getInstance(getActivity());
-
-        List<City> cities = sqLiteDatabaseHelper.allCities();
-
-//        for(City city : cities) {
-//            Log.e("City", cities.toString());
-//        }
-    }
-
-
-
-
 
     private void assingCharAdaptersToSpinners(Spinner spinner, ArrayAdapter<CharSequence> arrayAdapter) {
         // Specify the layout to use when the list of choices appears
@@ -416,10 +394,22 @@ public class SettingsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
         canWatch = true;
+        ArrayList<String> arr = getLocalizationFromDatabase();
+        this.spinnerWeatherLocalizationAdapter.clear();
+        this.spinnerWeatherLocalizationAdapter.addAll(arr);
+        this.spinnerWeatherLocalizationAdapter.notifyDataSetChanged();
+//        updateCitySpinner();
     }
+    //TODO: perhaps to this in background?
+    private void updateCitySpinner() {
+        ArrayList<String> arr = getLocalizationFromDatabase();
+        this.spinnerWeatherLocalizationAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, arr);
 
+        spinnerWeatherLocalizationAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerWeatherLocalization.setAdapter(spinnerWeatherLocalizationAdapter);
+
+    }
 
     @Override
     public void onPause() {
