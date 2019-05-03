@@ -30,10 +30,7 @@ import com.example.university.astroweathertwo.mainActivity.fragments.allCities.d
 import com.example.university.astroweathertwo.mainActivity.fragments.apiWeatherFragments.AdditionalWeatherInformationFragment;
 import com.example.university.astroweathertwo.mainActivity.fragments.apiWeatherFragments.BasicWeatherInformationFragment;
 import com.example.university.astroweathertwo.mainActivity.fragments.apiWeatherFragments.ForthcomingWeatherCondtionsFragment;
-import com.example.university.astroweathertwo.utilities.ProjectConstants;
-import com.example.university.astroweathertwo.utilities.ScreenUtilities;
-import com.example.university.astroweathertwo.utilities.Settings;
-import com.example.university.astroweathertwo.utilities.SharedPreferencesUtility;
+import com.example.university.astroweathertwo.utilities.*;
 import com.example.university.astroweathertwo.utilities.api.ApiRequest;
 import com.example.university.astroweathertwo.utilities.api.ApiRequester;
 import org.apache.commons.lang3.time.DateUtils;
@@ -296,33 +293,40 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
     }
 
     public void sendWeatherApiRequest() {
-        ApiRequester requestManager = ApiRequester.getInstance(this);
+        if(!NetworkUtilities.isConnectedToTheWeb(getApplicationContext())) {
+            //TODO: deserialize here the json from the file
+            Toast.makeText(this, "The application is not currently connected to the web", Toast.LENGTH_LONG).show();
+        } else {
+            //TODO: serialize the json here!
 
-        ApiRequest request = new ApiRequest(Request.Method.GET, null, null, this.location,  new Response.Listener() {
-            @Override
-            public void onResponse(Object response) {
+            ApiRequester requestManager = ApiRequester.getInstance(this);
 
-                for(ApiRequestObtainable ob : MainActivity.this.apiSubscribers)
-                    ob.refreshUI((JSONObject)response);
+            ApiRequest request = new ApiRequest(Request.Method.GET, null, null, this.location, new Response.Listener() {
+                @Override
+                public void onResponse(Object response) {
 
-                MainActivity.this.jsonObject = (JSONObject)response;
-                if(!APPLICATION_RUNNING) {
-                    MainActivity.this.jsonApiTimeToUpdate = DateUtils.addMinutes(new Date(System.currentTimeMillis()), ProjectConstants.MINUTES_TILL_NEXT_API_REQUEST_IN_MINUTES);
-                    SharedPreferencesUtility.writeTimeToUpdateJsonOnStart(MainActivity.this, MainActivity.this.jsonApiTimeToUpdate.toString());
+                    for (ApiRequestObtainable ob : MainActivity.this.apiSubscribers)
+                        ob.refreshUI((JSONObject) response);
+
+                    MainActivity.this.jsonObject = (JSONObject) response;
+                    if (!APPLICATION_RUNNING) {
+                        MainActivity.this.jsonApiTimeToUpdate = DateUtils.addMinutes(new Date(System.currentTimeMillis()), ProjectConstants.MINUTES_TILL_NEXT_API_REQUEST_IN_MINUTES);
+                        SharedPreferencesUtility.writeTimeToUpdateJsonOnStart(MainActivity.this, MainActivity.this.jsonApiTimeToUpdate.toString());
+                    }
+
+                    Log.e("Response", ((JSONObject) response).toString());
                 }
-
-                Log.e("Response", ((JSONObject)response).toString());
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                // Add error handling here
-                Log.e("API error: ", "#onErrorResponse in MainActivity");
-            }
-        });
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    // Add error handling here
+                    Log.e("API error: ", "#onErrorResponse in MainActivity");
+                }
+            });
 
 
-        requestManager.addToRequestQueue(request);
+            requestManager.addToRequestQueue(request);
+        }
     }
 
     private void sendWeatherApiRequestOnApplicationStart() {
