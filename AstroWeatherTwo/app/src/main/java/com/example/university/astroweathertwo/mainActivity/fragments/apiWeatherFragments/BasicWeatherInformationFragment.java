@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.example.university.astroweathertwo.R;
 import com.example.university.astroweathertwo.mainActivity.MainActivity;
+import com.example.university.astroweathertwo.utilities.WeatherVisualizationFactory;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -41,15 +42,7 @@ public class BasicWeatherInformationFragment extends Fragment implements MainAct
     private TextView pressureTextView;
     private TextView descriptionTextView;
     private ImageView weatherConditionsVisualization;
-    private static Map<Integer, String> weatherCodeImageNameHash = new HashMap<>();
 
-
-    static {
-        for(int i = 0 ; i < 47; i++)
-            weatherCodeImageNameHash.put(i, i + ".png");
-
-        weatherCodeImageNameHash.put(3200, "na.png");
-    }
 
 
     private OnFragmentInteractionListener mListener;
@@ -130,7 +123,7 @@ public class BasicWeatherInformationFragment extends Fragment implements MainAct
             temperatureTextView.setText(temperatureInformation);
             pressureTextView.setText(pressureInformation);
             descriptionTextView.setText(description);
-            weatherConditionsVisualization.setBackground(Drawable.createFromStream(getActivity().getAssets().open(BasicWeatherInformationFragment.weatherCodeImageNameHash.get(weatherConditionsCode)), "na.png"));
+            WeatherVisualizationFactory.setBackgroundForImageView(weatherConditionsCode, weatherConditionsVisualization, getActivity());
         } catch(JSONException | NullPointerException | IOException e) {
             //TODO: refactor this
             Log.e("BasicWeatherInformation", e.toString());

@@ -2,8 +2,7 @@
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:id="@+id/forthcomming_weather_tile"
-              android:background="@color/cardview_dark_background">
+              android:id="@+id/forthcomming_weather_tile" >
 
     <TableRow
             android:layout_width="match_parent"
@@ -12,31 +11,32 @@
         <ImageView
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                android:id="@+id/forthcomming_weather_visualization"/>
 
         <LinearLayout
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
+            <TextView
+                    android:layout_weight="1"
+                    android:layout_height="0dp"
+                    android:layout_width="match_parent"
+                    android:id="@+id/forthcomming_day_name_text_view" />
 
             <TextView
                     android:layout_weight="1"
                     android:layout_height="0dp"
-                    android:id="@+id/forthcomming_temperature_text_view"
+                    android:id="@+id/forthcomming_low_temperature_text_view"
                     android:layout_width="match_parent"/>
 
             <TextView
                     android:layout_weight="1"
                     android:layout_height="0dp"
                     android:layout_width="match_parent"
-                    android:id="@+id/forthcomming_pressure_text_view"/>
+                    android:id="@+id/forthcomming_high_temperature_text_view"/>
 
-            <TextView
-                    android:layout_weight="1"
-                    android:layout_height="0dp"
-                    android:layout_width="match_parent"
-                    android:id="@+id/forthcomming_humidity_text_view" />
         </LinearLayout>
 
     </TableRow>

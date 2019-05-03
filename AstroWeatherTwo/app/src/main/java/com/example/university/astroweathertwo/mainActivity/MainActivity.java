@@ -284,7 +284,12 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
             }
         });
 
+
         requestManager.addToRequestQueue(request);
+    }
+
+    public int getCurrentViewPagerPosition() {
+        return this.mViewPager.getCurrentItem();
     }
 
     @Override
