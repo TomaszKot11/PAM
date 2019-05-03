@@ -75,11 +75,6 @@ public class ForthcomingWeatherCondtionsFragment extends Fragment implements Mai
             linearLayout.addView(view);
         }
 
-//        if(getActivity() instanceof MainActivity) {
-//            JSONObject jsonObject = ((MainActivity)getActivity()).getJsonObject();
-//            refreshAllListElementUI(jsonObject);
-//        }
-
         return rootView;
     }
 
@@ -105,22 +100,6 @@ public class ForthcomingWeatherCondtionsFragment extends Fragment implements Mai
             JSONObject jsonObject = ((MainActivity)currentActivity).getJsonObject();
         }
     }
-//
-//    private void refreshAllListElementUI(JSONObject jsonObject) {
-//        try {
-//            JSONArray forthcommingWeatherArray = jsonObject.getJSONArray("forecasts");
-//
-//            int noIterations = NUMBER_OF_FORTHCOMMING_WEATHER_LIST_ELEMENTS <= forthcommingWeatherArray.length() ? forthcommingWeatherArray.length() : NUMBER_OF_FORTHCOMMING_WEATHER_LIST_ELEMENTS;
-//
-//            for(int i = 0 ; i < noIterations ; i++)
-//                refreshSingleListElementUI(listViews.get(i), forthcommingWeatherArray.getJSONObject(i));
-//
-//        } catch(JSONException e) {
-//            Log.e("ForthcommingWeather", e.toString());
-//            Log.d("ForthcommingWeather", Log.getStackTraceString(e));
-//            Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_LONG).show();
-//        }
-//    }
 
     private void refreshSingleListElementUI(JSONObject jsonObject, int index, View listViewElement) throws JSONException {
         JSONArray forthcommingWeatherArray = jsonObject.getJSONArray("forecasts");

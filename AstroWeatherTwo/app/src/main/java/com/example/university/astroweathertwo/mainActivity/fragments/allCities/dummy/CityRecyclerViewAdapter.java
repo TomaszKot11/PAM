@@ -34,11 +34,6 @@ public class CityRecyclerViewAdapter extends RecyclerView.Adapter<CityRecyclerVi
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-
-        for(int i = 0 ; i < 50 ; i ++) {
-            Log.e("witam", mValues.get(position).toString());
-        }
-
         holder.mItem = mValues.get(position);
         holder.cityNameTextView.setText(mValues.get(position).getName());
         holder.cityCountryCodeTextView.setText(mValues.get(position).getCountryCode());

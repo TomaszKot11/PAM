@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
                 initializeTabletLayout(bundle);
             } else {
                 this.screenOrientation = ScreenSizeOrientation.TABLET_PORTRAIT;
-                // initialize landscape
+                // initialize portrait
                 initializeTabletLayout(bundle);
             }
         } else {
