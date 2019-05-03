@@ -64,6 +64,8 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
         super.onStart();
         //TODO: read data from the file system + update only on change or whe the data is outdated
 
+        this.location = SharedPreferencesUtility.getLocalizationString(this);
+
         sendWeatherApiRequest();
     }
 
@@ -294,15 +296,18 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
 
     @Override
     public void onFragmentInteraction(Settings settings) {
+
+        Log.e("Obtained!", settings.getWeatherLocalizationString());
+
         settingsUpdated(settings);
     }
 
     private void settingsUpdated(Settings settings) {
 
-        if(!this.location.equals(settings.getWeatherLocalizationString())) {
+//        if(!this.location.equals(settings.getWeatherLocalizationString())) {
             this.location = settings.getWeatherLocalizationString();
             sendWeatherApiRequest();
-        }
+//        }
 
         if(screenOrientation == ScreenSizeOrientation.TABLET_PORTRAIT || screenOrientation == ScreenSizeOrientation.TABLET_LANDSAPE) {
             Bundle bundle = new Bundle();
