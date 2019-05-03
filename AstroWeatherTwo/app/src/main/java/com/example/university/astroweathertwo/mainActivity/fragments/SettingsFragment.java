@@ -395,6 +395,7 @@ public class SettingsFragment extends Fragment {
     public void onResume() {
         super.onResume();
         canWatch = true;
+        //TOOD: perhaps asynchronously?
         ArrayList<String> arr = getLocalizationFromDatabase();
         this.spinnerWeatherLocalizationAdapter.clear();
         this.spinnerWeatherLocalizationAdapter.addAll(arr);

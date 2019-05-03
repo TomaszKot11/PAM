@@ -91,7 +91,6 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
         ScreenUtilities screenUtilities = new ScreenUtilities(this);
         int orientation = getResources().getConfiguration().orientation;
 
-
         if(screenUtilities.getWidth() > 600) {
             if(orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 // initialize landscape
