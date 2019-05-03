@@ -49,6 +49,7 @@ public class ForthcomingWeatherCondtionsFragment extends Fragment implements Mai
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         return inflater.inflate(R.layout.fragment_forthcoming_weather_condtions, container, false);
     }
 
@@ -90,6 +91,7 @@ public class ForthcomingWeatherCondtionsFragment extends Fragment implements Mai
             listViews.get(i).setBackgroundColor(getRandomColor(random));
 
 
+        refreshAllListElements(((MainActivity)getActivity()).getJsonObject());
     }
 
     private int getRandomColor(Random rnd) {
@@ -103,9 +105,18 @@ public class ForthcomingWeatherCondtionsFragment extends Fragment implements Mai
         } catch(JSONException e) {
             Toast.makeText(getContext(), "Error while updating forthcomming weather list!", Toast.LENGTH_LONG).show();
         }
+
+        View rootView = getView();
+        if(rootView != null)
+            rootView.invalidate();
+
+
     }
 
     private void refreshSingleListElementUI(JSONObject jsonObject, int index, View listViewElement) throws JSONException {
+
+        if(jsonObject == null) return;
+
         JSONArray forthcommingWeatherArray = jsonObject.getJSONArray("forecasts");
         JSONObject singleForthcommingJsonObject = forthcommingWeatherArray.getJSONObject(index);
 
@@ -113,6 +124,8 @@ public class ForthcomingWeatherCondtionsFragment extends Fragment implements Mai
         TextView forthcommingLowTemperatureTextView = listViewElement.findViewById(R.id.forthcomming_low_temperature_text_view);
         TextView forthcommingHighTemperatureTextView = listViewElement.findViewById(R.id.forthcomming_high_temperature_text_view);
         ImageView forthcommingWeatherVisualizationImageView = listViewElement.findViewById(R.id.forthcomming_weather_visualization);
+
+
 
 
         // get appropriate values from JSON
