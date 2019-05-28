@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
         int orientation = getResources().getConfiguration().orientation;
 
 
-        if(screenUtilities.getWidth() > 600) {
+        if(screenUtilities.getWidth() > 700) {
             if(orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 // initialize landscape
                 this.screenOrientation = ScreenSizeOrientation.TABLET_LANDSAPE;
@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
         } else {
             // smaller device (phone)
             if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                Log.e("Witam serdecznie", "Witam serdecznie2.");
                 this.screenOrientation = ScreenSizeOrientation.PHONE_LANDSAPE;
                 // In landscape
                 initializeLandsacpeLayout(bundle);
@@ -106,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
 
         mSectionsPagerAdapter.setArguments(bundle);
 
-
+//        Log.e("zeganm", "zegnam")
         mViewPager = findViewById(R.id.container);
 
         mViewPager.setAdapter(mSectionsPagerAdapter);

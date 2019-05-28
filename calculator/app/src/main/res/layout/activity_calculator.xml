@@ -9,6 +9,7 @@
     <TextView android:layout_width="match_parent"
               android:layout_height="0dp"
               android:layout_weight="1"
+              android:maxLines="1"
               android:text="@string/initial_calculator_label_text"
               android:textColor="@color/menu_title_txt_color"
               android:textSize="@dimen/menu_title_font_size"
