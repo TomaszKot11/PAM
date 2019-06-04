@@ -154,14 +154,20 @@ public class SunFragment extends Fragment implements MainActivity.SunMoonRefresh
 //        Toast.makeText(getContext(), "SunFramgnet", Toast.LENGTH_SHORT).show();
         if(isLongitudeLatitudeUpdate) {
             // mon
+            if(sunLongitute == null || sunLatitude == null)
+                return;
+
             sunLongitute.setText((bundle.getString(ProjectConstants.PREFERENCES_LONGITUTDE_KEY, ProjectConstants.DMCS_LONGITUDE)));
             sunLatitude.setText((bundle.getString(ProjectConstants.PREFERENCE_LATITTUDE_KEY, ProjectConstants.DMCS_LATITUDE)));
         }
 
         if(isTimeupdate) {
+            if(currentTimeTextView == null)
+                return;
             currentTimeTextView.setText(bundle.getString("DATE"));
         } else {
-
+            if(tableRow == null)
+                return;
 
             int visibility = tableRow.getVisibility() == View.VISIBLE ? View.INVISIBLE : View.VISIBLE;
             tableRow.setVisibility(visibility);

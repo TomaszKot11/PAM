@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
 
         Log.e("screen width", String.valueOf(screenUtilities.getWidth()));
 
-        if(screenUtilities.getWidth() > 600) {
+        if(screenUtilities.getWidth() > 700) {
             if(orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 // initialize landscape
                 this.screenOrientation = ScreenSizeOrientation.TABLET_LANDSAPE;
