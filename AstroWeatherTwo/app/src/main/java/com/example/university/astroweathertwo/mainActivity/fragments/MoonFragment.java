@@ -126,9 +126,9 @@ public class MoonFragment extends Fragment implements MainActivity.SunMoonRefres
             mListener = (OnFragmentInteractionListener) context;
         }
 
-//        if(getActivity() instanceof  MainActivity) {
-//            ((MainActivity)getActivity()).addSubscriberSunMoonFragment(this);
-//        }
+         if(getActivity() instanceof  MainActivity) {
+                ((MainActivity)getActivity()).addSubscriberSunMoonFragment(this);
+        }
     }
 
     @Override

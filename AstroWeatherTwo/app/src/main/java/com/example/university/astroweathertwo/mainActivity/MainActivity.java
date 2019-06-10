@@ -15,6 +15,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -33,6 +34,8 @@ import com.example.university.astroweathertwo.mainActivity.fragments.apiWeatherF
 import com.example.university.astroweathertwo.utilities.*;
 import com.example.university.astroweathertwo.utilities.api.ApiRequest;
 import com.example.university.astroweathertwo.utilities.api.ApiRequester;
+import com.example.university.astroweathertwo.utilities.database.SQLiteDatabaseHelper;
+import com.example.university.astroweathertwo.utilities.database.entities.City;
 import org.apache.commons.lang3.time.DateUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -65,8 +68,16 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
     private List<ApiRequestObtainable> apiSubscribers = new ArrayList<>();
     private JSONObject jsonObject;
     private String location = "lodz,pl";
+    private double longitude =  Double.parseDouble(ProjectConstants.DMCS_LONGITUDE);
+    private double latitude = Double.parseDouble(ProjectConstants.DMCS_LATITUDE);
     private Date jsonApiTimeToUpdate;
     private static boolean APPLICATION_RUNNING = false;
+    private SettingsFragment settingsFragment;
+
+
+    public void setSettingsFragment(SettingsFragment settingsFragment) {
+        this.settingsFragment = settingsFragment;
+    }
 
     @Override
     public void onStart() {
@@ -79,7 +90,6 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
             sendWeatherApiRequest();
         } else {
             this.jsonApiTimeToUpdate = SharedPreferencesUtility.readTimeToUpdateJsonOnStart(this);
-
             sendWeatherApiRequestOnApplicationStart();
         }
 
@@ -315,6 +325,20 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
                     for (ApiRequestObtainable ob : MainActivity.this.apiSubscribers)
                         ob.refreshUI((JSONObject) response);
 
+//                    ScreenUtilities screenUtilities = new ScreenUtilities(MainActivity.this);
+//                    try {
+//                        if (screenUtilities.getWidth() > 700) {
+//                            // set the coordinates
+//                            JSONObject locationObject = ((JSONObject) response).getJSONObject("location");
+//                            String latitude = locationObject.getString("lat");
+//                            String longitude = locationObject.getString("long");
+//                            MainActivity.this.settingsFragment.getLongitutdeEditText().setText(longitude);
+//                            MainActivity.this.settingsFragment.getLatitudeEditText().setText(latitude);
+//                        }
+//                    } catch(JSONException e) {
+//                        Log.e("MainActivity", e.toString());
+//                    }
+
                     MainActivity.this.jsonObject = (JSONObject) response;
                     if (!APPLICATION_RUNNING) {
                         MainActivity.this.jsonApiTimeToUpdate = DateUtils.addMinutes(new Date(System.currentTimeMillis()), ProjectConstants.MINUTES_TILL_NEXT_API_REQUEST_IN_MINUTES);
@@ -350,7 +374,7 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
         if(jsonApiTimeToUpdate != null && (new Date(System.currentTimeMillis()).before(jsonApiTimeToUpdate)))
             return ;
 
-        sendWeatherApiRequest();
+       sendWeatherApiRequest();
     }
 
     public int getCurrentViewPagerPosition() {
@@ -365,11 +389,126 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
         settingsUpdated(settings);
     }
 
+    public void saveLocationToTheDatabase(String location, String woeid) {
+
+        ArrayAdapter<String> arrayAdapter = this.settingsFragment.getSpinnerWeatherLocalizationAdapter();
+            City city = new City(location, null, String.valueOf(woeid), location);
+            SQLiteDatabaseHelper sqLiteDatabaseHelper = SQLiteDatabaseHelper.getInstance(this);
+            sqLiteDatabaseHelper.addCity(city);
+
+            arrayAdapter.add(city.getLocationString());
+            this.settingsFragment.getSpinnerWeatherLocalizationAdapter().notifyDataSetChanged();
+    }
+
+//    private boolean checkIfAlreadyExists(ArrayAdapter<String> arrayAdapter, String locationString) {
+//        for(int i = 0; i < arrayAdapter.getCount(); i++)
+//            if(((String)arrayAdapter.getItem(i)).equals(locationString)){
+//                return true;
+//            }
+//
+//        return false;
+//    }
+
+    private void sendCoordinatesApiRequest() {
+        if(!NetworkUtilities.isConnectedToTheWeb(getApplicationContext())) {
+            try {
+                this.jsonObject = FIleSystemUtilities.deserializeJsonFromTheFile(this, ProjectConstants.SERIALIZED_WEATHER_JSON_FILE_NAME);
+            } catch(IOException | ClassNotFoundException | JSONException e) {
+                Toast.makeText(MainActivity.this, "Error while retrieving json in offline mode, please connect to the Internet", Toast.LENGTH_LONG).show();
+
+                Log.e("MainActivity", e.toString());
+            }
+
+
+        } else {
+            ApiRequester requestManager = ApiRequester.getInstance(this);
+
+            ApiRequest request = new ApiRequest(Request.Method.GET, null, true, null, String.valueOf(this.longitude), String.valueOf(this.latitude), new Response.Listener() {
+                @Override
+                public void onResponse(Object response) {
+                     try {
+                         // set the current localization
+
+                         JSONObject locationObject = ((JSONObject) response).getJSONObject("location");
+                         MainActivity.this.location = locationObject.getString("city");
+                         String woeid = locationObject.getString("woeid");
+
+
+                         MainActivity.this.saveLocationToTheDatabase(MainActivity.this.location, woeid);
+//                         ScreenUtilities screenUtilities = new ScreenUtilities(MainActivity.this);
+//
+//                         if(screenUtilities.getWidth() > 700) {
+//                             // set the coordinates
+//                            String latitude = locationObject.getString("lat");
+//                            String longitude = locationObject.getString("long");
+//
+//                            MainActivity.this.settingsFragment.getLongitutdeEditText().setText(longitude);
+//                            MainActivity.this.settingsFragment.getLatitudeEditText().setText(latitude);
+//                         }
+
+                     } catch(JSONException e) {
+                         Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_LONG).show();
+
+                     }
+                    for (ApiRequestObtainable ob : MainActivity.this.apiSubscribers)
+                        ob.refreshUI((JSONObject) response);
+
+                    MainActivity.this.jsonObject = (JSONObject) response;
+                    if (!APPLICATION_RUNNING) {
+                        MainActivity.this.jsonApiTimeToUpdate = DateUtils.addMinutes(new Date(System.currentTimeMillis()), ProjectConstants.MINUTES_TILL_NEXT_API_REQUEST_IN_MINUTES);
+                        SharedPreferencesUtility.writeTimeToUpdateJsonOnStart(MainActivity.this, MainActivity.this.jsonApiTimeToUpdate.toString());
+                    }
+
+                    try {
+                        // serialize the obtained object to the file
+                        FIleSystemUtilities.serializeJsonToTheFile(MainActivity.this, ProjectConstants.SERIALIZED_WEATHER_JSON_FILE_NAME, (JSONObject) response);
+                    } catch(IOException e) {
+                        Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_LONG).show();
+
+                        Log.e("MainActivity", "Error while serializing JSONObject");
+                    }
+
+
+                    Log.e("Response", ((JSONObject) response).toString());
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    // Add error handling here
+                    Log.e("API error: ", "#onErrorResponse in MainActivity");
+                }
+            });
+
+
+            requestManager.addToRequestQueue(request);
+        }
+    }
+
     private void settingsUpdated(Settings settings) {
 
-//        if(!this.location.equals(settings.getWeatherLocalizationString())) {
+
+        double currentLatitude = settings.getLatitude();
+        double currentLongitude = settings.getLongitude();
+        // if the geographical coordinates were updated
+        if(this.longitude != currentLongitude || this.latitude != currentLatitude) {
+            this.longitude = currentLongitude;
+            this.latitude = currentLatitude;
+
+
+            //if(!String.valueOf(this.latitude).split("\\.")[0].equals(String.valueOf(currentLatitude).split("\\.")[0]) ||
+              //      !String.valueOf(this.longitude).split("\\.")[0].equals(String.valueOf(currentLongitude).split("\\.")[0]))
+                // send API request using localization
+                sendCoordinatesApiRequest();
+            // get the localization string for this coordinates
+
+        } else {
             this.location = settings.getWeatherLocalizationString();
             sendWeatherApiRequest();
+        }
+
+//        if(!this.location.equals(settings.getWeatherLocalizationString())) {
+
+
 //        }
 
         if(screenOrientation == ScreenSizeOrientation.TABLET_PORTRAIT || screenOrientation == ScreenSizeOrientation.TABLET_LANDSAPE) {
@@ -402,6 +541,10 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
                 ft.commit();
                 break;
         }
+    }
+
+    private void saveToDatabaseFavouriteCity(String city) {
+
     }
 
 
@@ -485,6 +628,7 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
     public interface ApiRequestObtainable {
         void refreshUI(JSONObject jsonObject);
     }
+
 
     public interface SunMoonRefreshableUI {
         void refreshUI(Bundle bundle, boolean isTimeUpdate, boolean isLongitudeLatitudeUpdate);

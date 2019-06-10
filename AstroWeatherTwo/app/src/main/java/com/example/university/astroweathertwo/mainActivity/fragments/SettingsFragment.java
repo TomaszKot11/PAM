@@ -10,6 +10,7 @@ import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +24,7 @@ import com.example.university.astroweathertwo.R;
 import com.example.university.astroweathertwo.SettingsActivity;
 import com.example.university.astroweathertwo.mainActivity.MainActivity;
 import com.example.university.astroweathertwo.utilities.ProjectConstants;
+import com.example.university.astroweathertwo.utilities.ScreenUtilities;
 import com.example.university.astroweathertwo.utilities.Settings;
 import com.example.university.astroweathertwo.utilities.SharedPreferencesUtility;
 import com.example.university.astroweathertwo.utilities.api.ApiRequest;
@@ -59,9 +61,20 @@ public class SettingsFragment extends Fragment {
     private String previousLatitudeValue;
     private String previousLongitudeValue;
 
+    public ArrayAdapter<String> getSpinnerWeatherLocalizationAdapter() {
+        return spinnerWeatherLocalizationAdapter;
+    }
 
     public SettingsFragment() {
         // Required empty public constructor
+    }
+
+    public TextInputEditText getLatitudeEditText() {
+        return  latitudeEditText;
+    }
+
+    public TextInputEditText getLongitutdeEditText() {
+        return longitutdeEditText;
     }
 
     public static SettingsFragment newInstance(String param1, String param2) {
@@ -118,6 +131,16 @@ public class SettingsFragment extends Fragment {
 
         assingCharAdaptersToSpinners(spinnerValue, spinnerValueArrayAdapter);
         assingCharAdaptersToSpinners(spinnerUnits, spinnerUnitsArrayAdapter);
+
+        ScreenUtilities screenUtilities = new ScreenUtilities(getActivity());
+
+        if(screenUtilities.getWidth() > 700) {
+            ((MainActivity) getActivity()).setSettingsFragment(this);
+        } else {
+            // phone view
+            //TODO: implement this
+
+        }
 
         this.previousLatitudeValue = String.valueOf(SharedPreferencesUtility.getLatitude(getActivity()));
         this.previousLongitudeValue = String.valueOf(SharedPreferencesUtility.getLongitude(getActivity()));
@@ -183,7 +206,7 @@ public class SettingsFragment extends Fragment {
         //TODO: avoid duplication of localizations
         String location = favouriteCityEditText.getText().toString();
 
-        if(!location.matches("[A-Za-z]+,[A-Za-z]+")) {
+        if(!location.matches("[A-Za-z]+")) {
             Toast.makeText(getActivity(), "Not valid location", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -201,7 +224,7 @@ public class SettingsFragment extends Fragment {
 
                     String[] cityCode = location.split(",");
 
-                    City city = new City(cityCode[0], cityCode[1], String.valueOf(woeid), location);
+                    City city = new City(cityCode[0], null, String.valueOf(woeid), location);
                     SQLiteDatabaseHelper sqLiteDatabaseHelper = SQLiteDatabaseHelper.getInstance(getActivity());
                     sqLiteDatabaseHelper.addCity(city);
 

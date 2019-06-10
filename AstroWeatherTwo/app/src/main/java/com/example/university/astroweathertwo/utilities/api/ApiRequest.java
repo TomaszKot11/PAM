@@ -6,6 +6,7 @@ import com.android.volley.*;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonRequest;
 import com.example.university.astroweathertwo.BuildConfig;
+import com.example.university.astroweathertwo.utilities.ProjectConstants;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
@@ -37,11 +38,27 @@ public class ApiRequest<T> extends JsonRequest<T>  {
     private final String CONSUMER_SECRET = BuildConfig.ConsumerSecret;
     private final String baseUrl = BuildConfig.BaseUrl;
     private String location = "lodz,pl";
+    private String longitude;
+    private String latitude;
+    private boolean isCoordinateRequest = false;
 
+    // constructor usin location
     public ApiRequest(int method, String url, String requestBody, String location, Response.Listener<T> listener, Response.ErrorListener errorListener) {
         super(method, url, requestBody, listener, errorListener);
         if(location != null)
             this.location = location;
+    }
+
+    // constructor using coordinates
+    public ApiRequest(int method, String url, boolean isCoordinateRequest, String requestBody, String longitude, String latitude, Response.Listener<T> listener, Response.ErrorListener errorListener) {
+        super(method, url, requestBody, listener, errorListener);
+        if(longitude != null)
+            this.longitude = longitude;
+
+        if(latitude != null)
+            this.latitude = latitude;
+
+        this.isCoordinateRequest = true;
     }
 
     @Override
@@ -71,8 +88,15 @@ public class ApiRequest<T> extends JsonRequest<T>  {
 
     @Override
     public String getUrl() {
-        //"?location=sunnyvale,ca&format=json"
-       // Log.e("Adres URL", baseUrl + "?location="+location +"&format=json");
+        String url =  this.isCoordinateRequest ? getCoordinateUrl() : getLocalizationUrl();
+        return url;
+    }
+
+    private String getCoordinateUrl() {
+        return baseUrl + "?lat=" + this.latitude +  "&lon=" + this.longitude + "&format=json";
+    }
+
+    private String getLocalizationUrl() {
         return baseUrl + "?location="+ location + "&format=json";
     }
 
